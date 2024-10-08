@@ -1,0 +1,21 @@
+--Renvoie les étudiant qui font parti de la promotion L3
+Select nom, prenom
+From Etudiant
+Where Etudiant.id_promotion=3;
+
+--Renvoie l'étdudiant qui s'appel Kieffel Léna
+Select *
+From Etudiant
+Where nom='Kieffel' AND prenom='Léna';
+
+
+--Renvoie les cours de L
+Select id
+From Matieres
+Where id_promotion=3;
+
+
+--Renvoie les étudiants qui sont inscrit dans le groupe COG qui sotn en L3
+Select *
+From Etudiant, Groupe
+Where Etudiant.id=Groupe.id_etudiant AND Groupe.nom='COG' AND Groupe.id_promotion=3;
