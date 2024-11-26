@@ -1,6 +1,7 @@
 <template>
 <div>
     <input type="text" v-model="query" @input="etusFilter"/>
+    <p>test</p>
     <ul>
         <li v-for="(etu, i) in filteredEtus" :key="i"></li>
     </ul>
