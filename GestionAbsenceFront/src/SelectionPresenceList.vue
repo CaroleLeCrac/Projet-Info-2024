@@ -1,8 +1,8 @@
 <template>
     <ul>
-        <li  v-for="etudiant in etudiantList" :key="etudiant" class="style-liste-presence">
+        <li  v-for="student in studentList" :key="student" class="list-presence">
             <input type="checkbox" class="checkbox">
-            {{ etudiant }}
+            {{ student }}
         </li>
     </ul>
 
@@ -11,12 +11,12 @@
 <script setup>
 import { ref } from 'vue';
 const props = defineProps({
-    etudiantList : Array
+    studentList : Array
 })
 </script>
 
 <style scoped>
-.style-liste-presence {
+.list-presence {
     list-style-type : none;
     border: solid lightgray;
     background-color: white;

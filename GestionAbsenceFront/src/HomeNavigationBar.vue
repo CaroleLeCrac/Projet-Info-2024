@@ -3,19 +3,19 @@
 </script>
 
 <template>
-<nav class="barre-navigation">
-  <h1 class="titre-barre-navigation">Gestion des Absences MIASHS</h1>
-  <div class="boutons-navigation">
-    <button class="bouton-recap-navigation">Voir le récapitulatif des absences</button>
-    <button class="bouton-modif-navigation">Modifier étudiant</button>
-    <button class="bouton-modif-navigation">Modifier groupe</button>
+<nav class="navigation-bar">
+  <h1 class="title-navigation-bar">Gestion des Absences MIASHS</h1>
+  <div class="navigation-buttons">
+    <button class="button-summary-navigation">Voir le récapitulatif des absences</button>
+    <button class="button-modification-navigation">Modifier étudiant</button>
+    <button class="button-modification-navigation">Modifier groupe</button>
     </div>
 </nav>
 </template>
 
 <style>
 /* Style pour la barre de navigation */
-.barre-navigation {
+.navigation-bar {
   background-color: rgba(173,216,230,0.7); /* Couleur de fond */
   padding: 10px; /* Espacement intérieur */
   display: flex; /* Permet de disposer les éléments sur une ligne */
@@ -24,14 +24,14 @@
 }
 
 /*Style pour le titre de la barre de navigation */
-.titre-barre-navigation {
+.title-navigation-bar {
   font-size: 24px; /* Taille du texte */
   margin: 0; /* Supprime les marges */
   color : #333; /* Couleur du texte */
 }
 
 /* Conteneur pour les boutons pour les mettre à droite */
-.boutons-navigation {
+.navigation-buttons {
   display: flex; /* Dispose les boutons sur la même ligne */
   gap: 10px; /* Espace entre les boutons */
 }
@@ -39,7 +39,7 @@
 /* Style pour les boutons */
 
 /* Style pour le bouton Recap */
-.bouton-recap-navigation {
+.button-summary-navigation {
   background-color: rgba(255,165,0,0.7); /* Couleur de fond du bouton */
   color: black; /* Couleur du texte */
   border: none; /* Supprime les bordures */
@@ -50,7 +50,7 @@
 }
 
 /* Style pour les boutons Modif */
-.bouton-modif-navigation {
+.button-modification-navigation {
   background-color: white; /* Couleur de fond du bouton */
   color: black; /* Couleur du texte */
   border: none; /* Supprime les bordures */
@@ -61,11 +61,11 @@
 }
 
 /* Effet au survol des boutons */
-.bouton-recap-navigation:hover {
+.button-summary-navigation:hover {
   background-color: rgba(255,140,0,0.9); /* Couleur plus sombre au survol */
 }
 
-.bouton-modif-navigation:hover {
+.button-modification-navigation:hover {
   background-color: #f2f2f2;
 }
 </style>
