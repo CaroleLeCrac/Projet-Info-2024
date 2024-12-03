@@ -1,6 +1,5 @@
 
 <template>
-  <h1 style="background-color: aquamarine;">Gestion des Absence MIASHS</h1>
   <HomeNavigationBar/>
   <SelectionPresenceList :studentList="studentList"/>
 </template>
@@ -8,8 +7,8 @@
 
 <script setup>
 import {computed, ref} from 'vue';
-import SelectionPresenceList from './SelectionPresenceList.vue'
-import HomeNavigationBar from './HomeNavigationBar.vue';
+import SelectionPresenceList from './shared/components/SelectionPresenceList.vue'
+import HomeNavigationBar from './shared/components/HomeNavigationBar.vue';
 //import { RouterView } from 'vue-router';
 const studentList = ref([
   'Carole Mitton', 'Léna Kieffel', 'Roxane Dubus', 'Solenn Ragueneau', 'Mathias Devilliers', 'Saliha Ozturk'
