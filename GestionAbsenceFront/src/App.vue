@@ -2,7 +2,7 @@
 <template>
   <HomeNavigationBar/>
   <SelectionPresenceList :studentList="studentList"/>
-  <AddStu :studentList="studentList"/>
+  <ListNames/>
 </template>
 
 
@@ -10,7 +10,7 @@
 import {computed, ref} from 'vue';
 import SelectionPresenceList from './shared/components/SelectionPresenceList.vue'
 import HomeNavigationBar from './shared/components/HomeNavigationBar.vue';
-import AddStu from './shared/components/AddStu.vue';
+import ListNames from './ListNames.vue';
 
 //import { RouterView } from 'vue-router';
 const studentList = ref([
