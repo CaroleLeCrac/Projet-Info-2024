@@ -1,55 +1,49 @@
-[
+{
+"students":[
 	{
 	"surname":"Boucq-Kieffel",
 	"name":"Lena",
 	"studentNumber":1
-}
-	,
+    },
 	{
         "surname":"Mitton",
         "name":"Carole",
         "studentNumber":2
-    }
-    ,
+    },
     {
         "surname":"Dubus",
         "name":"Roxane",
         "studentNumber":3
-    }
-    ,
+    },
     {
         "surname":"Gros",
         "name":"Baudouin",
         "studentNumber":4
-    }
-    ,
+    },
     {
         "surname":"Olive",
         "name":"Benjamin",
         "studentNumber":5
-    }
-    ,
+    },
     {
         "surname":"Weislo",
         "name":"Louise",
         "studentNumber":6
-    }
-    ,
+    },
     {
         "surname":"Volle",
         "name":"Ornella",
         "studentNumber":7
-    }
-    ,
+    },
     {
         "surname":"Larbiere",
         "name":"Felix",
         "studentNumber":8
-    }
-    ,
+    },
     {
         "surname":"Moroni",
         "name":"Louka",
         "studentNumber":9
     }
 ]
+}
