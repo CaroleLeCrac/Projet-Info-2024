@@ -21,7 +21,7 @@ function modifGroupPage() {
     <button class="button-modification-navigation" @click="modifStudentPage">Modifier étudiant</button>
     <button class="button-modification-navigation" @click="modifGroupPage">Modifier groupe</button>
     </div>
-</nav>
+</nav> 
 </template>
 
 <style>
