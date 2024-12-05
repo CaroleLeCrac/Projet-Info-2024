@@ -17,6 +17,7 @@ function nextDate() {
     date.value.setDate(date.value.getDate()+1);
     date.value = new Date(date.value);
 }
+
 </script>
 
 <template>
