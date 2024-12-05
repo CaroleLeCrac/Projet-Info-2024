@@ -1,14 +1,25 @@
 <script setup>
 
+function summaryPage() {
+  /* aller à la page récapitulatif des absences */
+}
+
+function modifStudentPage() {
+  /* aller à la page modifier étudiant */
+}
+
+function modifGroupPage() {
+  /* aller à la page modifier groupe */
+}
 </script>
 
 <template>
 <nav class="navigation-bar">
   <h1 class="title-navigation-bar">Gestion des Absences MIASHS</h1>
   <div class="navigation-buttons">
-    <button class="button-summary-navigation">Voir le récapitulatif des absences</button>
-    <button class="button-modification-navigation">Modifier étudiant</button>
-    <button class="button-modification-navigation">Modifier groupe</button>
+    <button class="button-summary-navigation" @click="summaryPage">Voir le récapitulatif des absences</button>
+    <button class="button-modification-navigation" @click="modifStudentPage">Modifier étudiant</button>
+    <button class="button-modification-navigation" @click="modifGroupPage">Modifier groupe</button>
     </div>
 </nav>
 </template>
