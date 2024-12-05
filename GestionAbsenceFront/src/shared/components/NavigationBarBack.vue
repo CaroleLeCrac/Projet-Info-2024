@@ -1,0 +1,110 @@
+<script setup>
+
+function previousPage() {
+  /* retourner à la page précédente */
+}
+
+function summaryPage() {
+  /* aller à la page récapitulatif des absences */
+}
+
+function modifStudentPage() {
+  /* aller à la page modifier étudiant */
+}
+
+function modifGroupPage() {
+  /* aller à la page modifier groupe */
+}
+</script>
+
+<template>
+<nav class="navigation-bar">
+  <div class="back-and-title">
+    <button class="button-back-navigation" @click="previousPage">←</button>
+    <h1 class="title-navigation-bar">Gestion des Absences MIASHS</h1>
+  </div>
+  <div class="navigation-buttons">
+    <button class="button-summary-navigation" @click="summaryPage">Voir le récapitulatif des absences</button>
+    <button class="button-modification-navigation" @click="modifStudentPage">Modifier étudiant</button>
+    <button class="button-modification-navigation" @click="modifGroupPage">Modifier groupe</button>
+    </div>
+</nav>
+</template>
+
+<style>
+/* Style pour la barre de navigation */
+.navigation-bar {
+  background-color: rgba(173,216,230,0.7); /* Couleur de fond */
+  padding: 10px; /* Espacement intérieur */
+  display: flex; /* Permet de disposer les éléments sur une ligne */
+  justify-content: space-between; /* Titre à gauche et boutons à droite */
+  align-items: center; /* Aligne les éléments au centre */
+}
+
+/*Style pour le titre de la barre de navigation */
+.title-navigation-bar {
+  font-size: 24px; /* Taille du texte */
+  margin: 0; /* Supprime les marges */
+  line-height: 2;
+  color : #333; /* Couleur du texte */
+}
+
+/*Conteneur pour mettre à gauche le bouton back et le titre */
+.back-and-title {
+  display: flex;
+  gap: 20px;
+}
+/* Conteneur pour les boutons pour les mettre à droite */
+.navigation-buttons {
+  display: flex; /* Dispose les boutons sur la même ligne */
+  gap: 10px; /* Espace entre les boutons */
+}
+
+/* Style pour les boutons */
+
+/*Style pour le bouton retour */
+.button-back-navigation {
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 10px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* Style pour le bouton Recap */
+.button-summary-navigation {
+  background-color: rgba(255,165,0,0.7); /* Couleur de fond du bouton */
+  color: black; /* Couleur du texte */
+  border: none; /* Supprime les bordures */
+  padding: 10px 20px; /* Espacement intérieur */
+  border-radius: 5px; /* Coins arrondis */
+  cursor: pointer; /* Curseur au survol */
+  font-size: 16px; /* Taille du texte */
+}
+
+/* Style pour les boutons Modif */
+.button-modification-navigation {
+  background-color: white; /* Couleur de fond du bouton */
+  color: black; /* Couleur du texte */
+  border: none; /* Supprime les bordures */
+  padding: 10px 20px; /* Espacement intérieur */
+  border-radius: 5px; /* Coins arrondis */
+  cursor: pointer; /* Curseur au survol */
+  font-size: 16px; /* Taille du texte */
+}
+
+/* Effet au survol des boutons */
+.button-back-navigation:hover {
+  background-color: #cecece;
+}
+
+.button-summary-navigation:hover {
+  background-color: rgba(255,140,0,0.9); /* Couleur plus sombre au survol */
+}
+
+.button-modification-navigation:hover {
+  background-color: #f2f2f2;
+}
+</style>
