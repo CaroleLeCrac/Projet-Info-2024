@@ -1,30 +1,37 @@
 <script setup>
-import { ref } from 'vue';
-const props = defineProps({
-    studentList : Array
-})
+import { ref, onMounted } from 'vue';
 
-const buttonStates = ref(
-  props.studentList.reduce((acc, student) => {
-    acc[student] = true;
-    return acc;
+const students = ref([])
+const buttonStates = ({})
+onMounted(() => {
+    fetch('/ListNamesStu.json')
+    .then((response)=>response.json())
+    .then ((data)=> {
+      console.log("Données JSON récupérées : ", data)
+      students.value = data.students;
+      buttonStates.value = students.value.reduce((acc, student) => {
+    acc[student.studentNumber] = true
+    return acc
   }, {})
-);
+  console.log("Etat actuel des bouton : ", buttonStates.value)
+    })
+    .catch(error => console.error('Error loading data:', error))
+});
 
-const toggleAdd = (student) => {
-  if (buttonStates.value[student] !== undefined) {
-    buttonStates.value[student] = !buttonStates.value[student];
+const toggleAdd = (studentNumber) => {
+  if (buttonStates.value[studentNumber] !== undefined) {
+    buttonStates.value[studentNumber] = !buttonStates.value[studentNumber];
   }
 };
 </script>
 
 <template>
     <ul>
-        <li  v-for="student in studentList" :key="student" class="list-presence">
-            <button @click="toggleAdd(student)">
-        {{ buttonStates.value[student] ? 'Delete' : 'Deleted' }}
+        <li  v-for="student in students" :key="student.studentNumber" class="list-presence">
+            <button @click="toggleAdd(student.studentNumber)" class="delete-button">
+        {{ buttonStates.value[student.studentNumber] ? 'Delete' : 'Deleted' }}
       </button>
-            {{ student }}
+            {{ student.surname }}
         </li>
     </ul>
 
@@ -37,7 +44,10 @@ const toggleAdd = (student) => {
     background-color: white;
     width: 40%;
     font: 1rem "Fira Sans", sans-serif;
-    color : red;
+}
+
+.delete-button{
+  background-color: red;
 }
 
 
