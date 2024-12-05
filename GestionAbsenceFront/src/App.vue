@@ -1,10 +1,9 @@
 
 <template>
   <HomeNavigationBar/>
+  <NavigationBarBack/>
   <SelectionPresenceList :studentList="studentList"/>
-  <ListNames/>
-  <AddStu/>
-  <DeleteStu/>
+
 </template>
 
 
@@ -12,9 +11,6 @@
 import {computed, ref} from 'vue';
 import SelectionPresenceList from './shared/components/SelectionPresenceList.vue'
 import HomeNavigationBar from './shared/components/HomeNavigationBar.vue';
-import ListNames from './ListNames.vue';
-import AddStu from './shared/components/AddStu.vue';
-import DeleteStu from './shared/components/DeleteStu.vue';
 
 //import { RouterView } from 'vue-router';
 const studentList = ref([
