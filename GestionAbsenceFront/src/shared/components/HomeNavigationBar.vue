@@ -10,7 +10,7 @@
     <button class="button-modification-navigation">Modifier étudiant</button>
     <button class="button-modification-navigation">Modifier groupe</button>
     </div>
-</nav>
+</nav> 
 </template>
 
 <style>
