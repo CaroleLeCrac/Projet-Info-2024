@@ -18,7 +18,7 @@ function modifGroupPage() {
   <h1 class="title-navigation-bar">Gestion des Absences MIASHS</h1>
   <div class="navigation-buttons">
     <button class="button-summary-navigation" @click="summaryPage">Voir le récapitulatif des absences</button>
-    <button class="button-modification-navigation" @click="modifStudentPage">Modifier étudiant</button>
+    <button class="button-modification-navigation" type="button">Modifier étudiant</button>
     <button class="button-modification-navigation" @click="modifGroupPage">Modifier groupe</button>
     </div>
 </nav> 

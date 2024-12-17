@@ -28,7 +28,6 @@ const toggleAdd = (studentNumber) => {
 </script>
 
 <template>
-  <p> tets</p>
     <ul>
         <li  v-for="student in students" :key="student.studentNumber" class="list-presence">
             <button @click="toggleAdd(student.studentNumber)" class="button-add">
