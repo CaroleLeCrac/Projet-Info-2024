@@ -50,12 +50,6 @@ const toggleDeleteToAdd = (student) => {
       </ul>
     </div>
 
-    <!-- Flèches entre les deux listes
-    <div class="arrow-container">
-      <span class="arrow">→</span>
-      <span class="arrow">←</span>
-    </div>
--->
     <!-- Liste de suppression des étudiants -->
     <div class="list-container">
       <h3>Supprimer des étudiants</h3>
@@ -110,18 +104,4 @@ const toggleDeleteToAdd = (student) => {
   background-color: red;
 }
 
-/*
-.arrow-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.arrow {
-  font-size: 2rem;
-  color: gray;
-  margin: 5px 0;
-}
-*/
 </style>
