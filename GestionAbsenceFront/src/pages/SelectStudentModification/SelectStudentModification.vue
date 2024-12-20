@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import ListNames from '@/ListNames.vue';
+import ListNames from '@/shared/components/ListNames.vue';
 </script>
 
 

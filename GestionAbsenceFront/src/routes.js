@@ -1,7 +1,7 @@
 import { createMemoryHistory, createRouter, createWebHistory } from 'vue-router'
 
 import SelectModificationStudent from './pages/SelectStudentModification/SelectStudentModification.vue'
-import ListNames from './ListNames.vue'
+import ListNames from './shared/components/ListNames.vue'
 
 const routes = [
   { path: '/', component: ListNames },
