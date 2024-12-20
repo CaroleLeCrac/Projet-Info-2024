@@ -1,0 +1,127 @@
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const students = ref([]);
+const addList = ref([]);  // Liste des étudiants à ajouter
+const deleteList = ref([]);  // Liste des étudiants à supprimer
+
+onMounted(() => {
+  fetch('/ListNamesStu.json')
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Données JSON récupérées : ", data);
+      students.value = data.students;
+
+      // Initialiser addList avec tous les étudiants par défaut
+      addList.value = [...students.value];
+    })
+    .catch((error) => console.error('Error loading data:', error));
+});
+
+// Fonction pour déplacer un étudiant de addList à deleteList
+const toggleAddToDelete = (student) => {
+  // Enlever de la liste d'ajout
+  addList.value = addList.value.filter(s => s.studentNumber !== student.studentNumber);
+  // Ajouter à la liste de suppression
+  deleteList.value.push(student);
+};
+
+// Fonction pour déplacer un étudiant de deleteList à addList
+const toggleDeleteToAdd = (student) => {
+  // Enlever de la liste de suppression
+  deleteList.value = deleteList.value.filter(s => s.studentNumber !== student.studentNumber);
+  // Ajouter à la liste d'ajout
+  addList.value.push(student);
+};
+</script>
+
+<template>
+  <div class="container">
+    <!-- Liste d'ajout des étudiants -->
+    <div class="list-container">
+      <h3>Ajouter des étudiants</h3>
+      <ul>
+        <li v-for="student in addList" :key="student.studentNumber" class="list-presence">
+          <button @click="toggleAddToDelete(student)" class="button-add">
+            Ajouter
+          </button>
+          {{ student.surname }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Flèches entre les deux listes
+    <div class="arrow-container">
+      <span class="arrow">→</span>
+      <span class="arrow">←</span>
+    </div>
+-->
+    <!-- Liste de suppression des étudiants -->
+    <div class="list-container">
+      <h3>Supprimer des étudiants</h3>
+      <ul>
+        <li v-for="student in deleteList" :key="student.studentNumber" class="list-presence">
+          <button @click="toggleDeleteToAdd(student)" class="button-delete">
+            Supprimer
+          </button>
+          {{ student.surname }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 50px;
+}
+
+.list-container {
+  width: 40%;
+}
+
+.list-presence {
+  list-style-type: none;
+  border: solid lightgray;
+  background-color: white;
+  padding: 8px;
+  font: 1rem "Fira Sans", sans-serif;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button-add, .button-delete {
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.button-add {
+  background-color: green;
+}
+
+.button-delete {
+  background-color: red;
+}
+
+/*
+.arrow-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrow {
+  font-size: 2rem;
+  color: gray;
+  margin: 5px 0;
+}
+*/
+</style>
