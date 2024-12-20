@@ -1,3 +1,4 @@
+<!--Page de sélection d'un étudiant pour modifier ses informations-->
 <template>
 <ListNames/>
 <p>La putain de ses moprt</p>
