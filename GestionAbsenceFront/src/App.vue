@@ -7,7 +7,7 @@
 
 <script setup>
 import {computed, ref} from 'vue';
-import HomeNavigationBar from './shared/components/HomeNavigationBar.vue';
+import HomeNavigationBar from './pages/HomeView/HomeNavigationBar.vue';
 import { RouterView } from 'vue-router';
 
 //import { RouterView } from 'vue-router';
