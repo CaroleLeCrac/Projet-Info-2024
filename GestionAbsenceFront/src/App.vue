@@ -2,7 +2,6 @@
 <template>
   <HomeNavigationBar/>
   <RouterView />
-  <AddnDeleteStudent /> 
 </template>
 
 
