@@ -9,7 +9,7 @@ import SelectGroupModification from './pages/SelectGroupModification/SelectGroup
 
 const routes = [
   { path: '/', component: HomeView },
-  { path: '/créneau', component: SlotPage },
+  { path: '/creneau', component: SlotPage },
   { path: '/appel', component: CallPage },
   { path: '/récapitulatifs', component: SummaryPage },
   { path: '/modificationEtudiant', component: SelectStudentModification },
