@@ -1,6 +1,7 @@
 
 <template>
   <HomeNavigationBar/>
+  <SelectionPresenceList/>
   <RouterView />
 </template>
 
@@ -9,6 +10,7 @@
 import {computed, ref} from 'vue';
 import HomeNavigationBar from './pages/HomeView/HomeNavigationBar.vue';
 import { RouterView } from 'vue-router';
+import SelectionPresenceList from './pages/Call/SelectionPresenceList.vue';
 
 const studentList = ref([
   'Carole Mitton', 'Léna Kieffel', 'Roxane Dubus', 'Solenn Ragueneau', 'Mathias Devilliers', 'Saliha Ozturk'
