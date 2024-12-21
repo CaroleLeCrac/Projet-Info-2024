@@ -2,6 +2,7 @@
 <template>
   <HomeNavigationBar/>
   <RouterView />
+  <AddnDeleteStudent /> 
 </template>
 
 
@@ -9,8 +10,8 @@
 import {computed, ref} from 'vue';
 import HomeNavigationBar from './pages/HomeView/HomeNavigationBar.vue';
 import { RouterView } from 'vue-router';
+import AddnDeleteStudent from './pages/GroupModification/AddnDeleteStudent.vue';
 
-//import { RouterView } from 'vue-router';
 const studentList = ref([
   'Carole Mitton', 'Léna Kieffel', 'Roxane Dubus', 'Solenn Ragueneau', 'Mathias Devilliers', 'Saliha Ozturk'
 ])
