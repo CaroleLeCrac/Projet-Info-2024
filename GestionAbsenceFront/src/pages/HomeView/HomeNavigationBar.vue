@@ -1,25 +1,14 @@
 <script setup>
 
-function summaryPage() {
-  /* aller à la page récapitulatif des absences */
-}
-
-function modifStudentPage() {
-  /* aller à la page modifier étudiant */
-}
-
-function modifGroupPage() {
-  /* aller à la page modifier groupe */
-}
 </script>
 
 <template>
 <nav class="navigation-bar">
   <h1 class="title-navigation-bar">Gestion des Absences MIASHS</h1>
   <div class="navigation-buttons">
-    <button class="button-summary-navigation" @click="summaryPage">Voir le récapitulatif des absences</button>
-    <button class="button-modification-navigation" type="button">Modifier étudiant</button>
-    <button class="button-modification-navigation" @click="modifGroupPage">Modifier groupe</button>
+    <RouterLink to="/récapitulatifs" class="summary-navigation">Voir le récapitulatif des absences</RouterLink>
+    <RouterLink to="/modificationEtudiant" class="modification-navigation">Modifier étudiant</RouterLink>
+    <RouterLink to="/modificationGroupe" class="modification-navigation">Modifier groupe</RouterLink>
     </div>
 </nav> 
 </template>
@@ -47,10 +36,11 @@ function modifGroupPage() {
   gap: 10px; /* Espace entre les boutons */
 }
 
-/* Style pour les boutons */
+/* Style pour les RouterLink */
 
 /* Style pour le bouton Recap */
-.button-summary-navigation {
+.summary-navigation {
+  text-decoration: none; /* Supprime le soulignement */
   background-color: rgba(255,165,0,0.7); /* Couleur de fond du bouton */
   color: black; /* Couleur du texte */
   border: none; /* Supprime les bordures */
@@ -61,7 +51,8 @@ function modifGroupPage() {
 }
 
 /* Style pour les boutons Modif */
-.button-modification-navigation {
+.modification-navigation {
+  text-decoration: none; /* Supprime le soulignement */
   background-color: white; /* Couleur de fond du bouton */
   color: black; /* Couleur du texte */
   border: none; /* Supprime les bordures */
@@ -72,11 +63,11 @@ function modifGroupPage() {
 }
 
 /* Effet au survol des boutons */
-.button-summary-navigation:hover {
+.summary-navigation:hover {
   background-color: rgba(255,140,0,0.9); /* Couleur plus sombre au survol */
 }
 
-.button-modification-navigation:hover {
+.modification-navigation:hover {
   background-color: #f2f2f2;
 }
 </style>
