@@ -1,11 +1,19 @@
 import { createMemoryHistory, createRouter, createWebHistory } from 'vue-router'
 
-import SelectModificationStudent from './pages/SelectStudentModification/SelectStudentModification.vue'
-import ListNames from './shared/components/ListNames.vue'
+import HomeView from './pages/HomeView/HomeView.vue'
+import SelectStudentModification from './pages/SelectStudentModification/SelectStudentModification.vue'
+import SlotPage from './pages/Slot/SlotPage.vue'
+import CallPage from './pages/Call/CallPage.vue'
+import SummaryPage from './pages/Summary/SummaryPage.vue'
+import SelectGroupModification from './pages/SelectGroupModification/SelectGroupModification.vue'
 
 const routes = [
-  { path: '/', component: ListNames },
-  { path: '/modification', component: SelectModificationStudent }
+  { path: '/', component: HomeView },
+  { path: '/créneau', component: SlotPage },
+  { path: '/appel', component: CallPage },
+  { path: '/récapitulatifs', component: SummaryPage },
+  { path: '/modificationEtudiant', component: SelectStudentModification },
+  { path: '/modificationGroupe', component: SelectGroupModification }
 ]
 
 export const router = createRouter({
