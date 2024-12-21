@@ -2,11 +2,13 @@
 <template>
     <div>
         <h1>Appel</h1>
-
+        <SelectionPresenceList/>
     </div>
 </template>
 
-<script>
+<script setup>
+import SelectionPresenceList from './SelectionPresenceList.vue';
+
 
 </script>
 

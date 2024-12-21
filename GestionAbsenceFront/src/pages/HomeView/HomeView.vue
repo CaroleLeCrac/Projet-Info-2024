@@ -2,11 +2,14 @@
 <template>
     <div>
         <h1>Professionnel</h1>
-
+        <ListNames/>
     </div>
 </template>
 
-<script>
+<script setup>
+
+import ListNames from '@/shared/components/ListNames.vue';
+
 
 </script>
 
