@@ -7,6 +7,7 @@ import StudentModification from './pages/StudentModification/StudentModification
 import SelectGroupModification from './pages/SelectGroupModification/SelectGroupModification.vue'
 import SlotPage from './pages/Slot/SlotPage.vue'
 import CallPage from './pages/Call/CallPage.vue'
+import SummaryPage from './pages/Summary/SummaryPage.vue'
 
 
 const routes = [
