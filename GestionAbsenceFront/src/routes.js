@@ -9,10 +9,10 @@ import SelectGroupModification from './pages/SelectGroupModification/SelectGroup
 
 const routes = [
   { path: '/', component: ListNames },
-  { path: '/select/modification/student', component: SelectStudentModification },
-  { path: '/select/modification/group', component: SelectGroupModification},
-  { path: '/modification/group', component : GroupModification},
-  { path: '/modification/student', component : StudentModification}
+  { path: '/modificationEtudiant', component: SelectStudentModification },
+  { path: '/modificationGroupe', component: SelectGroupModification},
+  { path: '/modification/groupe', component : GroupModification},
+  { path: '/modification/etudiant', component : StudentModification}
 ]
 
 export const router = createRouter({

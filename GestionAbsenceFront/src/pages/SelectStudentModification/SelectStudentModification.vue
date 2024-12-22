@@ -2,7 +2,7 @@
 <template>
 <p>Sélectioner un étudiant pour modifier ses informations</p>
 <ListNames/>
-<RouterLink to="/modification/student">Ajouter un étudiant</RouterLink>
+<RouterLink to="/modification/etudiant">Ajouter un étudiant</RouterLink>
 
 </template>
 
