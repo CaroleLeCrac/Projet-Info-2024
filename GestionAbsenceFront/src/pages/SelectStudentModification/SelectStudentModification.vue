@@ -1,7 +1,9 @@
 <!--Page de sélection d'un étudiant pour modifier ses informations-->
 <template>
+<p>Sélectioner un étudiant pour modifier ses informations</p>
 <ListNames/>
-<p>La putain de ses moprt</p>
+<RouterLink to="/modification/etudiant">Ajouter un étudiant</RouterLink>
+
 </template>
 
 <script setup>

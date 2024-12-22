@@ -1,15 +1,11 @@
 <!--Page de sélection d'un groupe pour ajouter ou supprimer des étudiants-->
 <template>
-    <div>
-        <h1>Modifier groupe</h1>
 
-    </div>
+    <p>Choisissez un groupe à modifier</p>
+<ListNames/>
 </template>
 
-<script>
+<script setup>
+import ListNames from '@/shared/components/ListNames.vue'
 
 </script>
-
-<style scoped>
-
-</style>
