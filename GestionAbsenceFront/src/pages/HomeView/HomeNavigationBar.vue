@@ -4,7 +4,7 @@
 
 <template>
 <nav class="navigation-bar">
-  <h1 class="title-navigation-bar">Gestion des Absences MIASHS</h1>
+  <RouterLink to="/" class="title-navigation-bar">Gestion des Absences MIASHS</RouterLink>
   <div class="navigation-buttons">
     <RouterLink to="/récapitulatifs" class="summary-navigation">Voir le récapitulatif des absences</RouterLink>
     <RouterLink to="/modificationEtudiant" class="modification-navigation">Modifier étudiant</RouterLink>
@@ -25,6 +25,7 @@
 
 /*Style pour le titre de la barre de navigation */
 .title-navigation-bar {
+  text-decoration: none;
   font-size: 24px; /* Taille du texte */
   margin: 0; /* Supprime les marges */
   color : #333; /* Couleur du texte */
@@ -63,6 +64,11 @@
 }
 
 /* Effet au survol des boutons */
+
+.title-navigation-bar:hover {
+  color: rgba(255,140,0,0.9);
+}
+
 .summary-navigation:hover {
   background-color: rgba(255,140,0,0.9); /* Couleur plus sombre au survol */
 }
