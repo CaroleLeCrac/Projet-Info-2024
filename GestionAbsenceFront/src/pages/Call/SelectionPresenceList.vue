@@ -12,7 +12,24 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+
+const studentList = ref([])
+const buttonStates = ({})
+onMounted(() => {
+    fetch('/ListNamesStu.json')
+    .then((response)=>response.json())
+    .then ((data)=> {
+      console.log("Données JSON récupérées : ", data)
+      studentList.value = data.studentList;
+      buttonStates.value = studentList.value.reduce((acc, student) => {
+    acc[student.studentNumber] = true
+    return acc
+  }, {})
+  console.log("Etat actuel des bouton : ", buttonStates.value)
+    })
+    .catch(error => console.error('Error loading data:', error))
+});
 const props = defineProps({
     studentList : Array
 })

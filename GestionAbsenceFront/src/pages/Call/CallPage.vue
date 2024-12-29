@@ -4,7 +4,7 @@
         <h1>Appel</h1>
         <SelectionPresenceList/>
         <!--dans le composant, afficher présent.e et absent.e dans la liste à côté du nom ?-->
-        <!--dans le composant, ajouter un bouton voir le récap de l'étudiant lorsqu'on le survole-->
+        <!--dans le composant, ajouter un bouton voir le récap de l'étudiant lorsqu'on le survole ?-->
         <RouterLink to="/creneau"
             v-if="!callSaved" 
             class="button-save" 
