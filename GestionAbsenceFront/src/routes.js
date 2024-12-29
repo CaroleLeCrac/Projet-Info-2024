@@ -8,7 +8,8 @@ import SelectGroupModification from './pages/SelectGroupModification/SelectGroup
 import SlotPage from './pages/Slot/SlotPage.vue'
 import CallPage from './pages/Call/CallPage.vue'
 import SummaryPage from './pages/Summary/SummaryPage.vue'
-
+import CourseSummaryPage from './pages/CourseSummary/CourseSummaryPage.vue'
+import StudentSummaryPage from './pages/StudentSummaryPage/StudentSummaryPage.vue'
 
 const routes = [
   { path: '/', component: HomeView },
@@ -18,7 +19,18 @@ const routes = [
   { path: '/modificationEtudiant', component: SelectStudentModification },
   { path: '/modificationGroupe', component: SelectGroupModification},
   { path: '/modification/groupe', component : GroupModification},
-  { path: '/modification/etudiant', component : StudentModification}
+  { path: '/modification/etudiant', component : StudentModification},
+  {
+    path: '/récapitulatifs/matiere/:course',
+    name: 'CourseSummaryPage', // Assurez-vous que le nom de la route est bien "CourseSummaryPage"
+    component: CourseSummaryPage
+  },
+  {
+    path: '/récapitulatifs/etudiant/:student',
+    name: 'StudentSummaryPage',
+    component: StudentSummaryPage
+  }
+  
 ]
 
 export const router = createRouter({
