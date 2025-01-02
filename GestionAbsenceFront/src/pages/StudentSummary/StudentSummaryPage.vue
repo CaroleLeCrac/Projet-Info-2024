@@ -1,1 +1,0 @@
-<!--Page de récapitulatif d'absence de l'étudiant selectionné-->
