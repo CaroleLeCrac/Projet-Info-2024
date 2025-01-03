@@ -1,13 +1,12 @@
 <!--Page de sélection d'un étudiant pour modifier ses informations-->
 <template>
-<p>Sélectioner un étudiant pour modifier ses informations</p>
-<ListNames/>
-<RouterLink to="/modification/etudiant">Ajouter un étudiant</RouterLink>
+<h2>Sélectionez un étudiant pour modifier ses informations</h2>
+<ListSelectionStudent/>
 
 </template>
 
 <script setup>
-import ListNames from '@/shared/components/ListNames.vue';
+import ListSelectionStudent from './ListSelectionStudent.vue';
 </script>
 
 

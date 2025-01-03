@@ -1,22 +1,31 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+
 
 const students = ref([]);
 const addList = ref([]);  // Liste des étudiants à ajouter
 const deleteList = ref([]);  // Liste des étudiants à supprimer
+const route = useRoute();
+const currentGroupNumber = route.params.id; 
 
 onMounted(() => {
   fetch('/ListNamesStu.json')
     .then((response) => response.json())
     .then((data) => {
       console.log("Données JSON récupérées : ", data);
-      students.value = data.students;
-
-      // Initialiser addList avec tous les étudiants par défaut
-      addList.value = [...students.value];
+      students.value = data.students || [];
+      addList.value = students.value.filter(
+        (student)=>student.groupNumber !== Number(currentGroupNumber)
+    )
+    deleteList.value = students.value.filter(
+      (student) => student.groupNumber === Number(currentGroupNumber)
+    )
     })
     .catch((error) => console.error('Error loading data:', error));
 });
+
+
 
 // Fonction pour déplacer un étudiant de addList à deleteList
 const toggleAddToDelete = (student) => {
@@ -81,6 +90,7 @@ const toggleDeleteToAdd = (student) => {
   list-style-type: none;
   border: solid lightgray;
   background-color: white;
+  border-radius: 5px;
   padding: 8px;
   font: 1rem "Fira Sans", sans-serif;
   margin-bottom: 5px;

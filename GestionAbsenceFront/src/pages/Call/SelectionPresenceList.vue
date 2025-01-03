@@ -2,10 +2,10 @@
     <ul>
         <li  v-for="student in studentList" :key="student"  class="list-presence">
             <label class="container">
-            <input type="checkbox">
-            <span class="checkmark"></span>
-            {{ student }}
-        </label>
+                <input type="checkbox">
+                <span class="checkmark"></span>
+                {{ student }}
+            </label>
         </li>
     </ul>
 

@@ -1,0 +1,16 @@
+{
+  "groups": [
+    {
+      "name": "L3 Groupe 1",
+      "groupNumber": "31"
+    },
+    {
+        "name": "L3 Groupe 2",
+        "groupNumber": "32"
+      },
+      {
+        "name": "L3 Groupe 3",
+        "groupNumber": "33"
+      }
+    ]
+}
