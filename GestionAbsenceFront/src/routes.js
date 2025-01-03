@@ -18,8 +18,8 @@ const routes = [
   { path: '/récapitulatifs', component: SummaryPage },
   { path: '/modificationEtudiant', component: SelectStudentModification },
   { path: '/modificationGroupe', component: SelectGroupModification},
-  { path: '/modification/groupe', component : GroupModification},
-  { path: '/modification/etudiant', component : StudentModification},
+  { path: '/modification/groupe/:id', component : GroupModification},
+  { path: '/modification/etudiant/:id', component : StudentModification},
   {
     path: '/récapitulatifs/matiere/:course',
     name: 'CourseSummaryPage', // Assurez-vous que le nom de la route est bien "CourseSummaryPage"
