@@ -66,6 +66,11 @@ import { RouterLink } from 'vue-router';
 }
 
 /* Effet au survol des boutons */
+
+.title-navigation-bar:hover {
+  color: rgba(255,140,0,0.9);
+}
+
 .summary-navigation:hover {
   background-color: rgba(255,140,0,0.9); /* Couleur plus sombre au survol */
 }
