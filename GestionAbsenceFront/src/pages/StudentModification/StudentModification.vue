@@ -51,11 +51,11 @@ onMounted(() => {
                 </div>
                 <div>
                     <label for = "name">Nom : </label>
-                    <input type="text" id="name" v-model="student.name" :placeholder="student.name ? '' : 'Nom de l\'étudiant'"/>
+                    <input type="text" id="surname" v-model="student.surname" :placeholder="student.surname ? '' : 'Nom de l\'étudiant'"/>
                 </div>
                 <div>
                     <label for = "surname">Prénom : </label>
-                    <input type="text" id="surname" v-model="student.surname" :placeholder="student.surname ? '' : 'Prénom de l\'étudiant'"/>
+                    <input type="text" id="name" v-model="student.name" :placeholder="student.name ? '' : 'Prénom de l\'étudiant'"/>
                 </div>
                 <div>
                     <label for = "mail">Mail : </label>
