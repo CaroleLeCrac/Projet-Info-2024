@@ -26,7 +26,7 @@
     <div v-if="filteredAbsences.length > 0">
       <h3>Absences :</h3>
       <ul>
-        <li v-for="absence in fileredAbsences" :key="absence.date">
+        <li v-for="absence in filteredAbsences" :key="absence.date">
           <strong>{{ absence.name }}</strong> :  {{ absence.date }}
         </li>
       </ul>
