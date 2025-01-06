@@ -1,12 +1,12 @@
 {
   "coursedates": [
     {
-      "date": "2001-01-01",
+      "date": "2025-01-01",
       "name": "CM",
       "coursename": "Systemes"
     },
     {
-      "date": "2001-01-01",
+      "date": "2025-01-01",
       "name": "CM",
       "coursename": "Programmation orientee objet"
     },
@@ -16,12 +16,12 @@
       "coursename": "Programmation orientee objet"
     },
     {
-      "date": "2001-01-02",
+      "date": "2025-01-02",
       "name": "CM",
       "coursename": "Econometrie 1"
     },
     {
-      "date": "2001-01-03",
+      "date": "2025-01-03",
       "name": "TM",
       "coursename": "Statistiques 2"
     },
@@ -31,77 +31,77 @@
       "coursename": "Statistiques 2"
     },
     {
-      "date": "2001-01-04",
+      "date": "2025-01-04",
       "name": "CM",
       "coursename": "Systemes"
     },
     {
-      "date": "2001-01-05",
+      "date": "2025-01-05",
       "name": "TD",
       "coursename": "Complement de mathematiques 1"
     },
     {
-      "date": "2001-01-05",
+      "date": "2025-01-05",
       "name": "TM",
       "coursename": "Programmation orientee objet"
     },
     {
-      "date": "2001-01-06",
+      "date": "2025-01-06",
       "name": "CM",
       "coursename": "Econometrie 1"
     },
     {
-      "date": "2001-01-06",
+      "date": "2025-01-06",
       "name": "CM",
       "coursename": "Systemes"
     },
     {
-      "date": "2001-01-07",
+      "date": "2025-01-07",
       "name": "CM",
       "coursename": "Systemes"
     },
     {
-      "date": "2001-01-08",
+      "date": "2025-01-08",
       "name": "TM",
       "coursename": "Programmation orientee objet"
     },
     {
-      "date": "2001-01-09",
+      "date": "2025-01-09",
       "name": "TM",
       "coursename": "Statistiques 2"
     },
     {
-      "date": "2001-01-10",
+      "date": "2025-01-10",
       "name": "CM",
       "coursename": "Econometrie 1"
     },
     {
-      "date": "2001-01-10",
+      "date": "2025-01-10",
       "name": "CM",
       "coursename": "Programmation orientee objet"
     },
     {
-      "date": "2001-01-11",
+      "date": "2025-01-11",
       "name": "CM",
       "coursename": "Systemes"
     },
     {
-      "date": "2001-01-12",
+      "date": "2025-01-12",
       "name": "TM",
       "coursename": "Statistiques 2"
     },
     {
-      "date": "2001-01-13",
+      "date": "2025-01-13",
       "name": "TD",
       "coursename": "Complement de mathematiques 1"
     },
     {
-      "date": "2001-01-14",
+      "date": "2025-01-14",
       "name": "TM",
       "coursename": "Statistiques 2"
     },
     {
-      "date": "2001-01-15",
+      "date": "2025-01-15",
       "name": "CM",
       "coursename": "Systemes"
     }
