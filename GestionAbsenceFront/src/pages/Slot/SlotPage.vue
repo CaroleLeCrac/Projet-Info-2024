@@ -4,7 +4,7 @@
     <DateBar @dateChanged="updateSelectedDate"/>
     <div> 
         <select v-model="selectedCourse" multiple>
-            <option v-for="course in filteredCoursesByDate" :key="course.date" :value="course.coursename">
+            <option v-for="course in filteredCoursesByDate" :key="course.date" :value="JSON.stringify({ coursename: course.coursename, name: course.name, date: course.date })">
                 {{ course.date }} {{ course.name }} {{ course.coursename }}
             </option>
         </select>
@@ -54,8 +54,12 @@ const formatSelection = (selection) => {
     }
 
     if (selection === selectedCourse.value) {
-        return selection.map(CourseName => {
-            const course = courses.value.find(c => c.coursename === CourseName);
+        return selection.map(selected => {
+            const parsedSelection = JSON.parse(selected);
+            const course = courses.value.find(
+                c => c.coursename === parsedSelection.coursename &&
+                     c.name === parsedSelection.name &&
+                     c.date === parsedSelection.date);
             return course ? `${course.date} ${course.name} ${course.coursename}`: '';
         }).join(', ');
     }
