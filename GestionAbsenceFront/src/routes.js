@@ -13,8 +13,12 @@ import StudentSummaryPage from './pages/StudentSummaryPage/StudentSummaryPage.vu
 
 const routes = [
   { path: '/', component: HomeView },
-  { path: '/creneau', component: SlotPage },
-  { path: '/appel', component: CallPage },
+  { path: '/:profesional/creneau', 
+    name: 'ProfesionalSlotPage',
+    component: SlotPage },
+  { path: '/:profesional/:course/appel', 
+    name: 'CourseCallPage',
+    component: CallPage },
   { path: '/récapitulatifs', component: SummaryPage },
   { path: '/modificationEtudiant', component: SelectStudentModification },
   { path: '/modificationGroupe', component: SelectGroupModification},
