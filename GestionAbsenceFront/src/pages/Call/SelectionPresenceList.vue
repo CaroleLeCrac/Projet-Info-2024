@@ -4,7 +4,7 @@
             <label class="container">
                 <input type="checkbox">
                 <span class="checkmark"></span>
-                {{ student }}
+                {{ student.studentNumber }} {{ student.surname }} {{ student.name }}
             </label>
         </li>
     </ul>
@@ -21,12 +21,12 @@ onMounted(() => {
     .then((response)=>response.json())
     .then ((data)=> {
       console.log("Données JSON récupérées : ", data)
-      studentList.value = data.studentList;
+      studentList.value = data.students;
       buttonStates.value = studentList.value.reduce((acc, student) => {
     acc[student.studentNumber] = true
     return acc
   }, {})
-  console.log("Etat actuel des bouton : ", buttonStates.value)
+  console.log("Etat actuel des boutons : ", buttonStates.value)
     })
     .catch(error => console.error('Error loading data:', error))
 });

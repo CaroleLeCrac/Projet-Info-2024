@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 
 const date=ref(new Date());
+const emit = defineEmits(['dateChanged']);
 
 function formatDate(date) {
     const format = {day: 'numeric', month: 'long', year: 'numeric'};
@@ -11,12 +12,16 @@ function formatDate(date) {
 function previousDate() {
     date.value.setDate(date.value.getDate()-1);
     date.value = new Date(date.value);
+    emit('dateChanged',date.value);
 }
 
 function nextDate() {
     date.value.setDate(date.value.getDate()+1);
     date.value = new Date(date.value);
+    emit('dateChanged',date.value);
 }
+
+emit('dateChanged',date.value);
 
 </script>
 
