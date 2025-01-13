@@ -57,7 +57,7 @@ const props = defineProps({
     user-select: none;
 }
 
-/*hide the default checkboc*/
+/*hide the default checkbox*/
 .container input{
     position : absolute;
     opacity: 0;

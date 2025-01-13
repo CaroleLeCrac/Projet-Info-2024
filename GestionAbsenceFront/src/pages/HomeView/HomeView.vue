@@ -9,24 +9,22 @@
         class="search-bar"
     />
     <div>
-        <select v-model="selectedProfesional" multiple>
+        <select v-model="selectedProfesional" :size="filteredProfesionals.length">
             <option v-for="profesional in filteredProfesionals" :value="profesional.surname">
-                {{ profesional.name }} {{ profesional.surname }}
+                {{ profesional.surname }} {{ profesional.name }}
             </option>
         </select>
-        <p>Professionnel sélectionné: {{ formatSelection(selectedProfesional) }}</p>
-        <button @click="goToProfesionalSlotPage" class="selection-btn">
-            Afficher le choix : {{ formatSelection(selectedProfesional) }}
-        </button>
+        <RouterLink :to="'/${profesional.surname}/creneau'" class="selection-routerLink">
+            {{ profesional.surname }} {{ profesional.name }}
+        </RouterLink>
     </div>
 </template>
 
 <script setup>
 
-import { router } from '@/routes'
 import { ref, onMounted, computed } from 'vue'
 
-const selectedProfesional = ref([])
+const selectedProfesional = ref('')
 const profesionals = ref([])
 const profesionalQuery = ref('')
 
@@ -39,35 +37,11 @@ onMounted(() => {
     .catch((error) => console.error('Error loading profesionals data:', error))
 })
 
-const formatSelection = (selection) => {
-    if (selection.length === 0) {
-        return 'Aucune sélection'
-    }
-
-    if (selection === selectedProfesional.value) {
-        return selection.map(profesionalSurname => {
-            const profesional = profesionals.value.find(p => p.surname === profesionalSurname);
-            return profesional ? `${profesional.name} ${profesional.surname}`: '';
-        }).join(', ');
-    }
-
-    return selection.join(', ');
-}
-
 const filteredProfesionals = computed(() => {
     return profesionals.value.filter((profesional) =>
         (profesional.name + ' ' + profesional.surname).toLowerCase().includes(profesionalQuery.value.toLowerCase())
     )
 })
-
-const goToProfesionalSlotPage = () => {
-    if (selectedProfesional.value.length > 0) {
-        router.push({ name: 'ProfesionalSlotPage', params: { profesional: selectedProfesional.value[0]}});
-    }
-    else {
-        alert("Veuillez sélectionner un professionnel.");
-    }
-}
 
 </script>
 
@@ -79,7 +53,8 @@ const goToProfesionalSlotPage = () => {
   margin-bottom: 10px;
 }
 
-.selection-btn {
+.selection-routerLink {
+    text-decoration: none;
     background-color: lightgray;
     color: white;
     border: none;
@@ -90,7 +65,7 @@ const goToProfesionalSlotPage = () => {
     margin-top: 10px;
 }
 
-.selection-btn:hover {
+.selection-routerLink:hover {
     background-color: gray; 
 }
 

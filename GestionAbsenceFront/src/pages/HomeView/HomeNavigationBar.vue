@@ -7,7 +7,7 @@ import { RouterLink } from 'vue-router';
 <template>
 <nav class="navigation-bar">
   <RouterLink to="/" class="title-navigation-bar">Gestion des Absences MIASHS</RouterLink>
-  <div class="navigation-buttons">
+  <div class="navigation-routerLink">
     <RouterLink to="/récapitulatifs" class="summary-navigation">Voir le récapitulatif des absences</RouterLink>
     <RouterLink to="/modificationEtudiant" class="modification-navigation">Modifier étudiant</RouterLink>
     <RouterLink to="/modificationGroupe" class="modification-navigation">Modifier groupe</RouterLink>
@@ -18,61 +18,61 @@ import { RouterLink } from 'vue-router';
 <style>
 /* Style pour la barre de navigation */
 .navigation-bar {
-  background-color: rgba(173,216,230,0.7); /* Couleur de fond */
-  padding: 10px; /* Espacement intérieur */
-  display: flex; /* Permet de disposer les éléments sur une ligne */
-  justify-content: space-between; /* Titre à gauche et boutons à droite */
-  align-items: center; /* Aligne les éléments au centre */
+  background-color: rgba(173,216,230,0.7);
+  padding: 10px; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
 }
 
 /*Style pour le titre de la barre de navigation */
 .title-navigation-bar {
   text-decoration: none;
-  font-size: 24px; /* Taille du texte */
-  margin: 0; /* Supprime les marges */
-  color : #333; /* Couleur du texte */
+  font-size: 24px; 
+  margin: 0; 
+  color : #333; 
 }
 
-/* Conteneur pour les boutons pour les mettre à droite */
-.navigation-buttons {
-  display: flex; /* Dispose les boutons sur la même ligne */
-  gap: 10px; /* Espace entre les boutons */
+/* Conteneur pour les RouterLink pour les mettre à droite */
+.navigation-routerLink {
+  display: flex;
+  gap: 10px; 
 }
 
 /* Style pour les RouterLink */
 
-/* Style pour le bouton Recap */
+/* Style pour le RouterLink Recap */
 .summary-navigation {
-  text-decoration: none; /* Supprime le soulignement */
-  background-color: rgba(255,165,0,0.7); /* Couleur de fond du bouton */
-  color: black; /* Couleur du texte */
-  border: none; /* Supprime les bordures */
-  padding: 10px 20px; /* Espacement intérieur */
-  border-radius: 5px; /* Coins arrondis */
-  cursor: pointer; /* Curseur au survol */
-  font-size: 16px; /* Taille du texte */
+  text-decoration: none; 
+  background-color: rgba(255,165,0,0.7); 
+  color: black; 
+  border: none; 
+  padding: 10px 20px; 
+  border-radius: 5px; 
+  cursor: pointer; 
+  font-size: 16px; 
 }
 
-/* Style pour les boutons Modif */
+/* Style pour les RouterLink Modif */
 .modification-navigation {
-  text-decoration: none; /* Supprime le soulignement */
-  background-color: white; /* Couleur de fond du bouton */
-  color: black; /* Couleur du texte */
-  border: none; /* Supprime les bordures */
-  padding: 10px 20px; /* Espacement intérieur */
-  border-radius: 5px; /* Coins arrondis */
-  cursor: pointer; /* Curseur au survol */
-  font-size: 16px; /* Taille du texte */
+  text-decoration: none; 
+  background-color: white; 
+  color: black; 
+  border: none; 
+  padding: 10px 20px; 
+  border-radius: 5px; 
+  cursor: pointer; 
+  font-size: 16px; 
 }
 
-/* Effet au survol des boutons */
+/* Effet au survol des RouterLink */
 
 .title-navigation-bar:hover {
   color: rgba(255,140,0,0.9);
 }
 
 .summary-navigation:hover {
-  background-color: rgba(255,140,0,0.9); /* Couleur plus sombre au survol */
+  background-color: rgba(255,140,0,0.9); 
 }
 
 .modification-navigation:hover {
