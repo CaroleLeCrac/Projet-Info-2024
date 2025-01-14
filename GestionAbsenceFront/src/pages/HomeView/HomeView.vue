@@ -8,23 +8,22 @@
         placeholder="Rechercher un professionnel"
         class="search-bar"
     />
-    <div>
-        <select v-model="selectedProfesional" :size="filteredProfesionals.length">
-            <option v-for="profesional in filteredProfesionals" :value="profesional.surname">
-                {{ profesional.surname }} {{ profesional.name }}
-            </option>
-        </select>
-        <RouterLink :to="'/${profesional.surname}/creneau'" class="selection-routerLink">
-            {{ profesional.surname }} {{ profesional.name }}
-        </RouterLink>
-    </div>
+    <ul class="profesional-list">
+        <li v-for="profesional in filteredProfesionals">
+            <label>
+                <RouterLink :to="`/creneau/${profesional.surname}`" 
+                    class="router-link">
+                        {{ profesional.surname }} {{ profesional.name }}
+                </RouterLink>
+            </label>
+        </li>
+    </ul>
 </template>
 
 <script setup>
 
 import { ref, onMounted, computed } from 'vue'
 
-const selectedProfesional = ref('')
 const profesionals = ref([])
 const profesionalQuery = ref('')
 
@@ -42,7 +41,6 @@ const filteredProfesionals = computed(() => {
         (profesional.name + ' ' + profesional.surname).toLowerCase().includes(profesionalQuery.value.toLowerCase())
     )
 })
-
 </script>
 
 <style scoped>
@@ -53,20 +51,29 @@ const filteredProfesionals = computed(() => {
   margin-bottom: 10px;
 }
 
-.selection-routerLink {
-    text-decoration: none;
-    background-color: lightgray;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    font-size: 14px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
+.profesional-list {
+    display : flex; 
+    flex-direction: column;
+    width: 20%;
+    list-style-type: none;
+    padding-left: 0;
 }
 
-.selection-routerLink:hover {
-    background-color: gray; 
+.router-link {
+    display: block;
+    text-decoration: none; 
+    border-radius: 5px;
+    color: black; 
+    cursor: pointer; 
+    font-size: 16px; 
+    padding: 8px 10px; 
+    width: 110%;
+    border: 2px solid black;
+    box-sizing: border-box;
+}
+
+.router-link:hover {
+    background-color: lightgray;
 }
 
 </style>
