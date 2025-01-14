@@ -7,6 +7,8 @@ import { useRoute } from 'vue-router';
 
 const students = ref([]);
 const student = ref([]); 
+const groups = ref([]);
+const years = ref([]);
 const courses = ref([]);
 const route = useRoute();
 const currentStudentNumber = route.params.id; 
@@ -39,6 +41,28 @@ onMounted(() => {
     })
     .catch((error) => console.error('Error loading data:', error));
 });
+
+onMounted(() => {
+  fetch('/group.json')
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Données JSON récupérées : ", data);
+      groups.value = data.groups;
+    
+    })
+    .catch((error) => console.error('Error loading data:', error));
+});
+
+onMounted(() => {
+  fetch('/Years.json')
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Données JSON récupérées : ", data);
+      years.value = data.years;
+    
+    })
+    .catch((error) => console.error('Error loading data:', error));
+});
 </script>
 
 <template>
@@ -63,17 +87,12 @@ onMounted(() => {
                 </div>
 
                 <select name="inscriptionGroup" id="group-select">
-                    <option value="">Choisissez le groupe de l'étudant</option>
-                    <option value ="groupe1">Groupe 1</option>
-                    <option value ="groupe2">Groupe 2</option>
-                    <option value ="groupe3">Groupe 3</option>
+                    <option v-for="group in groups">{{ group.name }}</option>
+                    
                 </select>
 
                 <select name="inscriptionYear" id="year-select">
-                    <option value="">Choisissez l'année d'inscription</option>
-                    <option value ="L1">L1</option>
-                    <option value ="L2">L2</option>
-                    <option value ="L3">L3</option>
+                    <option v-for="year in years">{{ year.name }}</option>
                 </select>
     
             </form> 
