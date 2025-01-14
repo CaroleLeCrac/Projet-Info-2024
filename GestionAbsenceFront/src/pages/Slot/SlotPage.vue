@@ -1,35 +1,30 @@
 <!--Page de sélection du créneau-->
 <template>
     <h1>Créneau</h1>
-    <DateBar @dateChanged="updateSelectedDate"/>
-    <div> 
-        <select v-model="selectedCourse" multiple>
-            <option v-for="course in filteredCoursesByDate" :key="course.date" :value="JSON.stringify({ coursename: course.coursename, name: course.name, date: course.date })">
-                {{ course.date }} {{ course.name }} {{ course.coursename }}
-            </option>
-        </select>
-        <p>Créneau sélectionné: {{ formatSelection(selectedCourse) }}</p>
-        <button @click="goToCourseCall" class="selection-btn">
-            Afficher le choix : {{ formatSelection(selectedCourse) }}
-        </button>
-    </div>
+    <DateBar @dateChanged="updateSelectedDate"/> 
+    <ul class="course-list">
+        <li v-for="course in filteredCoursesByDate" :key="course.date">
+            <label>
+                <RouterLink :to="`/appel/${course.date}`" 
+                    class="router-link">
+                    {{ course.date }} {{ course.name }} {{ course.coursename }}</RouterLink>
+            </label>
+        </li>
+    </ul>
 </template>
 
 <script setup>
 
 import DateBar from './DateBar.vue';
 import { ref, onMounted, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
-const selectedCourse = ref([])
 const courses = ref([])
 const profesionals = ref([])
 const selectedDate = ref(new Date());
 
 const route = useRoute();
 const currentProfesional = ref(route.params.profesional);
-
-const router = useRouter()
 
 onMounted(() => {
   fetch('/ListDates.json')
@@ -48,26 +43,7 @@ onMounted(() => {
 
 })
 
-const formatSelection = (selection) => {
-    if (selection.length === 0) {
-        return 'Aucune sélection'
-    }
-
-    if (selection === selectedCourse.value) {
-        return selection.map(selected => {
-            const parsedSelection = JSON.parse(selected);
-            const course = courses.value.find(
-                c => c.coursename === parsedSelection.coursename &&
-                     c.name === parsedSelection.name &&
-                     c.date === parsedSelection.date);
-            return course ? `${course.date} ${course.name} ${course.coursename}`: '';
-        }).join(', ');
-    }
-
-    return selection.join(', ');
-}
-
-//filtre des cours du profesionnel sélectionné seulement
+// Filtre des cours du profesionnel sélectionné seulement
 const filteredCourses = computed(() => {
     const profesionalCourses = profesionals.value
         .filter(p => p.surname === currentProfesional.value)
@@ -84,32 +60,31 @@ const filteredCoursesByDate = computed(() => {
 function updateSelectedDate(date) {
     selectedDate.value = date;
 }
-
-const goToCourseCall = () => {
-    if (selectedCourse.value.length > 0) {
-        router.push({ name: 'CourseCallPage', params: { course: selectedCourse.value[0]}});
-    }
-    else {
-        alert("Veuillez sélectionner un créneau.");
-    }
-}
-
 </script>
 
 <style scoped>
-.selection-btn {
-    background-color: lightgray;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    font-size: 14px;
+.course-list {
+    display : flex; 
+    flex-direction: column;
+    width: 20%;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.router-link {
+    display: block;
+    text-decoration: none; 
     border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
+    color: black; 
+    cursor: pointer; 
+    font-size: 16px; 
+    padding: 8px 10px; 
+    width: 110%;
+    border: 2px solid black;
+    box-sizing: border-box;
 }
 
-.selection-btn:hover {
-    background-color: gray; 
+.router-link:hover {
+    background-color: lightgray;
 }
-
 </style>
