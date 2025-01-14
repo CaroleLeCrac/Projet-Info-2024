@@ -23,15 +23,13 @@
           placeholder="Rechercher une matière"
           class="search-bar"
         />
-        <select v-model="selectedCourses" multiple> <!-- demander à benj et val s'il existe un autre truc que multiple-->
+        <select v-model="selectedCourses" multiple>  <!-- demander à benj et val s'il existe un autre truc que multiple-->
           <option v-for="course in filteredCourses" :key="course.name" :value="course.name">
             {{ course.name }}
           </option>
         </select>
         <p>Matière sélectionnée: {{ formatSelection(selectedCourses) }}</p>
-        <button @click="goToCourseSummaryPage" class="show-selection-btn">
-          Afficher le choix : {{ formatSelection(selectedCourses) }}
-        </button>
+        <RouterLink v-if="selectedCourses.length" class="router-link" :to="`/récapitulatifs/matiere/${selectedCourses[0]}`">{{ selectedCourses[0] }}</RouterLink>
       </div>
 
       <!-- Section Étudiant -->
@@ -46,64 +44,86 @@
         />
         <select v-model="selectedStudent" multiple>
           <option v-for="student in filteredStudents" :key="student.studentNumber" :value="student.surname">
-            {{ student.name }} {{ student.surname }} 
+            {{ student.name }} {{ student.surname }}
           </option>
         </select>
-        <!-- Affichage des étudiants sélectionnés avec nom et prénom -->
         <p>Étudiant sélectionné: {{ formatSelection(selectedStudent) }}</p>
-        <button @click="goToStudentSummaryPage" class="show-selection-btn">
-          Afficher le choix : {{ formatSelection(selectedStudent) }}
-        </button>
+        <RouterLink v-if="selectedStudent.length" class="router-link" :to="`/récapitulatifs/etudiant/${selectedStudent[0]}`">{{ selectedStudent[0] }}</RouterLink>
       </div>
+    </div>
+
+    <!-- Section des absences -->
+    <div class="absences-container" v-if="filteredAbsences.length > 0">
+      <h2>Absences</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nom de l'étudiant</th>
+            <th>Matière</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="absence in filteredAbsences" :key="absence.date + absence.name">
+            <td>{{ absence.name }}</td>
+            <td>{{ absence.coursename }}</td>
+            <td>{{ absence.date }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { useRouter } from 'vue-router' // Importer useRouter pour la navigation
 
-// Références pour la sélection des étudiants et des matières
+// Références pour la sélection des étudiants, matières et absences
 const selectedStudent = ref([])  // Étudiants sélectionnés
 const selectedCourses = ref([])  // Matières sélectionnées
 const students = ref([])  // Liste des étudiants
 const courses = ref([])  // Liste des matières
+const absences = ref([])  // Liste des absences
 
-//barres de recherche
+// Barres de recherche
 const studentQuery = ref('')  
 const courseQuery = ref('')  
 
-// Chargement des étudiants depuis le fichier JSON
+// Chargement des données
 onMounted(() => {
+  // Chargement des étudiants depuis le fichier JSON
   fetch('/ListNamesStu.json')
     .then((response) => response.json())
     .then((data) => {
       students.value = data.students 
+      console.log('Étudiants chargés:', students.value);
     })
-    .catch((error) => console.error('Error loading students data:', error))
+    .catch((error) => console.error('Erreur de chargement des étudiants:', error))
 
   // Chargement des matières
   fetch('/ListCourses.json')
     .then((response) => response.json())
     .then((data) => {
       courses.value = data.courses 
+      console.log('Matières chargées:', courses.value);
     })
-    .catch((error) => console.error('Error loading courses data:', error))
+    .catch((error) => console.error('Erreur de chargement des matières:', error))
+
+  // Chargement des absences
+  fetch('/ListStudentsAbsence.json')
+    .then((response) => response.json())
+    .then((data) => {
+      absences.value = data.studentsabsence 
+      console.log('Absences chargées:', absences.value);
+    })
+    .catch((error) => console.error('Erreur de chargement des absences:', error))
 })
 
-// formatage des sélections
+// Formatage des sélections
 const formatSelection = (selection) => {
   if (selection.length === 0) {
-    return 'Aucune sélection'
+    return 'Aucune sélection';
   }
-
-  if (selection === selectedStudent.value) {
-    return selection.map(studentSurname => {
-      const student = students.value.find(s => s.surname === studentSurname); 
-      return student ? `${student.name} ${student.surname}` : '';
-    }).join(', ');
-  }
-  
   return selection.join(', ');
 }
 
@@ -121,28 +141,18 @@ const filteredCourses = computed(() => {
   )
 })
 
-// Fonction pour rediriger vers la page CourseSummaryPage avec la matière sélectionnée
-const router = useRouter()  // Utiliser le hook de router pour la navigation
-
-const goToCourseSummaryPage = () => {
-  if (selectedCourses.value.length > 0) {
-    router.push({ name: 'CourseSummaryPage', params: { course: selectedCourses.value[0] } });
-  } else {
-    alert("Veuillez sélectionner une matière.");
-  }
-}
-
-const goToStudentSummaryPage = () => {
-  if (selectedStudent.value.length > 0) {
-    router.push({ name: 'StudentSummaryPage', params: { student: selectedStudent.value[0] } });
-  } else {
-    alert("Veuillez sélectionner un étudiant.");
-  }
-}
+// Filtrer les absences selon les critères
+const filteredAbsences = computed(() => {
+  return absences.value.filter((absence) => {
+    const matchesStudent = selectedStudent.length === 0 || selectedStudent.includes(absence.name);
+    const matchesCourse = selectedCourses.length === 0 || selectedCourses.includes(absence.coursename);
+    return matchesStudent && matchesCourse;
+  })
+})
 </script>
 
 <style scoped>
-/* Titre et bouton */
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -150,13 +160,11 @@ const goToStudentSummaryPage = () => {
   margin-bottom: 20px;
 }
 
-/* les boutons Exporter */
 .buttons-container {
   display: flex;
   gap: 10px;
 }
 
-/* Style pour bouton Exporter */
 .export-btn {
   background-color: #28a745;
   color: white;
@@ -171,14 +179,12 @@ const goToStudentSummaryPage = () => {
   background-color: #218838;
 }
 
-/* Conteneur flex pour aligner les sections côte à côte */
 .sections-container {
   display: flex;
   justify-content: space-between;
   gap: 30px;
 }
 
-/* Style de chaque section */
 .section {
   flex: 1;
   padding: 10px;

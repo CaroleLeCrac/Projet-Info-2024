@@ -149,7 +149,6 @@ p {
   font-size: 16px;
 }
 
-/* Style pour le bouton Voir toutes les absences */
 .show-all-btn {
   background-color: #007bff;
   color: white;
@@ -165,7 +164,6 @@ p {
   background-color: #0056b3;
 }
 
-/* Style pour le bouton Exporter */
 .export-btn {
   background-color: #28a745;
   color: white;
