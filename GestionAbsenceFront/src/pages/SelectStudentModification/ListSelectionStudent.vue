@@ -4,7 +4,6 @@ import { ref, onMounted, computed } from 'vue'
 const students = ref([])
 const searchQuery = ref('')
 
-
   onMounted(() => {
     fetch('/ListNamesStu.json')
     .then((response)=>response.json())

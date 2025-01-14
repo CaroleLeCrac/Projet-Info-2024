@@ -1,4 +1,4 @@
-import { createMemoryHistory, createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import HomeView from './pages/HomeView/HomeView.vue'
 import SelectStudentModification from './pages/SelectStudentModification/SelectStudentModification.vue'
@@ -26,7 +26,7 @@ const routes = [
   { path: '/modification/etudiant/:id', component : StudentModification},
   {
     path: '/récapitulatifs/matiere/:course',
-    name: 'CourseSummaryPage', // Assurez-vous que le nom de la route est bien "CourseSummaryPage"
+    name: 'CourseSummaryPage',
     component: CourseSummaryPage
   },
   {
@@ -34,7 +34,6 @@ const routes = [
     name: 'StudentSummaryPage',
     component: StudentSummaryPage
   }
-  
 ]
 
 export const router = createRouter({
