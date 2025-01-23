@@ -13,6 +13,8 @@ This project is coded in Javascript, HTML and CSS.
 
 The front-end is coded with Vue.js and the back-end is coded with Node.js.
 The front-end code can be found in the GestionAbsencesFront document.
+The back-end is yet to be coded.
+
 Diagrams fo the database, as well as other documents such as the decomposition of the website, can be found in the Visuals document.
 
 ## Project Setup
