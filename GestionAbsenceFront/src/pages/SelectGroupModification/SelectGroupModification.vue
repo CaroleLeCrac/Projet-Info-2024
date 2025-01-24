@@ -6,7 +6,7 @@ const groups = ref([])
 
 
   onMounted(() => {
-    fetch('/group.json')
+    fetch('/Groups.json')
     .then((response)=>response.json())
     .then ((data)=> {
       console.log("Données JSON récupérées : ", data);
@@ -41,6 +41,11 @@ const groups = ref([])
   width: 50%;
   border: 2px solid black;
   box-sizing: border-box;
+}
+
+.router-link:hover{
+  background-color: rgba(255,140,0,0.9);
+  color: white;
 }
 
 .container{
