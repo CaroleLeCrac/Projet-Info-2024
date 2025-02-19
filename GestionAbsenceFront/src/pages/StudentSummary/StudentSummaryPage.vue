@@ -2,16 +2,16 @@
   <div>
     <!-- Titre de l'étudiant -->
     <h1>Absences de l'étudiant : {{ student }}</h1>
-    
+
     <!-- Sélectionner une matière -->
     <h2>Sélectionner une matière</h2>
     <select v-model="selectedCourse" @change="filterAbsences">
-      <option value="">Toutes les matières</option> 
+      <option value="">Toutes les matières</option>
       <option v-for="course in courses" :key="course.name" :value="course.name">
         {{ course.name }}
       </option>
     </select>
-    
+
     <!-- Afficher les absences de l'étudiant -->
     <div v-if="filteredAbsences.length > 0">
       <h3>Absences :</h3>
@@ -58,7 +58,7 @@ export default {
         })
         .catch((error) => console.error('Erreur lors du chargement des absences:', error))
 
-      fetch('/ListCourses.json')  
+      fetch('/ListCourses.json')
         .then((response) => response.json())
         .then((data) => {
           courses.value = data.courses
@@ -77,7 +77,7 @@ export default {
 
     // Fonction pour afficher toutes les absences
     const showAllAbsences = () => {
-      selectedCourse.value = ''; 
+      selectedCourse.value = '';
     }
 
     // Fonction pour exporter les données en csv
@@ -89,7 +89,7 @@ export default {
       ])
 
       // Création du fichier CSV
-      let csvContent = "data:text/csv;charset=utf-8," 
+      let csvContent = "data:text/csv;charset=utf-8,"
         + headers.join(",") + "\n"
         + rows.map(row => row.join(",")).join("\n");
 
@@ -116,6 +116,8 @@ export default {
 
 
 <style scoped>
+@import url("../../shared/shared.css");
+
 h1 {
   font-size: 24px;
   font-weight: bold;

@@ -1,78 +1,73 @@
 <template>
-  <div>
-    <!-- Titre avec les boutons -->
-    <div class="header">
-      <h1>Sélectionner la matière ou l'étudiant</h1>
+  <main>
+    <div>
+      <!-- Titre avec les boutons -->
+      <div class="header">
+        <h1>Sélectionner la matière ou l'étudiant</h1>
 
-      <!-- Conteneur pour les boutons "Exporter" -->
-      <div class="buttons-container">
-        <button class="export-btn">Exporter les absences des L1</button>
-        <button class="export-btn">Exporter les absences des L2</button>
-        <button class="export-btn">Exporter les absences des L3</button>
+        <!-- Conteneur pour les boutons "Exporter" -->
+        <div class="buttons-container">
+          <button class="export-btn">Exporter les absences des L1</button>
+          <button class="export-btn">Exporter les absences des L2</button>
+          <button class="export-btn">Exporter les absences des L3</button>
+        </div>
+      </div>
+ 
+      <div class="sections-container">
+        <!-- Section Matière -->
+        <div class="section">
+          <h2>Matière</h2>
+          <!-- SearchBar pour la matière -->
+          <input type="text" v-model="courseQuery" placeholder="Rechercher une matière" class="search-bar" />
+          <select v-model="selectedCourses" multiple>
+            <!-- demander à benj et val s'il existe un autre truc que multiple-->
+            <option v-for="course in filteredCourses" :key="course.name" :value="course.name">
+              {{ course.name }}
+            </option>
+          </select>
+          <p>Matière sélectionnée: {{ formatSelection(selectedCourses) }}</p>
+          <RouterLink v-if="selectedCourses.length" class="router-link" :to="`/recapitulatifs/${selectedCourses[0]}`">{{
+            selectedCourses[0] }}</RouterLink>
+        </div>
+
+        <!-- Section Étudiant -->
+        <div class="section">
+          <h2>Étudiant</h2>
+          <!-- SearchBar pour l'étudiant -->
+          <input type="text" v-model="studentQuery" placeholder="Rechercher un étudiant" class="search-bar" />
+          <select v-model="selectedStudent" multiple>
+            <option v-for="student in filteredStudents" :key="student.studentNumber" :value="student.surname">
+              {{ student.name }} {{ student.surname }}
+            </option>
+          </select>
+          <p>Étudiant sélectionné: {{ formatSelection(selectedStudent) }}</p>
+          <RouterLink v-if="selectedStudent.length" class="router-link" :to="`/recapitulatifs/${selectedStudent[0]}`">{{
+            selectedStudent[0] }}</RouterLink>
+        </div>
+      </div>
+
+      <!-- Section des absences -->
+      <div class="absences-container" v-if="filteredAbsences.length > 0">
+        <h2>Absences</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Nom de l'étudiant</th>
+              <th>Matière</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="absence in filteredAbsences" :key="absence.date + absence.name">
+              <td>{{ absence.name }}</td>
+              <td>{{ absence.coursename }}</td>
+              <td>{{ absence.date }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-
-    <div class="sections-container">
-      <!-- Section Matière -->
-      <div class="section">
-        <h2>Matière</h2>
-        <!-- SearchBar pour la matière -->
-        <input
-          type="text"
-          v-model="courseQuery"
-          placeholder="Rechercher une matière"
-          class="search-bar"
-        />
-        <select v-model="selectedCourses" multiple>  <!-- demander à benj et val s'il existe un autre truc que multiple-->
-          <option v-for="course in filteredCourses" :key="course.name" :value="course.name">
-            {{ course.name }}
-          </option>
-        </select>
-        <p>Matière sélectionnée: {{ formatSelection(selectedCourses) }}</p>
-        <RouterLink v-if="selectedCourses.length" class="router-link" :to="`/récapitulatifs/matiere/${selectedCourses[0]}`">{{ selectedCourses[0] }}</RouterLink>
-      </div>
-
-      <!-- Section Étudiant -->
-      <div class="section">
-        <h2>Étudiant</h2>
-        <!-- SearchBar pour l'étudiant -->
-        <input
-          type="text"
-          v-model="studentQuery"
-          placeholder="Rechercher un étudiant"
-          class="search-bar"
-        />
-        <select v-model="selectedStudent" multiple>
-          <option v-for="student in filteredStudents" :key="student.studentNumber" :value="student.surname">
-            {{ student.name }} {{ student.surname }}
-          </option>
-        </select>
-        <p>Étudiant sélectionné: {{ formatSelection(selectedStudent) }}</p>
-        <RouterLink v-if="selectedStudent.length" class="router-link" :to="`/récapitulatifs/etudiant/${selectedStudent[0]}`">{{ selectedStudent[0] }}</RouterLink>
-      </div>
-    </div>
-
-    <!-- Section des absences -->
-    <div class="absences-container" v-if="filteredAbsences.length > 0">
-      <h2>Absences</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Nom de l'étudiant</th>
-            <th>Matière</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="absence in filteredAbsences" :key="absence.date + absence.name">
-            <td>{{ absence.name }}</td>
-            <td>{{ absence.coursename }}</td>
-            <td>{{ absence.date }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  </main>
 </template>
 
 <script setup>
@@ -86,8 +81,8 @@ const courses = ref([])  // Liste des matières
 const absences = ref([])  // Liste des absences
 
 // Barres de recherche
-const studentQuery = ref('')  
-const courseQuery = ref('')  
+const studentQuery = ref('')
+const courseQuery = ref('')
 
 // Chargement des données
 onMounted(() => {
@@ -95,7 +90,7 @@ onMounted(() => {
   fetch('/ListNamesStu.json')
     .then((response) => response.json())
     .then((data) => {
-      students.value = data.students 
+      students.value = data.students
       console.log('Étudiants chargés:', students.value);
     })
     .catch((error) => console.error('Erreur de chargement des étudiants:', error))
@@ -104,7 +99,7 @@ onMounted(() => {
   fetch('/ListCourses.json')
     .then((response) => response.json())
     .then((data) => {
-      courses.value = data.courses 
+      courses.value = data.courses
       console.log('Matières chargées:', courses.value);
     })
     .catch((error) => console.error('Erreur de chargement des matières:', error))
@@ -113,7 +108,7 @@ onMounted(() => {
   fetch('/ListStudentsAbsence.json')
     .then((response) => response.json())
     .then((data) => {
-      absences.value = data.studentsabsence 
+      absences.value = data.studentsabsence
       console.log('Absences chargées:', absences.value);
     })
     .catch((error) => console.error('Erreur de chargement des absences:', error))
@@ -152,6 +147,7 @@ const filteredAbsences = computed(() => {
 </script>
 
 <style scoped>
+@import url("../../shared/shared.css");
 
 .header {
   display: flex;
@@ -198,21 +194,11 @@ const filteredAbsences = computed(() => {
   margin-bottom: 10px;
 }
 
-h1 {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-h2 {
-  font-size: 20px;
-  margin-top: 20px;
-}
-
 select {
   margin-top: 10px;
   padding: 5px;
   width: 100%;
-  height: 150px; 
+  height: 150px;
 }
 
 p {
@@ -233,6 +219,6 @@ p {
 }
 
 .show-selection-btn:hover {
-  background-color: gray; 
+  background-color: gray;
 }
 </style>

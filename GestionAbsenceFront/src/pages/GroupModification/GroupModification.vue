@@ -8,7 +8,7 @@ const students = ref([]);
 const addList = ref([]);  // Liste des étudiants à ajouter
 const deleteList = ref([]);  // Liste des étudiants à supprimer
 const route = useRoute();
-const currentGroupNumber = route.params.id; 
+const currentGroupNumber = route.params.id;
 
 onMounted(() => {
   fetch('/ListNamesStu.json')
@@ -17,11 +17,11 @@ onMounted(() => {
       console.log("Données JSON récupérées : ", data);
       students.value = data.students || [];
       addList.value = students.value.filter(
-        (student)=>student.groupNumber !== Number(currentGroupNumber)
-    )
-    deleteList.value = students.value.filter(
-      (student) => student.groupNumber === Number(currentGroupNumber)
-    )
+        (student) => student.groupNumber !== Number(currentGroupNumber)
+      )
+      deleteList.value = students.value.filter(
+        (student) => student.groupNumber === Number(currentGroupNumber)
+      )
     })
     .catch((error) => console.error('Error loading data:', error));
 });
@@ -76,6 +76,8 @@ const toggleDeleteToAdd = (student) => {
 </template>
 
 <style scoped>
+@import url("../../shared/shared.css");
+
 .container {
   display: flex;
   justify-content: center;
@@ -100,7 +102,8 @@ const toggleDeleteToAdd = (student) => {
   align-items: center;
 }
 
-.button-add, .button-delete {
+.button-add,
+.button-delete {
   padding: 5px 10px;
   font-weight: bold;
   cursor: pointer;
@@ -114,5 +117,4 @@ const toggleDeleteToAdd = (student) => {
 .button-delete {
   background-color: red;
 }
-
 </style>

@@ -5,77 +5,79 @@ import { RouterLink } from 'vue-router';
 </script>
 
 <template>
-<nav class="navigation-bar">
-  <RouterLink to="/" class="title-navigation-bar">Gestion des Absences MIASHS</RouterLink>
-  <div class="navigation-routerLink">
-    <RouterLink to="/récapitulatifs" class="summary-navigation">Voir le récapitulatif des absences</RouterLink>
-    <RouterLink to="/modificationEtudiant" class="modification-navigation">Modifier étudiant</RouterLink>
-    <RouterLink to="/modificationGroupe" class="modification-navigation">Modifier groupe</RouterLink>
+  <nav class="navigation-bar">
+    <RouterLink to="/" class="title-navigation-bar">Gestion des Absences MIASHS</RouterLink>
+    <div class="navigation-routerLink">
+      <RouterLink to="/recapitulatifs" class="summary-navigation">Voir le récapitulatif des absences</RouterLink>
+      <RouterLink to="/selection/etudiant" class="modification-navigation">Modifier étudiant</RouterLink>
+      <RouterLink to="/selection/groupe" class="modification-navigation">Modifier groupe</RouterLink>
     </div>
-</nav> 
+  </nav>
 </template>
 
 <style>
+@import url("../../shared/shared.css");
+
 /* Style pour la barre de navigation */
 .navigation-bar {
-  background-color: rgba(173,216,230,0.7);
-  padding: 10px; 
-  display: flex; 
-  justify-content: space-between; 
+  background-color: var(--color-2);
+  padding: 10rem;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  margin: 0;
+  padding: 1rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 
 /*Style pour le titre de la barre de navigation */
 .title-navigation-bar {
   text-decoration: none;
-  font-size: 24px; 
-  margin: 0; 
-  color : #333; 
+  font-size: 1.6rem;
+  margin: 0;
+  color: white;
 }
 
 /* Conteneur pour les RouterLink pour les mettre à droite */
 .navigation-routerLink {
   display: flex;
-  gap: 10px; 
+  gap: 0.7rem;
 }
 
 /* Style pour les RouterLink */
 
-/* Style pour le RouterLink Recap */
-.summary-navigation {
-  text-decoration: none; 
-  background-color: rgba(255,165,0,0.7); 
-  color: black; 
-  border: none; 
-  padding: 10px 20px; 
-  border-radius: 5px; 
-  cursor: pointer; 
-  font-size: 16px; 
+/* Style pour le RouterLink Recap et Modif*/
+.summary-navigation,
+.modification-navigation {
+  text-decoration: none;
+  color: black;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
 }
 
-/* Style pour les RouterLink Modif */
+.summary-navigation {
+  background-color: var(--color-1);
+}
+
 .modification-navigation {
-  text-decoration: none; 
-  background-color: white; 
-  color: black; 
-  border: none; 
-  padding: 10px 20px; 
-  border-radius: 5px; 
-  cursor: pointer; 
-  font-size: 16px; 
+  background-color: var(--color-5);
 }
 
 /* Effet au survol des RouterLink */
 
 .title-navigation-bar:hover {
-  color: rgba(255,140,0,0.9);
+  color: var(--color-5); /* pastel : 4, autre : 5 */
 }
 
 .summary-navigation:hover {
-  background-color: rgba(255,140,0,0.9); 
+  background-color: var(--color-6);
 }
 
 .modification-navigation:hover {
-  background-color: #f2f2f2;
+  background-color: var(--color-6);
 }
 </style>

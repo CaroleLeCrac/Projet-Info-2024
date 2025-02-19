@@ -1,16 +1,17 @@
 <!--Page de sélection du créneau-->
 <template>
-    <h1>Créneau</h1>
-    <DateBar @dateChanged="updateSelectedDate"/> 
-    <ul class="course-list">
-        <li v-for="course in filteredCoursesByDate" :key="course.date">
-            <label>
-                <RouterLink :to="`/appel/${course.date}`" 
-                    class="router-link">
-                    {{ course.date }} {{ course.name }} {{ course.coursename }}</RouterLink>
-            </label>
-        </li>
-    </ul>
+    <main>
+        <h1>Créneau</h1>
+        <DateBar @dateChanged="updateSelectedDate" />
+        <ul class="course-list">
+            <li v-for="course in filteredCoursesByDate" :key="course.date">
+                <label>
+                    <RouterLink :to="`/appel/${course.date}`" class="router-link">
+                        {{ course.date }} {{ course.name }} {{ course.coursename }}</RouterLink>
+                </label>
+            </li>
+        </ul>
+    </main>
 </template>
 
 <script setup>
@@ -27,19 +28,19 @@ const route = useRoute();
 const currentProfesional = ref(route.params.profesional);
 
 onMounted(() => {
-  fetch('/ListDates.json')
-    .then((response) => response.json())
-    .then((data) => {
-      courses.value = data.coursedates
-    })
-    .catch((error) => console.error('Error loading courses data:', error))
+    fetch('/ListDates.json')
+        .then((response) => response.json())
+        .then((data) => {
+            courses.value = data.coursedates
+        })
+        .catch((error) => console.error('Error loading courses data:', error))
 
     fetch('/ListProfesional.json')
-    .then((response) => response.json())
-    .then((data) => {
-      profesionals.value = data.profesionals 
-    })
-    .catch((error) => console.error('Error loading profesionals data:', error))
+        .then((response) => response.json())
+        .then((data) => {
+            profesionals.value = data.profesionals
+        })
+        .catch((error) => console.error('Error loading profesionals data:', error))
 
 })
 
@@ -63,28 +64,34 @@ function updateSelectedDate(date) {
 </script>
 
 <style scoped>
+@import url("../../shared/shared.css");
+
 .course-list {
-    display : flex; 
+    display: flex;
     flex-direction: column;
-    width: 20%;
+    width: 25%;
     list-style-type: none;
     padding-left: 0;
 }
 
+.course-list > li {
+    margin-bottom: 0.5rem;
+}
+
 .router-link {
     display: block;
-    text-decoration: none; 
+    text-decoration: none;
     border-radius: 5px;
-    color: black; 
-    cursor: pointer; 
-    font-size: 16px; 
-    padding: 8px 10px; 
+    color: black;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.5rem;
     width: 110%;
     border: 2px solid black;
     box-sizing: border-box;
 }
 
 .router-link:hover {
-    background-color: lightgray;
+    background-color: var(--color-4);
 }
 </style>

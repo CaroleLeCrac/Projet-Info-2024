@@ -27,7 +27,7 @@
       <h3>Absences :</h3>
       <ul>
         <li v-for="absence in filteredAbsences" :key="absence.date">
-          <strong>{{ absence.name }}</strong> :  {{ absence.date }}
+          <strong>{{ absence.name }}</strong> : {{ absence.date }}
         </li>
       </ul>
     </div>
@@ -61,17 +61,17 @@ export default {
 
     // Charger les données des absences et des dates
     onMounted(() => {
-      fetch('/ListStudentsAbsence.json') 
+      fetch('/ListStudentsAbsence.json')
         .then((response) => response.json())
         .then((data) => {
-          studentsabsence.value = data.studentsabsence 
+          studentsabsence.value = data.studentsabsence
         })
         .catch((error) => console.error('Erreur lors du chargement des absences:', error))
 
       fetch('/ListDates.json')
         .then((response) => response.json())
         .then((data) => {
-          allDates.value = data.coursedates 
+          allDates.value = data.coursedates
         })
         .catch((error) => console.error('Erreur lors du chargement des dates:', error))
     })
@@ -97,7 +97,7 @@ export default {
     const filteredStudents = computed(() => {
       const studentsInCourse = new Set(
         studentsabsence.value.filter(absence => absence.coursename === course)
-                              .map(absence => absence.name)
+          .map(absence => absence.name)
       );
       return [...studentsInCourse];
     });
@@ -113,13 +113,13 @@ export default {
 
     // Fonction pour sélectionner une date
     const selectDate = (date) => {
-      selectedDate.value = date;  
+      selectedDate.value = date;
       filterAbsences();
     };
 
     // Fonction pour réinitialiser tous les filtres
     const showAllAbsences = () => {
-      selectedStudents.value = [] 
+      selectedStudents.value = []
       selectedDate.value = ''
     }
 
@@ -162,6 +162,8 @@ export default {
 </script>
 
 <style scoped>
+@import url("../../shared/shared.css");
+
 h1 {
   font-size: 24px;
   font-weight: bold;
@@ -234,7 +236,7 @@ p {
 }
 
 .export-btn:hover {
-  background-color: #218838; 
+  background-color: #218838;
 }
 
 .date-option {

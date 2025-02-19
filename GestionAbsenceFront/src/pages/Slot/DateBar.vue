@@ -1,78 +1,70 @@
 <script setup>
 import { ref } from 'vue';
 
-const date=ref(new Date());
+const date = ref(new Date());
 const emit = defineEmits(['dateChanged']);
 
 function formatDate(date) {
-    const format = {day: 'numeric', month: 'long', year: 'numeric'};
-    return date.toLocaleDateString(undefined,format);
+    const format = { day: 'numeric', month: 'long', year: 'numeric' };
+    return date.toLocaleDateString(undefined, format);
 }
 
 function previousDate() {
-    date.value.setDate(date.value.getDate()-1);
+    date.value.setDate(date.value.getDate() - 1);
     date.value = new Date(date.value);
-    emit('dateChanged',date.value);
+    emit('dateChanged', date.value);
 }
 
 function nextDate() {
-    date.value.setDate(date.value.getDate()+1);
+    date.value.setDate(date.value.getDate() + 1);
     date.value = new Date(date.value);
-    emit('dateChanged',date.value);
+    emit('dateChanged', date.value);
 }
 
-emit('dateChanged',date.value);
+emit('dateChanged', date.value);
 
 </script>
 
 <template>
-<nav class="date-bar">
-    <button class="previous-date" @click="previousDate">←</button>
-    <span class="date">{{ formatDate(date) }}</span>
-    <button class="next-date" @click="nextDate">→</button>
-</nav>
+    <div class="date-bar">
+        <button class="previous-date" @click="previousDate">←</button>
+        <span class="date">{{ formatDate(date) }}</span>
+        <button class="next-date" @click="nextDate">→</button>
+    </div>
 </template>
 
 <style>
-.date-bar {
-    background-color: white;
-    padding: 10px;
-    display: flex;
+@import url("../../shared/shared.css");
+
+div.date-bar {
+    padding: 0;
+    border: black 2px solid;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    margin-left: 2rem;
 }
 
-.previous-date {
-    background-color: white;
-    color: black;
-    padding: 10px 10px;
-    border-radius: 5px;
+button.previous-date, button.next-date {
+    background-color: var(--color-4);
+    padding: 0.5rem;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 1.25rem;
+    border: hidden;
 }
 
-.date {
-    background-color: white;
-    color: black;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 20px;
-    line-height: 2;
-}
-
-.next-date {
-    background-color: white;
-    color: black;
-    padding: 10px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 20px;
+span.date {
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    background-color: var(--color-4);
 }
 
 .previous-date:hover {
-    background-color: #cecece;
+    background-color: var(--color-6);
+    border-right: black 2px solid;
 }
 
 .next-date:hover {
-    background-color: #cecece;
+    background-color: var(--color-6);
+    border-left: black 2px solid;
 }
-
 </style>
