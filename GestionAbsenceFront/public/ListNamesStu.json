@@ -1,68 +1,68 @@
 {
-"students":[
-	{
-	"surname":"Boucq-Kieffel",
-	"name":"Lena",
-	"studentNumber":1,
-    "groupNumber" : 31,
-    "mail" : "Lena@gmail"
-    },
-	{
-        "surname":"Mitton",
-        "name":"Carole",
-        "studentNumber":2,
-        "groupNumber" : 31,
-    "mail" : "Carole@gmail"
-        
-    },
-    {
-        "surname":"Dubus",
-        "name":"Roxane",
-        "studentNumber":3,
-        "groupNumber" : 31,
-    "mail" : "Roxane@gmail"
-    },
-    {
-        "surname":"Gros",
-        "name":"Baudouin",
-        "studentNumber":4,
-        "groupNumber" : 32,
-    "mail" : "Baudouin@gmail"
-    },
-    {
-        "surname":"Olive",
-        "name":"Benjamin",
-        "studentNumber":5,
-        "groupNumber" : 32,
-    "mail" : "Benjamin@gmail"
-    },
-    {
-        "surname":"Weislo",
-        "name":"Louise",
-        "studentNumber":6,
-        "groupNumber" : 32,
-    "mail" : "Louise@gmail"
-    },
-    {
-        "surname":"Volle",
-        "name":"Ornella",
-        "studentNumber":7,
-        "groupNumber" : 33,
-    "mail" : "Ornella@gmail"
-    },
-    {
-        "surname":"Larbiere",
-        "name":"Felix",
-        "studentNumber":8,
-        "groupNumber" : 33,
-    "mail" : "Felix@gmail"
-    },
-    {
-        "surname":"Moroni",
-        "name":"Louka",
-        "studentNumber":9,
-        "groupNumber" : 33,
-    "mail" : "Louka@gmail"
-    }
-]
+    "students": [
+        {
+            "surname": "Boucq-Kieffel",
+            "name": "Lena",
+            "studentNumber": 1,
+            "groupNumber": 31,
+            "mail": "Lena@gmail"
+        },
+        {
+            "surname": "Mitton",
+            "name": "Carole",
+            "studentNumber": 2,
+            "groupNumber": 31,
+            "mail": "Carole@gmail"
+
+        },
+        {
+            "surname": "Dubus",
+            "name": "Roxane",
+            "studentNumber": 3,
+            "groupNumber": 31,
+            "mail": "Roxane@gmail"
+        },
+        {
+            "surname": "Gros",
+            "name": "Baudouin",
+            "studentNumber": 4,
+            "groupNumber": 32,
+            "mail": "Baudouin@gmail"
+        },
+        {
+            "surname": "Olive",
+            "name": "Benjamin",
+            "studentNumber": 5,
+            "groupNumber": 32,
+            "mail": "Benjamin@gmail"
+        },
+        {
+            "surname": "Weislo",
+            "name": "Louise",
+            "studentNumber": 6,
+            "groupNumber": 32,
+            "mail": "Louise@gmail"
+        },
+        {
+            "surname": "Volle",
+            "name": "Ornella",
+            "studentNumber": 7,
+            "groupNumber": 33,
+            "mail": "Ornella@gmail"
+        },
+        {
+            "surname": "Larbiere",
+            "name": "Felix",
+            "studentNumber": 8,
+            "groupNumber": 33,
+            "mail": "Felix@gmail"
+        },
+        {
+            "surname": "Moroni",
+            "name": "Louka",
+            "studentNumber": 9,
+            "groupNumber": 33,
+            "mail": "Louka@gmail"
+        }
+    ]
 }

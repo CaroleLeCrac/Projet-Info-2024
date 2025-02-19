@@ -1,16 +1,16 @@
 {
-    "years": [
-      {
-        "name": "L1",
-        "groupNumber": "1"
-      },
-      {
-          "name": "L2",
-          "groupNumber": "2"
-        },
-        {
-          "name": "L3",
-          "groupNumber": "3"
-        }
-      ]
-  }
+  "years": [
+    {
+      "name": "L1",
+      "groupNumber": "1"
+    },
+    {
+      "name": "L2",
+      "groupNumber": "2"
+    },
+    {
+      "name": "L3",
+      "groupNumber": "3"
+    }
+  ]
+}

@@ -1,19 +1,19 @@
 {
-    "courses":[
+    "courses": [
         {
-        "name":"Programmation orientee objet"
+            "name": "Programmation orientee objet"
         },
         {
-            "name":"Econometrie 1"
+            "name": "Econometrie 1"
         },
         {
-            "name":"Statistiques 2"
+            "name": "Statistiques 2"
         },
         {
-           "name":"Systemes"
+            "name": "Systemes"
         },
         {
-            "name":"Complement de mathematiques 1"
+            "name": "Complement de mathematiques 1"
         }
     ]
-    }
+}
