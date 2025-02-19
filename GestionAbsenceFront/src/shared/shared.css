@@ -1,0 +1,40 @@
+
+:root {
+    --color-1: #FF8C00;
+    --color-2: #254e70ff;
+    --color-3: #37718e;
+    --color-4: #F0F8F7;
+    --color-5: #aef3e7ff;
+    --color-6: #D0E3E2;
+}
+/* Titre de la barre de navigation en blanc */
+
+/*
+:root {
+    --color-1: #F7D1BB;
+    --color-2: #C29AA5;
+    --color-3: #F3C3B1;
+    --color-4: #F9DFC7;
+    --color-5: #E4B3B0;
+    --color-6: #FAE8D6;
+}
+/* Titre de la barre de navigation en noir */
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: var(--color-6);
+  }
+  
+main {
+    margin-left: 2rem;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+h2 {
+    font-size: 1.7rem;
+}

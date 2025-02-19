@@ -9,27 +9,19 @@ import SlotPage from './pages/Slot/SlotPage.vue'
 import CallPage from './pages/Call/CallPage.vue'
 import SummaryPage from './pages/Summary/SummaryPage.vue'
 import CourseSummaryPage from './pages/CourseSummary/CourseSummaryPage.vue'
-import StudentSummaryPage from './pages/StudentSummaryPage/StudentSummaryPage.vue'
+import StudentSummaryPage from './pages/StudentSummary/StudentSummaryPage.vue'
 
 const routes = [
-  { path: '/', component: HomeView },
-  { path: '/creneau/:profesional', component: SlotPage },
-  { path: '/appel/:course', component: CallPage },
-  { path: '/récapitulatifs', component: SummaryPage },
-  { path: '/modificationEtudiant', component: SelectStudentModification },
-  { path: '/modificationGroupe', component: SelectGroupModification},
-  { path: '/modification/groupe/:id', component : GroupModification},
-  { path: '/modification/etudiant/:id', component : StudentModification},
-  {
-    path: '/récapitulatifs/matiere/:course',
-    name: 'CourseSummaryPage',
-    component: CourseSummaryPage
-  },
-  {
-    path: '/récapitulatifs/etudiant/:student',
-    name: 'StudentSummaryPage',
-    component: StudentSummaryPage
-  }
+  { path: '/', name: 'HomeView', component: HomeView },
+  { path: '/creneau/:profesional', name: 'Slot',component: SlotPage },
+  { path: '/appel/:course', name: 'Call', component: CallPage },
+  { path: '/recapitulatifs', name: 'Summary', component: SummaryPage },
+  { path: '/selection/etudiant', name: 'StudentSelection', component: SelectStudentModification },
+  { path: '/selection/groupe', name: 'GroupSelection', component: SelectGroupModification },
+  { path: '/modification/groupe/:id', name: 'GroupModification', component: GroupModification },
+  { path: '/modification/etudiant/:id', name: 'StudentModification', component: StudentModification },
+  { path: '/recapitulatifs/:course', name: 'CourseSummary', component: CourseSummaryPage },
+  { path: '/recapitulatifs/:student', name: 'StudentSummary', component: StudentSummaryPage }
 ]
 
 export const router = createRouter({
