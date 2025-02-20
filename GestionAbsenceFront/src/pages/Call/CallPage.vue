@@ -1,15 +1,14 @@
 <!--Page de sélection des absences pour un créneau-->
 <template>
-    <main>
+    <main class="left">
         <div>
             <h1>Appel</h1>
             <ul class="list-presence">
                 <li v-for="student in studentList" :key="student">
-                    <label class="container">
+                    <div class="container">
                         <input type="checkbox">
-                        <span class="checkmark"></span>
-                        {{ student.studentNumber }} {{ student.surname }} {{ student.name }}
-                    </label>
+                        <label>{{ student.studentNumber }} {{ student.surname }} {{ student.name }}</label>
+                    </div>
                 </li>
             </ul>
             <!--dans le composant, afficher présent.e et absent.e dans la liste à côté du nom ?-->
@@ -67,71 +66,60 @@ function saveCallAndGoBack() {
     list-style-type: none;
     width: 30%;
     font-size: 1rem;
-    padding-left: 2rem;
 }
 
 .list-presence > li {
-    background-color: var(--color-4);
+    background-color: var(--color-6);
     margin-bottom: 0.5rem;
 }
 
-label.container {
-    display: inline-block;
-    position: relative;
-    cursor: pointer;
-    padding-left: 3rem;
+div.container {
     margin-bottom: 0.7rem;
     font-size: 1.25rem;
-    user-select: none;
+    display: flex;
+    align-items: center;
+    padding: 0.2rem;
+    
 }
 
-/*hide the default checkbox*/
-.container input {
-    position: absolute;
-    opacity: 0;
+.container label {
+    padding-left: 1rem;
+}
+
+/* Hide the checkbox style by default */
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: white;
     cursor: pointer;
-    height: 0;
-    width: 0;
-
 }
 
-.checkmark {
-    position: absolute;
-    top: 0.3rem;
-    left: 0.6rem;
+input[type="checkbox"] {
     height: 1.5rem;
     width: 1.5rem;
-    background-color: var(--color-6)
+    background-color: var(--color-5);
 }
 
-.container:hover input~.checkmark {
+input[type="checkbox"]:hover {
     background-color: var(--color-1);
 }
 
-.container input:checked~.checkmark {
+input[type="checkbox"]:checked {
     background-color: var(--color-1);
 }
 
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
-.container input:checked~.checkmark:after {
+input[type="checkbox"]:checked::after {
+    content: '✓';
     display: block;
-}
-
-.container .checkmark::after {
-    left: 0.6rem;
-    top: 0.3rem;
-    width: 0.25rem;
-    height: 0.5rem;
-    border: solid white;
-    border-width: 0 0.2rem 0.2rem 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
+    text-align: center;
+    font-size: 16px;
+    color: white;
+    font-weight: bold;
 }
 
 .button-save {

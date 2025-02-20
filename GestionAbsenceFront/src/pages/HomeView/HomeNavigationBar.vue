@@ -64,20 +64,20 @@ import { RouterLink } from 'vue-router';
 }
 
 .modification-navigation {
-  background-color: var(--color-5);
+  background-color: var(--color-4);
 }
 
 /* Effet au survol des RouterLink */
 
 .title-navigation-bar:hover {
-  color: var(--color-5); /* pastel : 4, autre : 5 */
+  color: var(--color-4);
 }
 
 .summary-navigation:hover {
-  background-color: var(--color-6);
+  background-color: var(--color-5);
 }
 
 .modification-navigation:hover {
-  background-color: var(--color-6);
+  background-color: var(--color-5);
 }
 </style>

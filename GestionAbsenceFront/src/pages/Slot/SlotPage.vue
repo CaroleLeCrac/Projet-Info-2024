@@ -1,8 +1,8 @@
 <!--Page de sélection du créneau-->
 <template>
-    <main>
+    <main class="center">
         <h1>Créneau</h1>
-        <DateBar @dateChanged="updateSelectedDate" />
+        <input type="date" v-model="selectedDate" id="date-bar">
         <ul class="course-list">
             <li v-for="course in filteredCoursesByDate" :key="course.date">
                 <label>
@@ -16,7 +16,6 @@
 
 <script setup>
 
-import DateBar from './DateBar.vue';
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router';
 
@@ -54,17 +53,23 @@ const filteredCourses = computed(() => {
 })
 
 const filteredCoursesByDate = computed(() => {
-    const formattedDate = selectedDate.value.toISOString().split('T')[0];
+    const formattedDate = selectedDate.value;
     return filteredCourses.value.filter(course => course.date === formattedDate);
-});
+}); 
 
-function updateSelectedDate(date) {
-    selectedDate.value = date;
-}
 </script>
 
 <style scoped>
 @import url("../../shared/shared.css");
+
+#date-bar {
+    background-color: var(--color-6);
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    font-size: 1.25rem;
+    font-family: sans-serif;
+    padding: 0.5rem;
+}
 
 .course-list {
     display: flex;
@@ -74,7 +79,7 @@ function updateSelectedDate(date) {
     padding-left: 0;
 }
 
-.course-list > li {
+.course-list>li {
     margin-bottom: 0.5rem;
 }
 
@@ -86,12 +91,12 @@ function updateSelectedDate(date) {
     cursor: pointer;
     font-size: 1rem;
     padding: 0.5rem;
-    width: 110%;
     border: 2px solid black;
     box-sizing: border-box;
+    background-color: var(--color-6);
 }
 
 .router-link:hover {
-    background-color: var(--color-4);
+    background-color: var(--color-3);
 }
 </style>

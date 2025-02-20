@@ -1,6 +1,6 @@
 <!--Page d'accueil avec la sélection du professeur-->
 <template>
-    <main>
+    <main class="center">
         <h1>Professionnel</h1>
         <!--SearchBar pour le professionnel -->
         <input type="search" v-model="profesionalQuery" placeholder="Rechercher un professionnel" class="search-bar" />
@@ -48,7 +48,7 @@ const filteredProfesionals = computed(() => {
     width: 25%;
     margin-bottom: 1.5rem;
     border-radius: 5px;
-    background-color: var(--color-4); 
+    background-color: var(--color-6); 
 }
 
 .profesional-list {
@@ -71,13 +71,12 @@ const filteredProfesionals = computed(() => {
     cursor: pointer;
     font-size: 1rem;
     padding: 0.5rem;
-    width: 110%;
     border: 2px solid black;
-    box-sizing: border-box;
-    background-color: var(--color-4);
+    box-sizing: content-box;
+    background-color: var(--color-6);
 }
 
 .router-link:hover {
-    background-color: var(--color-4);
+    background-color: var(--color-3);
 }
 </style>
