@@ -2,10 +2,10 @@
 :root {
     --color-1: #FF8C00;
     --color-2: #254e70ff;
-    --color-3: #37718e;
-    --color-4: #F0F8F7;
-    --color-5: #aef3e7ff;
-    --color-6: #D0E3E2;
+    --color-3: #94B7C9;
+    --color-4: #aef3e7ff;
+    --color-5: #D0E3E2;
+    --color-6: #F0F8F7;
 }
 /* Titre de la barre de navigation en blanc */
 
@@ -23,11 +23,17 @@
 body {
     margin: 0;
     font-family: sans-serif;
-    background-color: var(--color-6);
+    background-color: var(--color-5);
   }
   
-main {
-    margin-left: 2rem;
+main.left {
+    margin-left: 3rem;
+}
+
+main.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 h1 {
