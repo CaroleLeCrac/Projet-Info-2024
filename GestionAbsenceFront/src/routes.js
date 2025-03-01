@@ -20,8 +20,8 @@ const routes = [
   { path: '/selection/groupe', name: 'GroupSelection', component: SelectGroupModification },
   { path: '/modification/groupe/:id', name: 'GroupModification', component: GroupModification },
   { path: '/modification/etudiant/:id', name: 'StudentModification', component: StudentModification },
-  { path: '/recapitulatifs/:course', name: 'CourseSummary', component: CourseSummaryPage },
-  { path: '/recapitulatifs/:student', name: 'StudentSummary', component: StudentSummaryPage }
+  { path: '/recapitulatifs/matiere/:course', name: 'CourseSummary', component: CourseSummaryPage },
+  { path: '/recapitulatifs/etudiant/:student', name: 'StudentSummary', component: StudentSummaryPage }
 ]
 
 export const router = createRouter({
