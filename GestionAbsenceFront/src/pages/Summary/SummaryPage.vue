@@ -26,7 +26,7 @@
             </option>
           </select>
           <p>Matière sélectionnée: {{ formatSelection(selectedCourses) }}</p>
-          <RouterLink v-if="selectedCourses.length" class="router-link" :to="`/recapitulatifs/${selectedCourses[0]}`">{{
+          <RouterLink v-if="selectedCourses.length" class="router-link" :to="`/recapitulatifs/matiere/${selectedCourses[0]}`">{{
             selectedCourses[0] }}</RouterLink>
         </div>
 
@@ -41,7 +41,7 @@
             </option>
           </select>
           <p>Étudiant sélectionné: {{ formatSelection(selectedStudent) }}</p>
-          <RouterLink v-if="selectedStudent.length" class="router-link" :to="`/recapitulatifs/${selectedStudent[0]}`">{{
+          <RouterLink v-if="selectedStudent.length" class="router-link" :to="`/recapitulatifs/etudiant/${selectedStudent[0]}`">{{
             selectedStudent[0] }}</RouterLink>
         </div>
       </div>
@@ -139,8 +139,8 @@ const filteredCourses = computed(() => {
 // Filtrer les absences selon les critères
 const filteredAbsences = computed(() => {
   return absences.value.filter((absence) => {
-    const matchesStudent = selectedStudent.length === 0 || selectedStudent.includes(absence.name);
-    const matchesCourse = selectedCourses.length === 0 || selectedCourses.includes(absence.coursename);
+    const matchesStudent = selectedStudent.length === 0 || selectedStudent.value.includes(absence.name);
+    const matchesCourse = selectedCourses.length === 0 || selectedCourses.value.includes(absence.coursename);
     return matchesStudent && matchesCourse;
   })
 })
