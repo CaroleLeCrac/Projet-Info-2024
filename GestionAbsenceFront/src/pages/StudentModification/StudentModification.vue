@@ -66,86 +66,99 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="page-layout">
-        <div class="left-column">
-            <form class="container">
-                <div>
-                    <label for="studentNumber">Numéro étudiant : </label>
-                    <input type="text" id="studentNumber" v-model="student.studentNumber"
-                        :placeholder="student.studentNumber ? '' : 'Numéro de l\'étudiant'" />
-                </div>
-                <div>
-                    <label for="name">Nom : </label>
-                    <input type="text" id="surname" v-model="student.surname"
-                        :placeholder="student.surname ? '' : 'Nom de l\'étudiant'" />
-                </div>
-                <div>
-                    <label for="surname">Prénom : </label>
-                    <input type="text" id="name" v-model="student.name"
-                        :placeholder="student.name ? '' : 'Prénom de l\'étudiant'" />
-                </div>
-                <div>
-                    <label for="mail">Mail : </label>
-                    <input type="text" id="mail" v-model="student.mail"
-                        :placeholder="student.mail ? '' : 'Mail de l\'étudiant'" />
-                </div>
+    <main class="left">
+        <div class="page-layout">
 
-                <select name="inscriptionGroup" id="group-select">
-                    <option v-for="group in groups" :key="group.number">{{ group.name }}</option>
-                </select>
+            <div class="left-column">
+                <h2>Remplissez les informations de l'étudiant.e</h2>
+                <form class="container">
+                    <div>
+                        <label for="studentNumber">Numéro étudiant : </label>
+                        <input type="text" id="studentNumber" v-model="student.studentNumber"
+                            :placeholder="student.studentNumber ? '' : 'Numéro de l\'étudiant.e'" />
+                    </div>
+                    <div>
+                        <label for="name">Nom : </label>
+                        <input type="text" id="surname" v-model="student.surname"
+                            :placeholder="student.surname ? '' : 'Nom de l\'étudiant.e'" />
+                    </div>
+                    <div>
+                        <label for="surname">Prénom : </label>
+                        <input type="text" id="name" v-model="student.name"
+                            :placeholder="student.name ? '' : 'Prénom de l\'étudiant.e'" />
+                    </div>
+                    <div>
+                        <label for="mail">Mail : </label>
+                        <input type="text" id="mail" v-model="student.mail"
+                            :placeholder="student.mail ? '' : 'Mail de l\'étudiant.e'" />
+                    </div>
 
-                <select name="inscriptionYear" id="year-select">
-                    <option v-for="year in years">{{ year.name }}</option>
-                </select>
+                    <div>
+                        <label>Année en cours : </label>
+                        <select name="inscriptionYear">
+                            <option v-for="year in years">{{ year.name }}</option>
+                        </select>
+                    </div>
 
-            </form>
-        </div>
+                    <div class="groups">
+                        <label>Groupes : </label>
+                        <ul class="list-groups">
+                            <li v-for="group in groups" :key="group.number">
+                                <div class="list-container">
+                                    <input class="checkbox-group" type="checkbox">
+                                    <label for="group.name">{{ group.name }}</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
 
-        <div class="right-column">
-            <form>
-                <ul>
-                    <p style="font-size: 16px;">Sélectionnez les cours auquel l'étudiant est inscrit</p>
+            <div class="right-column">
+                <h2>Sélectionnez les cours auxquels l'étudiant.e est inscrit.e</h2>
+                <ul class="list-courses">
                     <li v-for="course in courses" :key="course.name">
-                        <div>
-                            <input type="checkbox">
+                        <div class="list-container">
+                            <input class="checkbox-course" type="checkbox">
                             <label for="course.name">{{ course.name }}</label>
-                            </input>
                         </div>
                     </li>
                 </ul>
-            </form>
-            <button>Enregistrer les changements</button>
+            </div>
         </div>
-    </div>
+        <button class="button">Enregistrer les changements</button>
+    </main>
 </template>
 
 <style scoped>
 @import url("../../shared/shared.css");
 
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 .page-layout {
     display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .left-column {
-    flex: 1;
+    flex: 1fr;
 }
 
 .right-column {
-    flex: 1;
-    padding-top: 12px;
+    flex: 1.25fr;
 }
 
 .container {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    padding-left: 25px;
-    padding-right: 25px;
-    font-size: 20px;
-    padding-top: 30px;
-    box-sizing: border-box;
+    gap: 25px;
+    font-size: 1.25rem;
 }
-
 
 .container div {
     display: flex;
@@ -159,21 +172,122 @@ label {
 input {
     flex: 2;
     margin-left: 10px;
-    padding: 5px;
-    font-size: 16px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: var(--color-6);
 }
 
-li {
+select {
+    flex: 2;
+    background-color: var(--color-6);
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin-left: 10px;
+}
+
+.list-groups {
     list-style-type: none;
-    border: solid lightgray;
-    background-color: white;
-    font: 1rem "Fira Sans", sans-serif;
-    position: relative;
-    margin-right: 25px;
+    font-size: 0.75rem;
+    padding: 0.5rem;
+    margin: 0;
+    width: 65%;
 }
 
-button {
-    margin-left: 40px;
-    margin-top: 100px;
+.list-groups > li {
+    background-color: var(--color-6);
+}
+
+.checkbox-group {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: var(--color-5);
+    cursor: pointer;
+    height: 1.5rem;
+    width: 1.5rem;
+    padding: 0;
+}
+
+.checkbox-group:hover {
+    background-color: var(--color-1);
+}
+
+.checkbox-group:checked {
+    background-color: var(--color-1);
+}
+
+.checkbox-group:checked::after {
+    content: '✓';
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    color: var(--color-6);
+    font-weight: bold;
+}
+
+.list-courses {
+    list-style-type: none;
+    font-size: 1rem;
+    width: 75%;
+    padding-left: 0;
+}
+
+.list-courses>li {
+    background-color: var(--color-6);
+}
+
+.list-container {
+    margin-bottom: 0.7rem;
+    font-size: 1rem;
+    height: 1.875rem;
+    position: relative;
+}
+
+.list-container label {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-left: 1rem;
+}
+
+.checkbox-course {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: var(--color-5);
+    cursor: pointer;
+    height: 1.5rem;
+    width: 1.5rem;
+    padding: 0;
+}
+
+.checkbox-course:hover {
+    background-color: var(--color-1);
+}
+
+.checkbox-course:checked {
+    background-color: var(--color-1);
+}
+
+.checkbox-course:checked::after {
+    content: '✓';
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    color: var(--color-6);
+    font-weight: bold;
+}
+
+.button {
+    align-self: flex-end;
+    margin-top: 2rem;
+    margin-left: auto;
 }
 </style>

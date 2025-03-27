@@ -1,9 +1,9 @@
 <!--Page de sélection d'un groupe pour ajouter ou supprimer des étudiants-->
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 const groups = ref([])
-
+const searchQuery = ref('')
 
 onMounted(() => {
   fetch('/Groups.json')
@@ -15,52 +15,27 @@ onMounted(() => {
     .catch(error => console.error('Error loading data:', error));
 });
 
+const filteredGroups = computed(() =>
+  groups.value.filter((gr) =>
+    gr.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+    gr.groupNumber.includes(searchQuery.value)
+  )
+);
 </script>
+
 <template>
-  <h2>Choisissez un groupe à modifier</h2>
-  <ul class="group-list">
-    <li v-for="group in groups" :key="group.groupNumber">
-      <label class="container">
-        <RouterLink :to="`/modification/groupe/${group.groupNumber}`" class="router-link">{{ group.name }}</RouterLink>
-      </label>
-    </li>
-  </ul>
+  <main class="left">
+    <h1>Sélectionner le groupe à modifier</h1>
+    <input class="search-bar" type="search" v-model="searchQuery" placeholder="Rechercher un groupe" />
+    <ul class="list">
+      <li v-for="group in filteredGroups" :key="group.groupNumber">
+        <RouterLink :to="`/modification/groupe/${group.groupNumber}`" class="router-link">{{ group.name }}
+        </RouterLink>
+      </li>
+    </ul>
+  </main>
 </template>
 
 <style scoped>
 @import url("../../shared/shared.css");
-
-.router-link {
-  display: block;
-  text-decoration: none;
-  border-radius: 5px;
-  color: black;
-  cursor: pointer;
-  font-size: 16px;
-  padding: 8px 10px;
-  width: 50%;
-  border: 2px solid black;
-  box-sizing: border-box;
-}
-
-.router-link:hover{
-  background-color: rgba(255,140,0,0.9);
-  color: white;
-}
-
-.container {
-  display: block;
-  position: relative;
-  margin-bottom: -1px;
-  font-size: 16px;
-  user-select: none;
-}
-
-.group-list {
-  display: flex;
-  flex-direction: column;
-  width: 40%;
-  list-style-type: none;
-  padding-left: 0;
-}
 </style>

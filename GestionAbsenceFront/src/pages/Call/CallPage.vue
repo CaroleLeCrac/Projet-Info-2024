@@ -1,19 +1,21 @@
 <!--Page de sélection des absences pour un créneau-->
 <template>
     <main class="left">
+        <h1>Appel</h1>
+        <button id="select-all" class="button" @click="selectAll">
+            {{ allSelected ? "Déselectionner tou.te.s" : "Sélectionner tou.te.s" }}
+        </button>
         <div>
-            <h1>Appel</h1>
-            <ul class="list-presence">
-                <li v-for="student in studentList" :key="student">
-                    <div class="container">
-                        <input type="checkbox">
-                        <label>{{ student.studentNumber }} {{ student.surname }} {{ student.name }}</label>
-                    </div>
-                </li>
-            </ul>
-            <!--dans le composant, afficher présent.e et absent.e dans la liste à côté du nom ?-->
-            <!--dans le composant, ajouter un bouton voir le récap de l'étudiant lorsqu'on le survole ?-->
-            <button v-if="!callSaved" class="button-save" @click="saveCallAndGoBack">Sauvegarder l'appel</button>
+                <ul class="list-presence">
+                    <li v-for="student in studentList" :key="student">
+                        <div class="container">
+                            <input type="checkbox">
+                            <label>{{ student.studentNumber }} {{ student.surname }} {{ student.name }}</label>
+                        </div>
+                    </li>
+                </ul>
+                <button v-if="!callSaved" id="btn-save" class="button" @click="saveCallAndGoBack">Sauvegarder
+                    l'appel</button>
         </div>
     </main>
 </template>
@@ -43,6 +45,15 @@ const props = defineProps({
     studentList: Array
 })
 
+const allSelected = ref(false);
+
+function selectAll() {
+    allSelected.value = !allSelected.value;
+    document.querySelectorAll('.list-presence input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = allSelected.value;
+    });
+}
+
 const callSaved = ref(false);
 
 function saveCall() {
@@ -62,13 +73,23 @@ function saveCallAndGoBack() {
 <style scoped>
 @import url("../../shared/shared.css");
 
+#select-all {
+    margin-left: 40px;
+    background-color: var(--color-6);
+    padding: 0.4rem;
+}
+
+#select-all:hover {
+    background-color: #FFA733;
+}
+
 .list-presence {
     list-style-type: none;
     width: 30%;
     font-size: 1rem;
 }
 
-.list-presence > li {
+.list-presence>li {
     background-color: var(--color-6);
     margin-bottom: 0.5rem;
 }
@@ -79,7 +100,7 @@ div.container {
     display: flex;
     align-items: center;
     padding: 0.2rem;
-    
+
 }
 
 .container label {
@@ -91,18 +112,12 @@ input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 1px solid #333;
+    border: 1px solid black;
     border-radius: 5px;
-    background-color: white;
+    background-color: var(--color-5);
     cursor: pointer;
-}
-
-input[type="checkbox"] {
     height: 1.5rem;
     width: 1.5rem;
-    background-color: var(--color-5);
 }
 
 input[type="checkbox"]:hover {
@@ -118,24 +133,11 @@ input[type="checkbox"]:checked::after {
     display: block;
     text-align: center;
     font-size: 16px;
-    color: white;
+    color: var(--color-6);
     font-weight: bold;
 }
 
-.button-save {
-    text-decoration: none;
-    background-color: var(--color-1);
-    color: black;
-    padding: 0.75rem;
-    border-radius: 5px;
-    border: 2px solis black;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-top: 0.5rem;
+#btn-save {
     margin-left: 19.5rem;
-}
-
-.button-save:hover {
-    background-color: #FFA733;
 }
 </style>

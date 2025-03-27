@@ -49,7 +49,7 @@ const toggleDeleteToAdd = (student) => {
   <div class="container">
     <!-- Liste d'ajout des étudiants -->
     <div class="list-container">
-      <h3>Ajouter des étudiants</h3>
+      <h3>Ajouter des étudiant.e.s</h3>
       <ul>
         <li v-for="student in addList" :key="student.studentNumber" class="list-presence">
           <button @click="toggleAddToDelete(student)" class="button-add">
@@ -62,7 +62,7 @@ const toggleDeleteToAdd = (student) => {
 
     <!-- Liste de suppression des étudiants -->
     <div class="list-container">
-      <h3>Supprimer des étudiants</h3>
+      <h3>Supprimer des étudiant.e.s</h3>
       <ul>
         <li v-for="student in deleteList" :key="student.studentNumber" class="list-presence">
           <button @click="toggleDeleteToAdd(student)" class="button-delete">

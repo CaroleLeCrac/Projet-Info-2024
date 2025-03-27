@@ -4,7 +4,7 @@
     <h1>Absences pour la matière : {{ course }}</h1>
 
     <!-- Sélectionner un ou plusieurs étudiants -->
-    <h2>Sélectionner un ou plusieurs étudiants</h2>
+    <h2>Sélectionner un.e ou plusieurs étudiant.e.s</h2>
     <select v-model="selectedStudents" @change="filterAbsences" multiple>
       <option v-for="student in filteredStudents" :key="student" :value="student">
         {{ student }}
