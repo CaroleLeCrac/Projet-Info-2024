@@ -121,11 +121,11 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:hover {
-    background-color: var(--color-1);
+    background-color: var(--color-3);
 }
 
 input[type="checkbox"]:checked {
-    background-color: var(--color-1);
+    background-color: var(--color-2);
 }
 
 input[type="checkbox"]:checked::after {

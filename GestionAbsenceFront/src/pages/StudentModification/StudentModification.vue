@@ -104,7 +104,7 @@ onMounted(() => {
                         <label>Groupes : </label>
                         <ul class="list-groups">
                             <li v-for="group in groups" :key="group.number">
-                                <div class="list-container">
+                                <div id="container-group" class="list-container">
                                     <input class="checkbox-group" type="checkbox">
                                     <label for="group.name">{{ group.name }}</label>
                                 </div>
@@ -188,16 +188,25 @@ select {
     margin-left: 10px;
 }
 
+div.groups {
+    display: grid;
+    grid-template-columns: 34% 66%;
+}
+
 .list-groups {
     list-style-type: none;
     font-size: 0.75rem;
-    padding: 0.5rem;
+    padding-left: 0;
     margin: 0;
-    width: 65%;
+    width: 100%;
 }
 
 .list-groups > li {
     background-color: var(--color-6);
+}
+
+#container-group {
+    display: block;
 }
 
 .checkbox-group {
@@ -290,4 +299,5 @@ select {
     margin-top: 2rem;
     margin-left: auto;
 }
+
 </style>

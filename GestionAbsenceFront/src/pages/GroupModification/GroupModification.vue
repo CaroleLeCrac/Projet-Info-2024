@@ -1,12 +1,15 @@
-<!--Page de modification d'un groupe d'étudiants-->
+<!--Page de modification d'un groupe d'étudiant.e.s-->
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 
 const students = ref([]);
-const addList = ref([]);  // Liste des étudiants à ajouter
-const deleteList = ref([]);  // Liste des étudiants à supprimer
+const searchQuery1 = ref('');
+const searchQuery2 = ref('');
+
+const studentsInGroup = ref([]);  // Liste des étudiant.e.s du groupe
+const studentsOutsideGroup = ref([]);  // Liste des étudiant.e.s extérieur.e.s au groupe
 const route = useRoute();
 const currentGroupNumber = route.params.id;
 
@@ -16,80 +19,100 @@ onMounted(() => {
     .then((data) => {
       console.log("Données JSON récupérées : ", data);
       students.value = data.students || [];
-      addList.value = students.value.filter(
-        (student) => student.groupNumber !== Number(currentGroupNumber)
-      )
-      deleteList.value = students.value.filter(
+      studentsInGroup.value = students.value.filter(
         (student) => student.groupNumber === Number(currentGroupNumber)
+      )
+      studentsOutsideGroup.value = students.value.filter(
+        (student) => student.groupNumber !== Number(currentGroupNumber)
       )
     })
     .catch((error) => console.error('Error loading data:', error));
 });
 
+const filteredStudentsInGroup = computed(() =>
+  studentsInGroup.value.filter(s =>
+    s.name.toLowerCase().includes(searchQuery1.value.toLowerCase()) ||
+    s.surname.toLowerCase().includes(searchQuery1.value.toLowerCase())
+  )
+);
 
+const filteredStudentsOutsideGroup = computed(() =>
+  studentsOutsideGroup.value.filter(s =>
+    s.name.toLowerCase().includes(searchQuery2.value.toLowerCase()) ||
+    s.surname.toLowerCase().includes(searchQuery2.value.toLowerCase())
+  )
+);
 
-// Fonction pour déplacer un étudiant de addList à deleteList
-const toggleAddToDelete = (student) => {
-  // Enlever de la liste d'ajout
-  addList.value = addList.value.filter(s => s.studentNumber !== student.studentNumber);
-  // Ajouter à la liste de suppression
-  deleteList.value.push(student);
-};
+function deleteStudent(student) {
+  const index = studentsInGroup.value.findIndex(s => s.studentNumber === student.studentNumber);
+  if (index !== -1) { // on s'assure que l'étudiant.e est dans la liste
+    studentsInGroup.value.splice(index,1);
+    studentsOutsideGroup.value.push(student);
+  }
+}
 
-// Fonction pour déplacer un étudiant de deleteList à addList
-const toggleDeleteToAdd = (student) => {
-  // Enlever de la liste de suppression
-  deleteList.value = deleteList.value.filter(s => s.studentNumber !== student.studentNumber);
-  // Ajouter à la liste d'ajout
-  addList.value.push(student);
-};
+function addStudent(student) {
+  const index = studentsOutsideGroup.value.findIndex(s => s.studentNumber === student.studentNumber);
+  if (index !== -1) {
+    studentsOutsideGroup.value.splice(index,1);
+    studentsInGroup.value.push(student);
+  }
+}
+
 </script>
 
 <template>
-  <div class="container">
-    <!-- Liste d'ajout des étudiants -->
-    <div class="list-container">
-      <h3>Ajouter des étudiant.e.s</h3>
-      <ul>
-        <li v-for="student in addList" :key="student.studentNumber" class="list-presence">
-          <button @click="toggleAddToDelete(student)" class="button-add">
-            Ajouter
-          </button>
-          {{ student.surname }}
-        </li>
-      </ul>
-    </div>
+  <main class="left">
+    <div class="container">
+      <!-- Liste des étudiant.e.s du groupe -->
+      <div class="left-container">
+        <h1>Liste des étudiant.e.s du groupe</h1>
+        <input class="search-bar" type="search" v-model="searchQuery1" placeholder="Rechercher un.e étudiant.e" />
+        <ul class="list">
+          <li v-for="student in filteredStudentsInGroup" :key="student.studentNumber" class="students-list">
+            {{ student.surname }} {{ student.name }}
+            <button @click="deleteStudent(student)" class="button" id="delete-btn">
+              ×
+            </button>
+          </li>
+        </ul>
+      </div>
 
-    <!-- Liste de suppression des étudiants -->
-    <div class="list-container">
-      <h3>Supprimer des étudiant.e.s</h3>
-      <ul>
-        <li v-for="student in deleteList" :key="student.studentNumber" class="list-presence">
-          <button @click="toggleDeleteToAdd(student)" class="button-delete">
-            Supprimer
-          </button>
-          {{ student.surname }}
-        </li>
-      </ul>
+      <!-- Liste des étudiant.e.s extérieur.e.s au groupe -->
+      <div class="right-container">
+        <h1>Liste des autres étudiant.e.s</h1>
+        <input class="search-bar" type="search" v-model="searchQuery2" placeholder="Rechercher un.e étudiant.e" />
+        <ul class="list">
+          <li v-for="student in filteredStudentsOutsideGroup" :key="student.studentNumber" class="students-list">
+            {{ student.surname }} {{ student.name }}
+            <button @click="addStudent(student)" class="button" id="add-btn">
+              +
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <style scoped>
 @import url("../../shared/shared.css");
 
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 50px;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  gap: 2rem;
 }
 
-.list-container {
-  width: 40%;
+.list {
+  width: 80%;
 }
 
-.list-presence {
+.list>li {
+  font-size: 1.15rem;
+}
+
+.students-list {
   list-style-type: none;
   border: solid lightgray;
   background-color: white;
@@ -102,19 +125,16 @@ const toggleDeleteToAdd = (student) => {
   align-items: center;
 }
 
-.button-add,
-.button-delete {
-  padding: 5px 10px;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 5px;
+.button {
+  margin: 0;
+  padding: 0.3rem;
+  color: var(--color-1);
+  font-size: 1.4rem;
+  background-color: var(--color-6);
+  border-color: var(--color-1);
 }
 
-.button-add {
-  background-color: green;
-}
-
-.button-delete {
-  background-color: red;
+.button:hover {
+  background-color: var(--color-5);
 }
 </style>
