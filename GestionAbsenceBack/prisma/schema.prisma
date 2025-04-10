@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model supervisor {
+  id String @id
+  name String
+  mail String
+  supervisor_slot slot[]
+}
+
+
+model student {
+  id String @id
+  name String 
+  first_name String
+  mail String
+  student_inscription inscription[]
+  student_presence presence[]
+}
+
+model inscription {
+  student_id String
+  group_id String
+  inscription_student student @relation(fields: [student_id], references: [id])
+  inscription_group group @relation(fields: [group_id], references: [id])
+  @@id ([student_id, group_id])
+}
+
+model group {
+  id String @id
+  name String
+  semester_id String
+  group_semester semester @relation(fields: [semester_id], references: [id])
+  group_inscription inscription[]
+  group_slot slot[]
+}
+
+model semester {
+  id String @id
+  year DateTime
+  name String
+  semester_group group[]
+  semester_course_material course_material[]
+}
+
+model course_material {
+  id String @id
+  name String
+  semester_id String
+  course_material_semester semester @relation(fields: [semester_id], references: [id])
+  course_material_session_type session_type[]
+}
+
+model session_type {
+  id String @id
+  course_type_name String
+  nb_repetitions Int
+  full_promo Boolean
+  course_material_id String
+  session_type_course_material course_material @relation(fields: [course_material_id], references: [id])
+  session_type_slot slot[]
+}
+
+model presence {
+  student_id String
+  slot_id String
+  presence_student student @relation(fields: [student_id], references: [id])
+  presence_slot slot @relation(fields: [slot_id], references: [id])
+  @@id ([student_id, slot_id])
+}
+
+model slot {
+  id String @id
+  starting_time DateTime
+  date DateTime
+  num_session Int
+  slot_presence presence[]
+  group_id String
+  supervisor_id String
+  session_type_id String
+  slot_group group @relation(fields: [group_id], references: [id])
+  slot_supervisor supervisor @relation(fields: [supervisor_id], references: [id])
+  slot_seesion_type session_type @relation(fields: [session_type_id], references: [id])
+}
+
+
+
+
+
