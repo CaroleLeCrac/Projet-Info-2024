@@ -14,15 +14,16 @@ datasource db {
 }
 
 model supervisor {
-  id String @id
+  id Int @id
   name String
+  first_name String
   mail String
   supervisor_slot slot[]
 }
 
 
 model student {
-  id String @id
+  id Int @id
   name String 
   first_name String
   mail String
@@ -31,24 +32,24 @@ model student {
 }
 
 model inscription {
-  student_id String
-  group_id String
+  student_id Int
+  group_id Int
   inscription_student student @relation(fields: [student_id], references: [id])
   inscription_group group @relation(fields: [group_id], references: [id])
   @@id ([student_id, group_id])
 }
 
 model group {
-  id String @id
+  id Int @id
   name String
-  semester_id String
+  semester_id Int
   group_semester semester @relation(fields: [semester_id], references: [id])
   group_inscription inscription[]
   group_slot slot[]
 }
 
 model semester {
-  id String @id
+  id Int @id
   year DateTime
   name String
   semester_group group[]
@@ -56,46 +57,41 @@ model semester {
 }
 
 model course_material {
-  id String @id
+  id Int @id
   name String
-  semester_id String
+  semester_id Int
   course_material_semester semester @relation(fields: [semester_id], references: [id])
   course_material_session_type session_type[]
 }
 
 model session_type {
-  id String @id
+  id Int @id
   course_type_name String
   nb_repetitions Int
   full_promo Boolean
-  course_material_id String
+  course_material_id Int
   session_type_course_material course_material @relation(fields: [course_material_id], references: [id])
   session_type_slot slot[]
 }
 
 model presence {
-  student_id String
-  slot_id String
+  student_id Int
+  slot_id Int
   presence_student student @relation(fields: [student_id], references: [id])
   presence_slot slot @relation(fields: [slot_id], references: [id])
   @@id ([student_id, slot_id])
 }
 
 model slot {
-  id String @id
+  id Int @id
   starting_time DateTime
   date DateTime
   num_session Int
   slot_presence presence[]
-  group_id String
-  supervisor_id String
-  session_type_id String
+  group_id Int
+  supervisor_id Int
+  session_type_id Int
   slot_group group @relation(fields: [group_id], references: [id])
   slot_supervisor supervisor @relation(fields: [supervisor_id], references: [id])
-  slot_seesion_type session_type @relation(fields: [session_type_id], references: [id])
+  slot_session_type session_type @relation(fields: [session_type_id], references: [id])
 }
-
-
-
-
-
