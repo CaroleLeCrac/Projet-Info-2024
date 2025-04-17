@@ -8,7 +8,7 @@ export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
   @Get(':id')
-  async getById(@Param('id') id : string) {
+  async getById(@Param('id') id : number) {
     console.log(id)
     return this.studentService.get({ id });
   }
@@ -24,12 +24,12 @@ export class StudentController {
   }
 
   @Put(':id')
-  async putById(@Param('id') id : string, @Body() updateStudentDto : UpdateStudentDto ){
+  async putById(@Param('id') id : number, @Body() updateStudentDto : UpdateStudentDto ){
     return this.studentService.put( id , updateStudentDto)
   }
 
   @Delete(':id')
-  async deleteById(@Param('id') id : string){
+  async deleteById(@Param('id') id : number){
     return this.studentService.delete({id})
   }
 
