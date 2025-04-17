@@ -22,7 +22,7 @@ export class StudentService {
     })
   }
 
-  async put(id: string, data:Prisma.studentUpdateInput): Promise<student | null>{
+  async put(id: number, data:Prisma.studentUpdateInput): Promise<student | null>{
     return this.prisma.student.update({
       where: {id},
       data: data,
