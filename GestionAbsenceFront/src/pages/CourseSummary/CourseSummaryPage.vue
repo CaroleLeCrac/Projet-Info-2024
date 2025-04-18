@@ -144,9 +144,9 @@ function showAllAbsences() {
 
 // Fonction pour exporter les données en CSV
 function exportCourseData() {
-  const headers = ['Étudiant', 'Date de l\'absence', 'Cours'];
+  const headers = ['Étudiant', 'Date de l\'absence', 'Matière'];
   const rows = filteredAbsences.value.map(absence => [
-    absence.surname,
+    absence.studentName,
     absence.date,
     absence.coursename
   ]);
