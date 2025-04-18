@@ -21,10 +21,10 @@ import { useRoute } from 'vue-router';
 
 const courses = ref([])
 const profesionals = ref([])
-const selectedDate = ref(new Date());
+const selectedDate = ref(new Date().toISOString().split('T')[0]);
 
 const route = useRoute();
-const currentProfesional = ref(route.params.profesional);
+const currentProfesional = ref(route.params.profesionalSurname);
 
 onMounted(() => {
     fetch('/ListDates.json')

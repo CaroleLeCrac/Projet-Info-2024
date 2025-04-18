@@ -1,12 +1,13 @@
 <template>
   <main class="left">
-    <h1>Sélectionner la matière ou l'étudiant.e</h1>
     <!-- Conteneur pour les boutons "Exporter" -->
     <div class="buttons-container">
       <button class="button">Exporter les absences des L1</button>
       <button class="button">Exporter les absences des L2</button>
       <button class="button">Exporter les absences des L3</button>
     </div>
+
+    <h1>Sélectionner la matière ou l'étudiant.e</h1>
 
     <div class="sections-container">
 
@@ -34,7 +35,7 @@
         <ul class="list">
           <li v-for="student in filteredStudents">
             <label>
-              <RouterLink :to="`/recapitulatifs/etudiant/${student.surname}`" class="router-link">
+              <RouterLink :to="`/recapitulatifs/etudiant/${student.studentNumber}`" class="router-link">
                 {{ student.name }} {{ student.surname }}
               </RouterLink>
             </label>
@@ -49,11 +50,8 @@
 import { ref, onMounted, computed } from 'vue';
 
 // Références pour la sélection des étudiants, matières et absences
-const selectedStudent = ref("");  // Étudiants sélectionnés
-const selectedCourse = ref("");  // Matières sélectionnées
 const students = ref([]);  // Liste des étudiants
 const courses = ref([]);  // Liste des matières
-const absences = ref([]);  // Liste des absences
 
 // Barres de recherche
 const studentQuery = ref('');
@@ -78,15 +76,6 @@ onMounted(() => {
       console.log('Matières chargées:', courses.value);
     })
     .catch((error) => console.error('Erreur de chargement des matières:', error))
-
-  // Chargement des absences
-  fetch('/ListStudentsAbsence.json')
-    .then((response) => response.json())
-    .then((data) => {
-      absences.value = data.studentsabsence
-      console.log('Absences chargées:', absences.value);
-    })
-    .catch((error) => console.error('Erreur de chargement des absences:', error))
 })
 
 // Filtrer les étudiants barre de recherche
@@ -109,19 +98,14 @@ const filteredCourses = computed(() => {
 
 .buttons-container {
   display: flex;
-  gap: 30px;
-  justify-content: end;
-  margin-bottom: 2rem;
+  justify-content: left;
+  gap: 3rem;
+  margin: 2rem auto;
+  width: 100%;
 }
 
-.sections-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 30px;
-}
-
-.section {
-  flex: 1;
+.button {
+  margin-top: 0;
 }
 
 .list {

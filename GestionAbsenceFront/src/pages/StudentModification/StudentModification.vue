@@ -1,8 +1,8 @@
 <!--Page de modification d'informations ou d'ajout d'un étudiant-->
 <script setup>
 
-import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, onMounted, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 
 const students = ref([]);
@@ -63,6 +63,41 @@ onMounted(() => {
         })
         .catch((error) => console.error('Error loading data:', error));
 });
+
+const selectedGroups = ref([]);
+
+const selectedCourses = ref([]);
+
+const searchQueryCourse = ref('');
+const filteredCourses = computed(() =>
+    courses.value.filter(c =>
+        c.name.toLowerCase().includes(searchQueryCourse.value.toLowerCase())
+    )
+);
+
+const allSelectedCourses = ref(false);
+
+function selectAllCourses() {
+    allSelectedCourses.value = !allSelectedCourses.value;
+    if (allSelectedCourses.value) {
+        selectedCourses.value = courses.value.map(course => course.name);
+    } else {
+        selectedCourses.value = [];
+    }
+}
+
+const changesSaved = ref(false);
+function saveChanges() {
+    /* Sauvegarder les changements */
+    changesSaved.value = true;
+}
+
+const router = useRouter();
+function saveChangesAndGoBack() {
+    saveChanges();
+    router.go(-1);
+}
+
 </script>
 
 <template>
@@ -105,7 +140,7 @@ onMounted(() => {
                         <ul class="list-groups">
                             <li v-for="group in groups" :key="group.number">
                                 <div id="container-group" class="list-container">
-                                    <input class="checkbox-group" type="checkbox">
+                                    <input class="checkbox-group" type="checkbox" :value="group.name" v-model="selectedGroups">
                                     <label for="group.name">{{ group.name }}</label>
                                 </div>
                             </li>
@@ -115,18 +150,26 @@ onMounted(() => {
             </div>
 
             <div class="right-column">
-                <h2>Sélectionnez les cours auxquels l'étudiant.e est inscrit.e</h2>
+                <h2>Sélectionnez les options de l'étudiant.e</h2>
+                <div id="course-filters">
+                    <input class="search-bar" type="search" v-model="searchQueryCourse"
+                        placeholder="Rechercher un cours" />
+                    <button id="select-all" class="button" @click="selectAllCourses">
+                        {{ allSelectedCourses ? "Déselectionner tous les cours" : "Sélectionner tous les cours" }}
+                    </button>
+                </div>
                 <ul class="list-courses">
-                    <li v-for="course in courses" :key="course.name">
+                    <li v-for="course in filteredCourses" :key="course.name">
                         <div class="list-container">
-                            <input class="checkbox-course" type="checkbox">
+                            <input class="checkbox-course" type="checkbox" :value="course.name" v-model="selectedCourses">
                             <label for="course.name">{{ course.name }}</label>
                         </div>
                     </li>
                 </ul>
             </div>
         </div>
-        <button class="button">Enregistrer les changements</button>
+        <button id="save-changes" class="button" v-if="!changesSaved" @click="saveChangesAndGoBack">
+            Enregistrer les changements</button>
     </main>
 </template>
 
@@ -141,16 +184,16 @@ main {
 
 .page-layout {
     display: flex;
-    justify-content: space-between;
+    gap: 10rem;
     width: 100%;
 }
 
 .left-column {
-    flex: 1fr;
+    flex: 1.25fr;
 }
 
 .right-column {
-    flex: 1.25fr;
+    flex: 1fr;
 }
 
 .container {
@@ -193,7 +236,7 @@ div.groups {
     grid-template-columns: 34% 66%;
 }
 
-.list-groups {
+.list-groups, .list-courses {
     list-style-type: none;
     font-size: 0.75rem;
     padding-left: 0;
@@ -201,8 +244,14 @@ div.groups {
     width: 100%;
 }
 
-.list-groups > li {
+.list-courses {
+    margin-top: 1.5rem;
+    width: 70%;
+}
+
+.list-groups>li, .list-courses>li {
     background-color: var(--color-6);
+    border-radius: 5px;
 }
 
 #container-group {
@@ -239,29 +288,13 @@ div.groups {
     font-weight: bold;
 }
 
-.list-courses {
-    list-style-type: none;
-    font-size: 1rem;
-    width: 75%;
-    padding-left: 0;
+.search-bar,
+#select-all {
+    margin: 0;
 }
 
-.list-courses>li {
-    background-color: var(--color-6);
-}
-
-.list-container {
-    margin-bottom: 0.7rem;
-    font-size: 1rem;
-    height: 1.875rem;
-    position: relative;
-}
-
-.list-container label {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    padding-left: 1rem;
+#select-all {
+    margin-left: 2rem;
 }
 
 .checkbox-course {
@@ -299,5 +332,4 @@ div.groups {
     margin-top: 2rem;
     margin-left: auto;
 }
-
 </style>

@@ -6,16 +6,16 @@
             {{ allSelected ? "Déselectionner tou.te.s" : "Sélectionner tou.te.s" }}
         </button>
         <div>
-                <ul class="list-presence">
-                    <li v-for="student in studentList" :key="student">
-                        <div class="container">
-                            <input type="checkbox">
-                            <label>{{ student.studentNumber }} {{ student.surname }} {{ student.name }}</label>
-                        </div>
-                    </li>
-                </ul>
-                <button v-if="!callSaved" id="btn-save" class="button" @click="saveCallAndGoBack">Sauvegarder
-                    l'appel</button>
+            <ul class="list-presence">
+                <li v-for="student in studentList" :key="student">
+                    <div class="container">
+                        <input type="checkbox" :value="student.studentNumber" v-model="absentStudents">
+                        <label>{{ student.studentNumber }} {{ student.surname }} {{ student.name }}</label>
+                    </div>
+                </li>
+            </ul>
+            <button v-if="!callSaved" id="btn-save" class="button" @click="saveCallAndGoBack">Sauvegarder
+                l'appel</button>
         </div>
     </main>
 </template>
@@ -45,13 +45,17 @@ const props = defineProps({
     studentList: Array
 })
 
+const absentStudents = ref([]);
+
 const allSelected = ref(false);
 
 function selectAll() {
     allSelected.value = !allSelected.value;
-    document.querySelectorAll('.list-presence input[type="checkbox"]').forEach(checkbox => {
-        checkbox.checked = allSelected.value;
-    });
+    if (allSelected.value) {
+        absentStudents.value = studentList.value.map(student => student.studentNumber);
+    } else {
+        absentStudents.value = [];
+    }
 }
 
 const callSaved = ref(false);
@@ -72,16 +76,6 @@ function saveCallAndGoBack() {
 
 <style scoped>
 @import url("../../shared/shared.css");
-
-#select-all {
-    margin-left: 40px;
-    background-color: var(--color-6);
-    padding: 0.4rem;
-}
-
-#select-all:hover {
-    background-color: #FFA733;
-}
 
 .list-presence {
     list-style-type: none;

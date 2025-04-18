@@ -1,79 +1,79 @@
 {
-  "studentsabsence": [
+  "studentsAbsence": [
     {
-      "date": "2025/01/01",
-      "name": "Boucq-Kieffel",
+      "date": "2025-04-26",
+      "surname": "Boucq-Kieffel",
+      "coursename": "Systemes"
+    },
+    {
+      "date": "2025-04-26",
+      "surname": "Mitton",
       "coursename": "Programmation orientee objet"
     },
     {
-      "date": "2025/01/02",
-      "name": "Mitton",
-      "coursename": "Econometrie 1"
-    },
-    {
-      "date": "2025/01/03",
-      "name": "Dubus",
+      "date": "2025-04-28",
+      "surname": "Dubus",
       "coursename": "Statistiques 2"
     },
     {
-      "date": "2025/01/04",
-      "name": "Olive",
-      "coursename": "Systemes"
-    },
-    {
-      "date": "2025/01/05",
-      "name": "Weislo",
-      "coursename": "Complement de mathematiques 1"
-    },
-    {
-      "date": "2025/01/06",
-      "name": "Gros",
-      "coursename": "Econometrie 1"
-    },
-    {
-      "date": "2025/01/07",
-      "name": "Mitton",
-      "coursename": "Systemes"
-    },
-    {
-      "date": "2025/01/08",
-      "name": "Olive",
+      "date": "2025-04-28",
+      "surname": "Weislo",
       "coursename": "Programmation orientee objet"
     },
     {
-      "date": "2025/01/09",
-      "name": "Larbière",
-      "coursename": "Statistiques 2"
+      "date": "2025-05-01",
+      "surname": "Olive",
+      "coursename": "Systemes"
     },
     {
-      "date": "2025/01/10",
-      "name": "Gros",
+      "date": "2025-05-01",
+      "surname": "Gros",
       "coursename": "Econometrie 1"
     },
     {
-      "date": "2025/01/11",
-      "name": "Boucq-Kieffel",
-      "coursename": "Systemes"
-    },
-    {
-      "date": "2025/01/12",
-      "name": "Weislo",
-      "coursename": "Statistiques 2"
-    },
-    {
-      "date": "2025/01/13",
-      "name": "Volle",
+      "date": "2025-05-02",
+      "surname": "Volle",
       "coursename": "Complement de mathematiques 1"
     },
     {
-      "date": "2025/01/14",
-      "name": "Mitton",
+      "date": "2025-05-03",
+      "surname": "Weislo",
+      "coursename": "Programmation orientee objet"
+    },
+    {
+      "date": "2025-05-03",
+      "surname": "Larbière",
       "coursename": "Statistiques 2"
     },
     {
-      "date": "2025/01/15",
-      "name": "Dubus",
+      "date": "2025-05-04",
+      "surname": "Mitton",
       "coursename": "Systemes"
+    },
+    {
+      "date": "2025-05-05",
+      "surname": "Boucq-Kieffel",
+      "coursename": "Econometrie 1"
+    },
+    {
+      "date": "2025-05-06",
+      "surname": "Olive",
+      "coursename": "Systemes"
+    },
+    {
+      "date": "2025-05-07",
+      "surname": "Dubus",
+      "coursename": "Statistiques 2"
+    },
+    {
+      "date": "2025-05-08",
+      "surname": "Gros",
+      "coursename": "Complement de mathematiques 1"
+    },
+    {
+      "date": "2025-05-09",
+      "surname": "Volle",
+      "coursename": "Programmation orientee objet"
     }
   ]
 }

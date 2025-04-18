@@ -115,7 +115,7 @@ function addStudent(student) {
 .students-list {
   list-style-type: none;
   border: solid lightgray;
-  background-color: white;
+  background-color: var(--color-6);
   border-radius: 5px;
   padding: 8px;
   font: 1rem "Fira Sans", sans-serif;
@@ -125,13 +125,21 @@ function addStudent(student) {
   align-items: center;
 }
 
+#add-btn {
+  color: var(--color-8);
+  border-color: var(--color-8);
+}
+
+#delete-btn {
+  color: var(--color-7);
+  border-color: var(--color-7);
+}
+
 .button {
   margin: 0;
   padding: 0.3rem;
-  color: var(--color-1);
   font-size: 1.4rem;
   background-color: var(--color-6);
-  border-color: var(--color-1);
 }
 
 .button:hover {
