@@ -60,7 +60,7 @@ const courseQuery = ref('');
 // Chargement des données
 onMounted(() => {
   // Chargement des étudiants depuis le fichier JSON
-  fetch('/ListNamesStu.json')
+  fetch('/Students.json')
     .then((response) => response.json())
     .then((data) => {
       students.value = data.students
@@ -69,7 +69,7 @@ onMounted(() => {
     .catch((error) => console.error('Erreur de chargement des étudiants:', error))
 
   // Chargement des matières
-  fetch('/ListCourses.json')
+  fetch('/Courses.json')
     .then((response) => response.json())
     .then((data) => {
       courses.value = data.courses

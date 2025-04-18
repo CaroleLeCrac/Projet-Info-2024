@@ -32,7 +32,7 @@ onMounted(() => {
 });
 
 onMounted(() => {
-    fetch('/ListCourses.json')
+    fetch('/Courses.json')
         .then((response) => response.json())
         .then((data) => {
             console.log("Données JSON récupérées : ", data);

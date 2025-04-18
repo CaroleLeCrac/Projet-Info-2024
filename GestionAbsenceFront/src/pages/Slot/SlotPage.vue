@@ -27,14 +27,14 @@ const route = useRoute();
 const currentProfesional = ref(route.params.profesionalSurname);
 
 onMounted(() => {
-    fetch('/ListDates.json')
+    fetch('/Slots.json')
         .then((response) => response.json())
         .then((data) => {
             courses.value = data.coursedates
         })
         .catch((error) => console.error('Error loading courses data:', error))
 
-    fetch('/ListProfesional.json')
+    fetch('/Profesionals.json')
         .then((response) => response.json())
         .then((data) => {
             profesionals.value = data.profesionals

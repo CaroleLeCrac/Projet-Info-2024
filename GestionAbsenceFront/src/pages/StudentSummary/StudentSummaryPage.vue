@@ -58,21 +58,21 @@ const courses = ref([]) // Liste des matières
 
 // Charger les données des absences et des matières
 onMounted(() => {
-  fetch('/ListNamesStu.json')
+  fetch('/Students.json')
     .then((response) => response.json())
     .then((data) => {
       student.value = data.students.find(s => s.studentNumber === studentNumber);
       console.log("Étudiant chargé :", student.value)
     })
 
-  fetch('/ListStudentsAbsence.json')
+  fetch('/StudentsAbsences.json')
     .then((response) => response.json())
     .then((data) => {
       studentsAbsence.value = data.studentsAbsence
     })
     .catch((error) => console.error('Erreur lors du chargement des absences:', error))
 
-  fetch('/ListCourses.json')
+  fetch('/Courses.json')
     .then((response) => response.json())
     .then((data) => {
       courses.value = data.courses

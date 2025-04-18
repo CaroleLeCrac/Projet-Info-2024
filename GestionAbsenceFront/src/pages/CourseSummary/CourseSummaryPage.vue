@@ -68,31 +68,32 @@ const students = ref([]);
 const selectedStudents = ref([])  // Les étudiants sélectionnés
 const selectedDates = ref([])  // Liste des dates sélectionnées
 const absencesList = ref([]) // Liste des absences
-const allDates = ref([]) // Liste de toutes les dates disponibles
+const allDates = ref([]) // Liste de tous les créneaux
 
 // Charger les données des absences et des dates
 onMounted(() => {
-  fetch('/ListStudentsAbsence.json')
+  fetch('/StudentsAbsences.json')
     .then((response) => response.json())
     .then((data) => {
       absencesList.value = data.studentsAbsence
     })
     .catch((error) => console.error('Erreur lors du chargement des absences:', error))
 
-  fetch('/ListDates.json')
+  fetch('/Slots.json')
     .then((response) => response.json())
     .then((data) => {
       allDates.value = data.coursedates
     })
     .catch((error) => console.error('Erreur lors du chargement des dates:', error))
 
-  fetch('/ListNamesStu.json')
+  fetch('/Students.json')
     .then((response) => response.json())
     .then((data) => {
       students.value = data.students
     })
     .catch((error) => console.error("Erreur lors du chargement des étudiants:", error))
 })
+
 // Fonction pour formater correctement les dates
 function formatDate(date) {
   const d = new Date(date);

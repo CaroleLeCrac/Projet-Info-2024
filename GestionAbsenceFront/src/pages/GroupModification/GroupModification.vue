@@ -14,7 +14,7 @@ const route = useRoute();
 const currentGroupNumber = route.params.id;
 
 onMounted(() => {
-  fetch('/ListNamesStu.json')
+  fetch('/Students.json')
     .then((response) => response.json())
     .then((data) => {
       console.log("Données JSON récupérées : ", data);
