@@ -1,12 +1,12 @@
 
 <template>
-  <HomeNavigationBar/>
+  <NavigationBar/>
   <RouterView />
 </template>
 
 
 <script setup>
-import HomeNavigationBar from './pages/HomeView/HomeNavigationBar.vue';
+import NavigationBar from './shared/components/NavigationBar.vue';
 import { RouterView } from 'vue-router';
 
 

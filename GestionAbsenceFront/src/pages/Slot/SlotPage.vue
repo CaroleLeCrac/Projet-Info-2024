@@ -1,9 +1,9 @@
 <!--Page de sélection du créneau-->
 <template>
     <main class="center">
-        <h1>Créneau</h1>
+        <h1>Sélectionner un créneau</h1>
         <input type="date" v-model="selectedDate" id="date-bar">
-        <ul class="course-list">
+        <ul class="list">
             <li v-for="course in filteredCoursesByDate" :key="course.date">
                 <label>
                     <RouterLink :to="`/appel/${course.date}`" class="router-link">
@@ -21,10 +21,10 @@ import { useRoute } from 'vue-router';
 
 const courses = ref([])
 const profesionals = ref([])
-const selectedDate = ref(new Date());
+const selectedDate = ref(new Date().toISOString().split('T')[0]);
 
 const route = useRoute();
-const currentProfesional = ref(route.params.profesional);
+const currentProfesional = ref(route.params.profesionalSurname);
 
 onMounted(() => {
     fetch('/ListDates.json')
@@ -69,34 +69,5 @@ const filteredCoursesByDate = computed(() => {
     font-size: 1.25rem;
     font-family: sans-serif;
     padding: 0.5rem;
-}
-
-.course-list {
-    display: flex;
-    flex-direction: column;
-    width: 25%;
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.course-list>li {
-    margin-bottom: 0.5rem;
-}
-
-.router-link {
-    display: block;
-    text-decoration: none;
-    border-radius: 5px;
-    color: black;
-    cursor: pointer;
-    font-size: 1rem;
-    padding: 0.5rem;
-    border: 2px solid black;
-    box-sizing: border-box;
-    background-color: var(--color-6);
-}
-
-.router-link:hover {
-    background-color: var(--color-3);
 }
 </style>

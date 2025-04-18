@@ -1,10 +1,10 @@
 <!--Page d'accueil avec la sélection du professeur-->
 <template>
     <main class="center">
-        <h1>Professionnel</h1>
+        <h1>Encadrant.e.s</h1>
         <!--SearchBar pour le professionnel -->
         <input type="search" v-model="profesionalQuery" placeholder="Rechercher un professionnel" class="search-bar" />
-        <ul class="profesional-list">
+        <ul class="list">
             <li v-for="profesional in filteredProfesionals">
                 <label>
                     <RouterLink :to="`/creneau/${profesional.surname}`" class="router-link">
@@ -42,41 +42,4 @@ const filteredProfesionals = computed(() => {
 <style scoped>
 @import url("../../shared/shared.css");
 
-.search-bar {
-    padding: 0.5rem;
-    font-size: 1rem;
-    width: 25%;
-    margin-bottom: 1.5rem;
-    border-radius: 5px;
-    background-color: var(--color-6); 
-}
-
-.profesional-list {
-    display: flex;
-    flex-direction: column;
-    width: 20%;
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.profesional-list > li {
-    margin-bottom: 0.5rem;
-}
-
-.router-link {
-    display: block;
-    text-decoration: none;
-    border-radius: 5px;
-    color: black;
-    cursor: pointer;
-    font-size: 1rem;
-    padding: 0.5rem;
-    border: 2px solid black;
-    box-sizing: content-box;
-    background-color: var(--color-6);
-}
-
-.router-link:hover {
-    background-color: var(--color-3);
-}
 </style>

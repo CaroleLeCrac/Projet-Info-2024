@@ -13,15 +13,15 @@ import StudentSummaryPage from './pages/StudentSummary/StudentSummaryPage.vue'
 
 const routes = [
   { path: '/', name: 'HomeView', component: HomeView },
-  { path: '/creneau/:profesional', name: 'Slot',component: SlotPage },
-  { path: '/appel/:course', name: 'Call', component: CallPage },
+  { path: '/creneau/:profesionalSurname', name: 'Slot',component: SlotPage },
+  { path: '/appel/:courseDate', name: 'Call', component: CallPage },
   { path: '/recapitulatifs', name: 'Summary', component: SummaryPage },
   { path: '/selection/etudiant', name: 'StudentSelection', component: SelectStudentModification },
   { path: '/selection/groupe', name: 'GroupSelection', component: SelectGroupModification },
   { path: '/modification/groupe/:id', name: 'GroupModification', component: GroupModification },
   { path: '/modification/etudiant/:id', name: 'StudentModification', component: StudentModification },
-  { path: '/recapitulatifs/matiere/:course', name: 'CourseSummary', component: CourseSummaryPage },
-  { path: '/recapitulatifs/etudiant/:student', name: 'StudentSummary', component: StudentSummaryPage }
+  { path: '/recapitulatifs/matiere/:id', name: 'CourseSummary', component: CourseSummaryPage },
+  { path: '/recapitulatifs/etudiant/:id', name: 'StudentSummary', component: StudentSummaryPage }
 ]
 
 export const router = createRouter({

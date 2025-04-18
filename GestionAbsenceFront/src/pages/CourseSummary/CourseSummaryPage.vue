@@ -1,254 +1,224 @@
+<!--Page de récapitulatif des absences par matière-->
 <template>
-  <div>
-    <!-- Titre de la matière -->
-    <h1>Absences pour la matière : {{ course }}</h1>
+  <main class="left">
+    <h1>Récapitulatif des absences pour la matière : {{ courseName }}</h1>
 
-    <!-- Sélectionner un ou plusieurs étudiants -->
-    <h2>Sélectionner un ou plusieurs étudiants</h2>
-    <select v-model="selectedStudents" @change="filterAbsences" multiple>
-      <option v-for="student in filteredStudents" :key="student" :value="student">
-        {{ student }}
-      </option>
-    </select>
+    <div class="sections-container">
 
-    <!-- Sélectionner une date spécifique -->
-    <h2>Sélectionner une date spécifique</h2>
-    <div v-if="filteredDates.length > 0">
-      <ul>
-        <li v-for="date in filteredDates" :key="date" @click="selectDate(date)" class="date-option">
-          {{ date }}
-        </li>
-      </ul>
+      <div class="section" id="left-section">
+        <!-- Affichage des absences -->
+        <h2>Absences :</h2>
+        <!-- Bouton pour voir toutes les absences -->
+        <button @click="showAllAbsences" class="button" id="show-all-absences-btn">
+          Voir toutes les absences
+        </button>
+
+        <!-- Bouton pour exporter les données de la matière -->
+        <button v-if="filteredAbsences.length > 0" @click="exportCourseData" class="button" id="export-btn">
+          Exporter les données de la matière
+        </button>
+
+        <ul v-if="filteredAbsences.length > 0" class="list" id="absences-list">
+          <li v-for="absence in filteredAbsences" :key="absence.date">
+            <strong>{{ absence.studentName }}</strong> : {{ absence.date }}
+          </li>
+        </ul>
+        <p v-else>Aucune absence trouvée pour cette sélection.</p>
+      </div>
+
+      <div class="section" id="right-section">
+        <!-- Sélectionner un ou plusieurs étudiants -->
+        <h2>Sélectionner un.e ou plusieurs étudiant.e.s</h2>
+        <ul v-if="filteredStudents.length > 0" class="checkbox-list">
+          <li v-for="student in filteredStudents" :key="student.studentNumber">
+            <div class="list-container">
+              <input class="checkbox" type="checkbox" :value="student" v-model="selectedStudents">
+              <label for="student.surname">{{ student.name }} {{ student.surname }} </label>
+            </div>
+          </li>
+        </ul>
+        <p v-else>Aucun.e étudiant.e absent.e dans cette matière</p>
+
+        <!-- Sélectionner une date spécifique -->
+        <h2 id="select-date">Sélectionner une ou plusieurs date.s</h2>
+          <ul v-if="filteredDates.length > 0" class="checkbox-list">
+            <li v-for="date in filteredDates" :key="date">
+              <div class="list-container">
+                <input class="checkbox" type="checkbox" :value="date" v-model="selectedDates">
+                <label for="date">{{ date }}</label>
+              </div>
+            </li>
+          </ul>
+        <p v-else>Aucune date disponible pour cette matière.</p>
+      </div>
     </div>
-    <p v-else>Aucune date disponible pour cette matière.</p>
 
-    <!-- Afficher les absences -->
-    <div v-if="filteredAbsences.length > 0">
-      <h3>Absences :</h3>
-      <ul>
-        <li v-for="absence in filteredAbsences" :key="absence.date">
-          <strong>{{ absence.name }}</strong> : {{ absence.date }}
-        </li>
-      </ul>
-    </div>
-    <p v-else>Aucune absence trouvée pour cette sélection.</p>
-
-    <!-- Bouton pour voir toutes les absences -->
-    <button @click="showAllAbsences" class="show-all-btn">
-      Voir toutes les absences
-    </button>
-
-    <!-- Bouton pour exporter les données de la matière -->
-    <button v-if="filteredAbsences.length > 0" @click="exportCourseData" class="export-btn">
-      Exporter les données de la matière
-    </button>
-  </div>
+  </main>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
-export default {
-  setup() {
-    const route = useRoute();
-    const course = route.params.course; // Récupérer la matière à partir des paramètres de la route
 
-    const selectedStudents = ref([])  // Les étudiants sélectionnés
-    const selectedDate = ref('')  // La date sélectionnée
-    const studentsabsence = ref([]) // Liste des absences
-    const allDates = ref([]) // Liste de toutes les dates disponibles
+const route = useRoute();
+const courseName = route.params.id; // Récupérer le nom de la matière à partir des paramètres de la route
 
-    // Charger les données des absences et des dates
-    onMounted(() => {
-      fetch('/ListStudentsAbsence.json')
-        .then((response) => response.json())
-        .then((data) => {
-          studentsabsence.value = data.studentsabsence
-        })
-        .catch((error) => console.error('Erreur lors du chargement des absences:', error))
+const students = ref([]); 
+const selectedStudents = ref([])  // Les étudiants sélectionnés
+const selectedDates = ref([])  // Liste des dates sélectionnées
+const absencesList = ref([]) // Liste des absences
+const allDates = ref([]) // Liste de toutes les dates disponibles
 
-      fetch('/ListDates.json')
-        .then((response) => response.json())
-        .then((data) => {
-          allDates.value = data.coursedates
-        })
-        .catch((error) => console.error('Erreur lors du chargement des dates:', error))
+// Charger les données des absences et des dates
+onMounted(() => {
+  fetch('/ListStudentsAbsence.json')
+    .then((response) => response.json())
+    .then((data) => {
+      absencesList.value = data.studentsAbsence
     })
+    .catch((error) => console.error('Erreur lors du chargement des absences:', error))
 
-    // Fonction pour formater correctement les dates sans décalage horaire
-    const formatDate = (date) => {
-      const d = new Date(date);
-      // Utilisation de toLocaleDateString pour obtenir la date au format "YYYY-MM-DD"
-      return d.toLocaleDateString('en-CA'); // Format ISO "YYYY-MM-DD"
+  fetch('/ListDates.json')
+    .then((response) => response.json())
+    .then((data) => {
+      allDates.value = data.coursedates
+    })
+    .catch((error) => console.error('Erreur lors du chargement des dates:', error))
+
+  fetch('/ListNamesStu.json')
+    .then((response) => response.json())
+    .then((data) => {
+      students.value = data.students
+    })
+    .catch((error) => console.error("Erreur lors du chargement des étudiants:", error))
+})
+// Fonction pour formater correctement les dates
+function formatDate(date) {
+  const d = new Date(date);
+  // Utilisation de toLocaleDateString pour obtenir la date au format "YYYY-MM-DD"
+  return d.toLocaleDateString('en-CA');
+}
+
+// Filtrer les absences en fonction de la matière, des étudiants et dates
+const filteredAbsences = computed(() => {
+  return absencesList.value.filter(absence => {
+    const matchesCourse = absence.coursename === courseName;
+    const matchesStudents = selectedStudents.value.length === 0 || selectedStudents.value.some(student => student.surname === absence.surname);
+    const matchesDate = selectedDates.value.length === 0 || selectedDates.value.includes(formatDate(absence.date));
+
+    if (matchesCourse && matchesStudents && matchesDate) { //pour avoir le student.name
+      const student = students.value.find(s => s.surname === absence.surname);
+      absence.studentName = student ? `${student.name} ${student.surname}` : absence.surname;
     }
+    return matchesCourse && matchesStudents && matchesDate;
+  });
+});
 
-    // Filtrer les absences en fonction de la matière, des étudiants et dates
-    const filteredAbsences = computed(() => {
-      return studentsabsence.value.filter(absence => {
-        const matchesCourse = absence.coursename === course;
-        const matchesStudent = selectedStudents.value.length === 0 || selectedStudents.value.includes(absence.name);
-        const matchesDate = !selectedDate.value || formatDate(absence.date) === selectedDate.value;
-        return matchesCourse && matchesStudent && matchesDate;
-      });
-    });
+// Filtrer les étudiants
+const filteredStudents = computed(() => {
+  const surnamesInCourse = new Set(
+    absencesList.value.filter(absence => absence.coursename === courseName)
+      .map(absence => absence.surname)
+  );
+  
+  return students.value.filter(student =>
+    surnamesInCourse.has(student.surname)
+  );
+});
 
-    // Filtrer les étudiants
-    const filteredStudents = computed(() => {
-      const studentsInCourse = new Set(
-        studentsabsence.value.filter(absence => absence.coursename === course)
-          .map(absence => absence.name)
-      );
-      return [...studentsInCourse];
-    });
+// Filtrer les dates
+const filteredDates = computed(() => {
+  return Array.from(new Set(
+    absencesList.value
+      .filter(absence => absence.coursename === courseName)
+      .map(absence => formatDate(absence.date))
+  ));
+});
 
-    // Filtrer les dates
-    const filteredDates = computed(() => {
-      return Array.from(new Set(
-        studentsabsence.value
-          .filter(absence => absence.coursename === course)
-          .map(absence => formatDate(absence.date))
-      ));
-    });
+// Fonction pour réinitialiser tous les filtres
+function showAllAbsences() {
+  selectedStudents.value = []
+  selectedDates.value = []
+}
 
-    // Fonction pour sélectionner une date
-    const selectDate = (date) => {
-      selectedDate.value = date;
-      filterAbsences();
-    };
+// Fonction pour exporter les données en CSV
+function exportCourseData() {
+  const headers = ['Étudiant', 'Date de l\'absence', 'Cours'];
+  const rows = filteredAbsences.value.map(absence => [
+    absence.surname,
+    absence.date,
+    absence.coursename
+  ]);
 
-    // Fonction pour réinitialiser tous les filtres
-    const showAllAbsences = () => {
-      selectedStudents.value = []
-      selectedDate.value = ''
-    }
+  // Création du fichier CSV
+  let csvContent = "data:text/csv;charset=utf-8,"
+    + headers.join(",") + "\n"
+    + rows.map(row => row.join(",")).join("\n");
 
-    // Fonction pour exporter les données en CSV
-    const exportCourseData = () => {
-      const headers = ['Étudiant', 'Date de l\'absence', 'Cours'];
-      const rows = filteredAbsences.value.map(absence => [
-        absence.name,
-        absence.date,
-        absence.coursename
-      ]);
+  // Création d'un lien pour télécharger le fichier CSV
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", `${courseName}_absences.csv`);
+  document.body.appendChild(link);
+  link.click();  // Simule un clic pour déclencher le téléchargement
+}
 
-      // Création du fichier CSV
-      let csvContent = "data:text/csv;charset=utf-8,"
-        + headers.join(",") + "\n"
-        + rows.map(row => row.join(",")).join("\n");
-
-      // Création d'un lien pour télécharger le fichier CSV
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", `${course}_absences.csv`);
-      document.body.appendChild(link);
-      link.click();  // Simule un clic pour déclencher le téléchargement
-    }
-
-    return {
-      course,
-      selectedStudents,
-      selectedDate,
-      filteredAbsences,
-      filteredStudents,
-      filteredDates,
-      showAllAbsences,
-      exportCourseData,
-      selectDate
-    };
-  }
-};
 </script>
 
 <style scoped>
 @import url("../../shared/shared.css");
 
-h1 {
-  font-size: 24px;
-  font-weight: bold;
+.button {
+  margin-top: 0;
 }
 
-h2 {
-  font-size: 18px;
-  margin-top: 20px;
+#select-date {
+  margin-top: 2rem;
 }
 
-select {
-  margin-top: 10px;
-  padding: 5px;
-  width: 100%;
-  height: 40px;
-}
-
-ul {
+.checkbox-list {
   list-style-type: none;
-  padding-left: 0;
+  font-size: 0.75rem;
+  padding-left: 1rem;
+  margin: 0;
+  width: 70%;
 }
 
-li {
-  cursor: pointer;
-  margin-bottom: 10px;
-  padding: 5px;
-  border: 1px solid #ddd;
+.checkbox-list>li {
+  background-color: var(--color-6);
   border-radius: 5px;
-  transition: background-color 0.3s;
+  padding-left: 0.75rem;
 }
 
-li:hover {
-  background-color: #f0f0f0;
+.checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: var(--color-5);
+  cursor: pointer;
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 0;
 }
 
-strong {
+.checkbox:hover {
+  background-color: var(--color-1);
+}
+
+.checkbox:checked {
+  background-color: var(--color-1);
+}
+
+.checkbox:checked::after {
+  content: '✓';
+  display: block;
+  text-align: center;
+  font-size: 16px;
+  color: var(--color-6);
   font-weight: bold;
-}
-
-p {
-  font-size: 16px;
-}
-
-/* Style pour le bouton Voir toutes les absences */
-.show-all-btn {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-.show-all-btn:hover {
-  background-color: #0056b3;
-}
-
-/* Style pour le bouton Exporter */
-.export-btn {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-.export-btn:hover {
-  background-color: #218838;
-}
-
-.date-option {
-  cursor: pointer;
-  margin-bottom: 10px;
-  padding: 5px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-.date-option:hover {
-  background-color: #f0f0f0;
 }
 </style>

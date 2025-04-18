@@ -9,7 +9,7 @@ import { RouterLink } from 'vue-router';
     <RouterLink to="/" class="title-navigation-bar">Gestion des Absences MIASHS</RouterLink>
     <div class="navigation-routerLink">
       <RouterLink to="/recapitulatifs" class="summary-navigation">Voir le récapitulatif des absences</RouterLink>
-      <RouterLink to="/selection/etudiant" class="modification-navigation">Modifier étudiant</RouterLink>
+      <RouterLink to="/selection/etudiant" class="modification-navigation">Modifier étudiant.e</RouterLink>
       <RouterLink to="/selection/groupe" class="modification-navigation">Modifier groupe</RouterLink>
     </div>
   </nav>
