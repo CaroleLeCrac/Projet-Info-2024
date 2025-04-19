@@ -14,7 +14,7 @@ const route = useRoute();
 const currentStudentNumber = route.params.id;
 
 onMounted(() => {
-    fetch('/ListNamesStu.json')
+    fetch('/Students.json')
         .then((response) => response.json())
         .then((data) => {
             console.log("Données JSON récupérées : ", data);
@@ -32,7 +32,7 @@ onMounted(() => {
 });
 
 onMounted(() => {
-    fetch('/ListCourses.json')
+    fetch('/Courses.json')
         .then((response) => response.json())
         .then((data) => {
             console.log("Données JSON récupérées : ", data);
@@ -283,7 +283,6 @@ div.groups {
     content: '✓';
     display: block;
     text-align: center;
-    font-size: 16px;
     color: var(--color-6);
     font-weight: bold;
 }
@@ -322,7 +321,6 @@ div.groups {
     content: '✓';
     display: block;
     text-align: center;
-    font-size: 16px;
     color: var(--color-6);
     font-weight: bold;
 }

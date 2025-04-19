@@ -153,3 +153,32 @@ strong {
 #show-all-absences-btn:hover {
     background-color: var(--color-8);
 }
+
+.student-list-container {
+    margin-bottom: 0.7rem;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.2rem;
+    width: 100%;
+}
+
+.student-info {
+    display: flex;
+    align-items: center;
+}
+
+.student-info label {
+    padding-left: 1rem;
+}
+
+.student-group-number {
+    margin-right: 1rem;
+}
+
+.student-group-number > p {
+    font-size: 1rem;
+    margin: 0;
+    margin-left: 3rem;
+}

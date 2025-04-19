@@ -14,7 +14,7 @@ const route = useRoute();
 const currentGroupNumber = route.params.id;
 
 onMounted(() => {
-  fetch('/ListNamesStu.json')
+  fetch('/Students.json')
     .then((response) => response.json())
     .then((data) => {
       console.log("Données JSON récupérées : ", data);
@@ -70,7 +70,14 @@ function addStudent(student) {
         <input class="search-bar" type="search" v-model="searchQuery1" placeholder="Rechercher un.e étudiant.e" />
         <ul class="list">
           <li v-for="student in filteredStudentsInGroup" :key="student.studentNumber" class="students-list">
-            {{ student.surname }} {{ student.name }}
+            <div class="student-list-container">
+              <div class="student-info">
+                {{ student.surname }} {{ student.name }}
+              </div>
+              <div class="student-group-number">
+                <p>Groupe {{ student.groupNumber }}</p>
+              </div>
+            </div>
             <button @click="deleteStudent(student)" class="button" id="delete-btn">
               ×
             </button>
@@ -84,7 +91,14 @@ function addStudent(student) {
         <input class="search-bar" type="search" v-model="searchQuery2" placeholder="Rechercher un.e étudiant.e" />
         <ul class="list">
           <li v-for="student in filteredStudentsOutsideGroup" :key="student.studentNumber" class="students-list">
-            {{ student.surname }} {{ student.name }}
+            <div class="student-list-container">
+              <div class="student-info">
+                {{ student.surname }} {{ student.name }}
+              </div>
+              <div class="student-group-number">
+                <p>Groupe {{ student.groupNumber }}</p>
+              </div>
+            </div>
             <button @click="addStudent(student)" class="button" id="add-btn">
               +
             </button>
@@ -108,7 +122,8 @@ function addStudent(student) {
   width: 80%;
 }
 
-.list>li {
+.student-list-container {
+  margin-bottom: 0;
   font-size: 1.15rem;
 }
 
@@ -117,9 +132,8 @@ function addStudent(student) {
   border: solid lightgray;
   background-color: var(--color-6);
   border-radius: 5px;
-  padding: 8px;
-  font: 1rem "Fira Sans", sans-serif;
-  margin-bottom: 5px;
+  padding: 0.5rem;
+  margin-bottom: 0.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

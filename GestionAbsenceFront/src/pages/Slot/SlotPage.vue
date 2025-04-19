@@ -6,7 +6,7 @@
         <ul class="list">
             <li v-for="course in filteredCoursesByDate" :key="course.date">
                 <label>
-                    <RouterLink :to="`/appel/${course.date}`" class="router-link">
+                    <RouterLink :to="generateRoute(course)" class="router-link">
                         {{ course.date }} {{ course.name }} {{ course.coursename }}</RouterLink>
                 </label>
             </li>
@@ -27,14 +27,14 @@ const route = useRoute();
 const currentProfesional = ref(route.params.profesionalSurname);
 
 onMounted(() => {
-    fetch('/ListDates.json')
+    fetch('/Slots.json')
         .then((response) => response.json())
         .then((data) => {
             courses.value = data.coursedates
         })
         .catch((error) => console.error('Error loading courses data:', error))
 
-    fetch('/ListProfesional.json')
+    fetch('/Profesionals.json')
         .then((response) => response.json())
         .then((data) => {
             profesionals.value = data.profesionals
@@ -56,6 +56,14 @@ const filteredCoursesByDate = computed(() => {
     const formattedDate = selectedDate.value;
     return filteredCourses.value.filter(course => course.date === formattedDate);
 }); 
+
+function generateRoute(course) {
+    if (course.name === "TD" || course.name === "TM" || course.name == "TP") {
+        return `/appel/${course.date}/${course.groupNumber}`;
+    } else {
+        return `/appel/${course.date}`
+    }
+}
 
 </script>
 

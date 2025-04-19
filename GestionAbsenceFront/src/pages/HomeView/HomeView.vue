@@ -24,7 +24,7 @@ const profesionals = ref([])
 const profesionalQuery = ref('')
 
 onMounted(() => {
-    fetch('/ListProfesional.json')
+    fetch('/Profesionals.json')
         .then((response) => response.json())
         .then((data) => {
             profesionals.value = data.profesionals

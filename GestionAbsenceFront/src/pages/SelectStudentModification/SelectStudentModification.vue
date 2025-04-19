@@ -6,7 +6,7 @@ const students = ref([])
 const searchQuery = ref('')
 
 onMounted(() => {
-  fetch('/ListNamesStu.json')
+  fetch('/Students.json')
     .then((response) => response.json())
     .then((data) => {
       console.log("Données JSON récupérées : ", data);
