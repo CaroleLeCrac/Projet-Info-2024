@@ -5,42 +5,81 @@
         <div class="sections-container">
 
             <div class="section">
+                <h2 v-if="groupNumber !== null">Etudiant.e.s du groupe {{ groupNumber }}</h2>
                 <button id="select-all" class="button" @click="selectAll">
                     {{ allSelected ? "Déselectionner tou.te.s" : "Sélectionner tou.te.s" }}
                 </button>
+                <input class="search-bar" type="search" v-model="searchQueryInGroup"
+                    placeholder="Rechercher un.e étudiant.e">
                 <ul class="list-presence">
-                    <li v-for="student in studentsInGroup" :key="student">
-                        <div class="container">
-                            <input type="checkbox" :value="student.studentNumber" v-model="absentStudents">
-                            <label>{{ student.studentNumber }} {{ student.surname }} {{ student.name }}</label>
+                    <li v-for="student in filteredStudentsInGroup" :key="student.studentNumber">
+                        <div class="student-list-container">
+                            <div class="student-info">
+                                <input type="checkbox" :value="student.studentNumber" v-model="absentStudents">
+                                <label>{{ student.studentNumber }} {{ student.surname }} {{ student.name }}</label>
+                            </div>
+                            <div class="student-group-number">
+                                <p>Groupe {{ student.groupNumber }}</p>
+                            </div>
                         </div>
                     </li>
                 </ul>
-                <button v-if="!callSaved" id="btn-save" class="button" @click="saveCallAndGoBack">Sauvegarder l'appel</button>
             </div>
 
-            <div class="section">
-
+            <div v-if="groupNumber !== null" class="section">
+                <h2>Autres étudiant.e.s</h2>
+                <input class="search-bar" type="search" v-model="searchQueryOutsideGroup"
+                    placeholder="Rechercher un.e étudiant.e">
+                <ul class="list-presence">
+                    <li v-for="student in filteredStudentsOutsideGroup" :key="student.studentNumber">
+                        <div class="student-list-container">
+                            <div class="student-info">
+                                <input type="checkbox" :value="student.studentNumber" v-model="absentStudents">
+                                <label>{{ student.studentNumber }} {{ student.surname }} {{ student.name }}</label>
+                            </div>
+                            <div class="student-group-number">
+                                <p>Groupe {{ student.groupNumber }}</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
+        <button v-if="!callSaved" id="btn-save" class="button" @click="saveCallAndGoBack">Sauvegarder l'appel</button>
     </main>
 </template>
 
 <script setup>
 
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted, computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 
-const studentsInGroup = ref([]);
-const studentsOutsideGroup = ref([]);
-const groups = ref([]);
+const studentsInGroup = ref([]); // Liste des étudiants du groupe (si CM = tous les étudiants)
+const studentsOutsideGroup = ref([]); // Liste des étudiants extérieurs au groupe
+const searchQueryInGroup = ref("");
+const searchQueryOutsideGroup = ref("");
+
+const route = useRoute();
+// Numéro du groupe récupéré si ce n'est pas un CM
+const groupNumber = route.params.groupNumber ? parseInt(route.params.groupNumber) : null;
+
+const groups = ref([]); // UTILE ??
 const buttonStates = ({});
 onMounted(() => {
     fetch('/Students.json')
         .then((response) => response.json())
         .then((data) => {
             console.log("Données des étudiants récupérées : ", data)
-            studentsInGroup.value = data.students;
+            const students = data.students;
+
+            // Tri en groupes
+            if (groupNumber !== null) {
+                studentsInGroup.value = students.filter(s => s.groupNumber === groupNumber);
+                studentsOutsideGroup.value = students.filter(s => s.groupNumber !== groupNumber);
+            } else {
+                studentsInGroup.value = students;
+                studentsOutsideGroup.value = [];
+            }
             buttonStates.value = studentsInGroup.value.reduce((acc, student) => {
                 acc[student.studentNumber] = true
                 return acc
@@ -62,18 +101,40 @@ const props = defineProps({
     students: Array
 })
 
+const filteredStudentsInGroup = computed(() =>
+    studentsInGroup.value.filter(s =>
+        s.name.toLowerCase().includes(searchQueryInGroup.value.toLowerCase()) ||
+        s.surname.toLowerCase().includes(searchQueryInGroup.value.toLowerCase())
+    )
+);
+
+
+const filteredStudentsOutsideGroup = computed(() =>
+    studentsOutsideGroup.value.filter(s =>
+        s.name.toLowerCase().includes(searchQueryOutsideGroup.value.toLowerCase()) ||
+        s.surname.toLowerCase().includes(searchQueryOutsideGroup.value.toLowerCase())
+    )
+);
+
+
 const absentStudents = ref([]);
 
 const allSelected = ref(false);
 
-function selectAll() {
+function selectAll() { // ne modifie rien dans la liste des étudiants extérieurs
     allSelected.value = !allSelected.value;
+
+    const studentsNumberInGroup = studentsInGroup.value.map(student => student.studentNumber);
+
     if (allSelected.value) {
-        absentStudents.value = studentsInGroup.value.map(student => student.studentNumber);
+        const set = new Set(absentStudents.value); // pour éviter les doublons
+        studentsNumberInGroup.forEach(studentNumber => set.add(studentNumber));
+        absentStudents.value = Array.from(set);
     } else {
-        absentStudents.value = [];
+        absentStudents.value = absentStudents.value.filter(studentNumber => !studentsNumberInGroup.includes(studentNumber));
     }
 }
+
 
 const callSaved = ref(false);
 
@@ -94,28 +155,26 @@ function saveCallAndGoBack() {
 <style scoped>
 @import url("../../shared/shared.css");
 
+#select-all {
+    margin-left: 0;
+}
+
+.search-bar {
+    display: block;
+    margin-top: 1rem;
+}
+
 .list-presence {
     list-style-type: none;
-    width: 70%;
+    width: max-content;
     font-size: 1rem;
+    padding-left: 0;
 }
 
 .list-presence>li {
     background-color: var(--color-6);
     margin-bottom: 0.5rem;
-}
-
-div.container {
-    margin-bottom: 0.7rem;
-    font-size: 1.25rem;
-    display: flex;
-    align-items: center;
-    padding: 0.2rem;
-
-}
-
-.container label {
-    padding-left: 1rem;
+    border-radius: 5px;
 }
 
 input[type="checkbox"] {
@@ -145,9 +204,5 @@ input[type="checkbox"]:checked::after {
     font-size: 16px;
     color: var(--color-6);
     font-weight: bold;
-}
-
-#btn-save {
-    margin-left: 19.5rem;
 }
 </style>

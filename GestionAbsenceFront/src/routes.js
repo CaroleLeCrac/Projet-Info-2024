@@ -14,7 +14,8 @@ import StudentSummaryPage from './pages/StudentSummary/StudentSummaryPage.vue'
 const routes = [
   { path: '/', name: 'HomeView', component: HomeView },
   { path: '/creneau/:profesionalSurname', name: 'Slot',component: SlotPage },
-  { path: '/appel/:courseDate', name: 'Call', component: CallPage },
+  { path: '/appel/:courseDate', name: 'CMCall', component: CallPage },
+  { path: '/appel/:courseDate/:groupNumber', name: 'CallWithGroup', component: CallPage },
   { path: '/recapitulatifs', name: 'Summary', component: SummaryPage },
   { path: '/selection/etudiant', name: 'StudentSelection', component: SelectStudentModification },
   { path: '/selection/groupe', name: 'GroupSelection', component: SelectGroupModification },
