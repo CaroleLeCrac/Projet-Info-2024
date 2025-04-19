@@ -26,7 +26,7 @@ defineProps({ steps: Array });
   gap: 0.25rem;
   font-size: 1rem;
   padding-left: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   color: var(--color-2);
 }
 

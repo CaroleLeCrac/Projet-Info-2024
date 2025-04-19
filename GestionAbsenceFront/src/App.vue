@@ -80,6 +80,18 @@ const breadcrumbSteps = computed(() => {
         { label: 'Modification d’un groupe', to: null }
       ]
 
+    case 'CoursesManagement':
+      return [
+        { label: 'Accueil', to: '/' },
+        { label: 'Gestion des données des cours', to: null }
+      ]
+
+    case 'GroupsManagement':
+      return [
+        { label: 'Accueil', to: '/' },
+        { label: 'Gestion des données des groupes', to: null }
+      ]
+
     default:
       return []
   }

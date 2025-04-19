@@ -16,7 +16,9 @@ body {
 }
 
 main.left {
-    margin: 3rem;
+    margin-left: 3rem;
+    margin-right: 3rem;
+    margin-top: 1rem;
 }
 
 main.center {
