@@ -1,3 +1,4 @@
+<!--Composant de la barre de navigation-->
 <script setup>
 import { RouterLink } from 'vue-router';
 
@@ -15,8 +16,8 @@ import { RouterLink } from 'vue-router';
   </nav>
 </template>
 
-<style>
-@import url("../../shared/shared.css");
+<style> /*Pas de scoped car la barre de navigation est sur toutes les pages */
+@import url("../shared.css");
 
 /* Style pour la barre de navigation */
 .navigation-bar {
