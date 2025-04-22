@@ -43,4 +43,5 @@ defineProps({ steps: Array });
 .breadcrumb .separator {
     color: black;
 }
+
 </style>

@@ -11,7 +11,7 @@
         <button class="drop-down-btn" @click="OpenDropDown">Gestion des données ▾</button>
         <div class="drop-down-menu" :class="{ show: dropDownOpen }">
           <RouterLink to="/gestion/cours" class="router-link">Gestion des cours</RouterLink>
-          <RouterLink to="/gestion/groupes" class="router-link">Gestion des groupes</RouterLink>
+          <RouterLink to="/gestion/etudiants" class="router-link">Gestion des étudiants</RouterLink>
         </div>
       </div>
     </div>
@@ -145,6 +145,7 @@ function OpenDropDown() {
   margin-top: 0.5rem;
   padding: 0.2rem;
   background-color: var(--color-4);
+  border: none;
 }
 
 .router-link:hover {

@@ -11,7 +11,7 @@ import SummaryPage from './pages/Summary/SummaryPage.vue'
 import CourseSummaryPage from './pages/CourseSummary/CourseSummaryPage.vue'
 import StudentSummaryPage from './pages/StudentSummary/StudentSummaryPage.vue'
 import CoursesManagementPage from './pages/CoursesManagement/CoursesManagementPage.vue'
-import GroupsManagementPage from './pages/GroupsManagement/GroupsManagementPage.vue'
+import StudentsManagementPage from './pages/GroupsManagement/StudentsManagementPage.vue'
 
 const routes = [
   { path: '/', name: 'HomeView', component: HomeView },
@@ -26,7 +26,7 @@ const routes = [
   { path: '/recapitulatifs/matiere/:id', name: 'CourseSummary', component: CourseSummaryPage },
   { path: '/recapitulatifs/etudiant/:id', name: 'StudentSummary', component: StudentSummaryPage },
   { path: '/gestion/cours', name: 'CoursesManagement', component: CoursesManagementPage },
-  { path: '/gestion/groupes', name: 'GroupsManagement', component: GroupsManagementPage }
+  { path: '/gestion/etudiants', name: 'StudentsManagement', component: StudentsManagementPage }
 ]
 
 export const router = createRouter({
