@@ -10,6 +10,8 @@ import CallPage from './pages/Call/CallPage.vue'
 import SummaryPage from './pages/Summary/SummaryPage.vue'
 import CourseSummaryPage from './pages/CourseSummary/CourseSummaryPage.vue'
 import StudentSummaryPage from './pages/StudentSummary/StudentSummaryPage.vue'
+import CoursesManagementPage from './pages/CoursesManagement/CoursesManagementPage.vue'
+import StudentsManagementPage from './pages/StudentsManagement/StudentsManagementPage.vue'
 
 const routes = [
   { path: '/', name: 'HomeView', component: HomeView },
@@ -22,7 +24,9 @@ const routes = [
   { path: '/modification/groupe/:id', name: 'GroupModification', component: GroupModification },
   { path: '/modification/etudiant/:id', name: 'StudentModification', component: StudentModification },
   { path: '/recapitulatifs/matiere/:id', name: 'CourseSummary', component: CourseSummaryPage },
-  { path: '/recapitulatifs/etudiant/:id', name: 'StudentSummary', component: StudentSummaryPage }
+  { path: '/recapitulatifs/etudiant/:id', name: 'StudentSummary', component: StudentSummaryPage },
+  { path: '/gestion/cours', name: 'CoursesManagement', component: CoursesManagementPage },
+  { path: '/gestion/etudiants', name: 'StudentsManagement', component: StudentsManagementPage }
 ]
 
 export const router = createRouter({

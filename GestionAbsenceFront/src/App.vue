@@ -51,20 +51,20 @@ const breadcrumbSteps = computed(() => {
       return [
         { label: 'Accueil', to: '/' },
         { label: 'Récapitulatif des absences', to: '/recapitulatifs' },
-        { label: 'Récap. étudiant', to: null }
+        { label: 'Récap. étudiant.e', to: null }
       ]
 
     case 'SelectStudentModification':
       return [
         { label: 'Accueil', to: '/' },
-        { label: 'Sélection étudiant à modifier', to: null }
+        { label: 'Sélection étudiant.e à modifier', to: null }
       ]
 
     case 'StudentModification':
       return [
         { label: 'Accueil', to: '/' },
-        { label: 'Sélection étudiant à modifier', to: '/selection/etudiant' },
-        { label: 'Modification d’un étudiant', to: null }
+        { label: 'Sélection étudiant.e à modifier', to: '/selection/etudiant' },
+        { label: 'Modification d’un.e étudiant.e', to: null }
       ]
 
     case 'SelectGroupModification':
@@ -78,6 +78,18 @@ const breadcrumbSteps = computed(() => {
         { label: 'Accueil', to: '/' },
         { label: 'Sélection groupe à modifier', to: '/selection/groupe' },
         { label: 'Modification d’un groupe', to: null }
+      ]
+
+    case 'CoursesManagement':
+      return [
+        { label: 'Accueil', to: '/' },
+        { label: 'Gestion des données des cours', to: null }
+      ]
+
+    case 'StudentsManagement':
+      return [
+        { label: 'Accueil', to: '/' },
+        { label: 'Gestion des données des étudiant.e.s', to: null }
       ]
 
     default:

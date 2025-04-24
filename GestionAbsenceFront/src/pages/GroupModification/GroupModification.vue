@@ -66,7 +66,7 @@ function addStudent(student) {
     <div class="container">
       <!-- Liste des étudiant.e.s du groupe -->
       <div class="left-container">
-        <h1>Liste des étudiant.e.s du groupe</h1>
+        <h1>Liste des étudiant.e.s du groupe {{ currentGroupNumber }}</h1>
         <input class="search-bar" type="search" v-model="searchQuery1" placeholder="Rechercher un.e étudiant.e" />
         <ul class="list">
           <li v-for="student in filteredStudentsInGroup" :key="student.studentNumber" class="students-list">
