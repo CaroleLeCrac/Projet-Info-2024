@@ -9,27 +9,17 @@
             <div class="forms-container">
                 <div class="form-column">
                     <div class="file-upload-section" v-for="section in sections" :key="section.name">
-                        <button type="button" class="file-upload-btn" @click="fileInput(section.name)">
-                            {{ section.label }}
-                        </button>
-                        <input type="file" accept=".csv,.xlsx" :ref="el => fileInputs[section.name] = el"
+                        <span>{{ section.label }} :</span>
+                        <input type="file" accept=".csv" :ref="el => fileInputs[section.name] = el"
                             class="file-upload" @change="fileChange($event, section.name)" />
-                        <span v-if="uploadedFiles[section.name]">
-                            📁 {{ uploadedFiles[section.name].name }}
-                        </span>
                     </div>
                 </div>
 
                 <div v-if="options.length > 0" class="form-column">
                     <div class="file-upload-section" v-for="option in options" :key="option.name">
-                        <button type="button" class="file-upload-btn" @click="fileInput(option.name)">
-                            {{ option.label }}
-                        </button>
+                        <span>{{ option.label }} :</span>
                         <input type="file" accept=".csv,.xlsx" :ref="el => fileInputs[option.name] = el"
                             class="file-upload" @change="fileChange($event, option.name)" />
-                        <span v-if="uploadedFiles[option.name]">
-                            📁 {{ uploadedFiles[option.name].name }}
-                        </span>
                     </div>
                 </div>
             </div>
@@ -54,10 +44,6 @@ const sections = [
 
 const fileInputs = ref({})
 const uploadedFiles = reactive({})
-
-function fileInput(name) {
-    fileInputs.value[name]?.click()
-}
 
 function fileChange(event, name) {
     const file = event.target.files[0]
@@ -111,24 +97,21 @@ onMounted(() => {
     display: flex;
     align-items: center;
     gap: 1rem;
+    margin-bottom: 0.5rem;
 }
 
-.file-upload-btn {
-    background-color: var(--color-6);
+.file-upload-section>span {
     color: black;
-    border: black 2px solid;
-    padding: 0.75rem 1.25rem;
     border-radius: 5px;
+    font-size: 1.25rem;
+}
+
+.file-upload-section input[type="file"] {
     cursor: pointer;
-    font-size: 1rem;
 }
 
-.file-upload-btn:hover {
-    background-color: var(--color-4);
-}
-
-.file-upload {
-    display: none;
+.file-upload-section>span>input>span {
+    margin-left: 0.5rem;
 }
 
 .button {

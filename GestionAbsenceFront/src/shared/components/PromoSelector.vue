@@ -1,17 +1,22 @@
 <!--Composant de sélection de la promo (L1,L2,L3) pour les pages de Gestion-->
 <template>
     <main class="center">
-        <div class="promo-selector">
-            <button v-for="promo in promos" :key="promo" @click="selectPromo(promo)"
-                :class="{ active: promo === selectedPromo }">
+        <div class="promos">
+            <button class="" v-for="promo in promos" :key="promo" :class="{ active: promo === selectedPromo }">
                 {{ promo }}
+            </button>
+        </div>
+        <div class="selector">
+            <button v-for="semester in semesters" :key="semester" @click="selectSemester(semester)"
+                :class="{ active: semester === selectedSemester }">
+                {{ semester }}
             </button>
         </div>
     </main>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 const props = defineProps({
     modelValue: String
@@ -19,18 +24,30 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const promos = ['L1', 'L2', 'L3']
-const selectedPromo = ref(props.modelValue || 'L1')
+const selectedPromo = ref('L1')
 
-function selectPromo(promo) {
-    selectedPromo.value = promo
-    emit('update:modelValue', promo)
+const semesters = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6']
+const selectedSemester = ref(props.modelValue || 'S1')
+
+function selectSemester(semester) {
+    selectedSemester.value = semester
+
+    if (['S1', 'S2'].includes(semester)) {
+        selectedPromo.value = 'L1'
+    } else if (['S3', 'S4'].includes(semester)) {
+        selectedPromo.value = 'L2'
+    } else if (['S5', 'S6'].includes(semester)) {
+        selectedPromo.value = 'L3'
+    }
+
+    emit('update:modelValue', semester)
 }
 </script>
 
 <style scoped>
 @import url("../shared.css");
 
-.promo-selector {
+.selector, .promos {
     display: flex;
     border: 1px solid black;
     background-color: var(--color-6);
@@ -38,7 +55,12 @@ function selectPromo(promo) {
     margin-top: 1rem;
 }
 
-.promo-selector button {
+.selector:last-child {
+    margin-top: 0;
+    border-top: none;
+}
+
+.selector button, .promos button {
     flex: 1;
     padding: 1rem;
     background-color: var(--color-5);
@@ -49,15 +71,15 @@ function selectPromo(promo) {
     cursor: pointer;
 }
 
-.promo-selector button:last-child {
+.selector button:last-child, .promos button:last-child {
     border-right: none;
 }
 
-.promo-selector button.active {
+.selector button.active, .promos button.active {
     background-color: var(--color-4);
 }
 
-.promo-selector button:hover:not(.active) {
+.selector button:hover:not(.active) {
     background-color: var(--color-6);
 }
 </style>

@@ -11,7 +11,7 @@ import SummaryPage from './pages/Summary/SummaryPage.vue'
 import CourseSummaryPage from './pages/CourseSummary/CourseSummaryPage.vue'
 import StudentSummaryPage from './pages/StudentSummary/StudentSummaryPage.vue'
 import CoursesManagementPage from './pages/CoursesManagement/CoursesManagementPage.vue'
-import StudentsManagementPage from './pages/GroupsManagement/StudentsManagementPage.vue'
+import StudentsManagementPage from './pages/StudentsManagement/StudentsManagementPage.vue'
 
 const routes = [
   { path: '/', name: 'HomeView', component: HomeView },
