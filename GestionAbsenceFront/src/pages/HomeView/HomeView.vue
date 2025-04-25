@@ -23,6 +23,17 @@ import { ref, onMounted, computed } from 'vue'
 const profesionals = ref([])
 const profesionalQuery = ref('')
 
+const testPro = ref([])
+
+onMounted(() => {
+    fetch('/Profesionals.json')
+        .then((response) => response.json())
+        .then((data) => {
+            testPro.value = data
+        })
+        .catch((error) => console.error('Error loading profesionals data to ADE : ', error))
+})
+
 onMounted(() => {
     fetch('/Profesionals.json')
         .then((response) => response.json())

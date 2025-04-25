@@ -15,7 +15,7 @@ import StudentsManagementPage from './pages/StudentsManagement/StudentsManagemen
 
 const routes = [
   { path: '/', name: 'HomeView', component: HomeView },
-  { path: '/creneau/:profesionalSurname', name: 'Slot',component: SlotPage },
+  { path: '/creneau', name: 'Slot',component: SlotPage },
   { path: '/appel/:courseDate', name: 'CMCall', component: CallPage },
   { path: '/appel/:courseDate/:groupNumber', name: 'CallWithGroup', component: CallPage },
   { path: '/recapitulatifs', name: 'Summary', component: SummaryPage },
