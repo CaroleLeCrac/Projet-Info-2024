@@ -8,7 +8,7 @@ export class CourseMaterialController {
   constructor(private readonly courseMaterialService: CourseMaterialService) {}
 
   @Get(':id')
-  async getById(@Param('id') id: number) {
+  async getById(@Param('id', ParseIntPipe) id: number) {
       return this.courseMaterialService.get({id});
   }
 
@@ -19,19 +19,18 @@ export class CourseMaterialController {
 
   @Post()
   async put(@Body() createCourseMaterialDto : CreateCourseMaterialDto) {
-      const {semester_id, name, full_promo} = createCourseMaterialDto
+      const {semester_id, name} = createCourseMaterialDto
       const data : Prisma.course_materialCreateInput = {
           course_material_semester : {
               connect: {id : semester_id}
           },
           name, 
-          full_promo
       }
       return this.courseMaterialService.post(data);
   }
 
   @Put(':id')
-  async putById(@Param('id') id : number, @Body() updateCourseMaterialDto : UpdateCourseMaterialDto ) {
+  async putById(@Param('id', ParseIntPipe) id : number, @Body() updateCourseMaterialDto : UpdateCourseMaterialDto ) {
       const {semester_id, name} = updateCourseMaterialDto
       const data : Prisma.course_materialUpdateInput = {
           course_material_semester : { connect: { id : semester_id}},

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, ParseIntPipe } from '@nestjs/common';
 import { SlotService } from './slot.service';
 import { CreateSlotDto } from './dto/ceate-slot.dto';
 import { UpdateSlotDto } from './dto/update-slot.dto';
@@ -10,7 +10,7 @@ export class SlotController {
 
   //recuperer slot par son id
   @Get(':id')
-  async getById(@Param('id') id: number) {
+  async getById(@Param('id', ParseIntPipe) id: number) {
     console.log(id);
     return this.slotService.get({ id: Number(id) });
   }
@@ -25,14 +25,9 @@ export class SlotController {
   @Post()
   async post(@Body() createSlotDto: CreateSlotDto) {
     const data: Prisma.slotCreateInput = {
-      starting_time: createSlotDto.starting_time,
       date: createSlotDto.date,
-      num_session: createSlotDto.num_session,
       slot_group: {
         connect: { id: createSlotDto.group_id },
-      },
-      slot_supervisor: {
-        connect: { id: createSlotDto.supervisor_id },
       },
       slot_session_type: {
         connect: { id: createSlotDto.session_type_id },
@@ -43,13 +38,13 @@ export class SlotController {
 
   //update un slot par son id
   @Put(':id')
-  async putById(@Param('id') id: number, @Body() updateSlotDto: UpdateSlotDto) {
+  async putById(@Param('id', ParseIntPipe) id: number, @Body() updateSlotDto: UpdateSlotDto) {
     return this.slotService.put(Number(id), updateSlotDto);
   }
 
   //supprimer un slot par son id
   @Delete(':id')
-  async deleteById(@Param('id') id: number) {
+  async deleteById(@Param('id', ParseIntPipe) id: number) {
     return this.slotService.delete({ id: Number(id) });
   }
 }

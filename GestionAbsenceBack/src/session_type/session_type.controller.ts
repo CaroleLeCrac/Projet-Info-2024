@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, ParseIntPipe } from '@nestjs/common';
 import { SessionTypeService } from './session_type.service';
 import { CreateSessionTypeDto } from './dto/create-session_type.dto';
 import { UpdateSessionTypeDto } from './dto/update-session_type.dto';
@@ -10,7 +10,7 @@ export class SessionTypeController {
 
   //recuperer par l'id les creneaux
   @Get(':id')
-  async getById(@Param('id') id: number) {
+  async getById(@Param('id', ParseIntPipe) id: number) {
     return this.sessionTypeService.get({ id: Number(id) });
   }
 
@@ -25,7 +25,6 @@ export class SessionTypeController {
   async post(@Body() createSessionTypeDto: CreateSessionTypeDto) {
     const data: Prisma.session_typeCreateInput = {
       course_type_name: createSessionTypeDto.course_type_name,
-      nb_repetitions: createSessionTypeDto.nb_repetitions,
       session_type_course_material: {
         connect: {
           id: createSessionTypeDto.course_material_id,
@@ -38,12 +37,11 @@ export class SessionTypeController {
   //update un creneau par son id
   @Put(':id')
   async putById(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateSessionTypeDto: UpdateSessionTypeDto
   ) {
     const data: Prisma.session_typeUpdateInput = {
       course_type_name: updateSessionTypeDto.course_type_name,
-      nb_repetitions: updateSessionTypeDto.nb_repetitions,
       session_type_course_material: {
         connect: { id: updateSessionTypeDto.course_material_id },
       },
@@ -53,7 +51,7 @@ export class SessionTypeController {
 
   //supprimer par l'id
   @Delete(':id')
-  async deleteById(@Param('id') id: number) {
+  async deleteById(@Param('id', ParseIntPipe) id: number) {
     return this.sessionTypeService.delete({ id: Number(id) });
   }
 }

@@ -9,7 +9,7 @@ export class GroupController {
   constructor(private readonly groupService: GroupService) {}
 
     @Get(':id')
-    async getById(@Param('id') id: number) {
+    async getById(@Param('id', ParseIntPipe) id: number) {
         return this.groupService.get({id});
     }
 
@@ -31,7 +31,7 @@ export class GroupController {
     }
 
     @Put(':id')
-    async putById(@Param('id') id : number, @Body() updateGroupDto : UpdateGroupDto ) {
+    async putById(@Param('id', ParseIntPipe) id : number, @Body() updateGroupDto : UpdateGroupDto ) {
         const {semester_id, name} = updateGroupDto
         const data : Prisma.groupUpdateInput = {
             group_semester : { connect: { id : semester_id}},

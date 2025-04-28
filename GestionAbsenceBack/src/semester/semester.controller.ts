@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, ParseIntPipe } from '@nestjs/common';
 import { SemesterService } from './semester.service';
 import { CreateSemesterDto } from './dto/create-semester.dto';
 import { UpdateSemesterDto } from './dto/update-semester.dto';
@@ -9,7 +9,7 @@ export class SemesterController {
   constructor(private readonly semesterService: SemesterService) {} 
 
   @Get(':id')
-  async getById(@Param('id') id : number) {
+  async getById(@Param('id', ParseIntPipe) id : number) {
     return this.semesterService.get({ id });
   }
 
@@ -24,12 +24,12 @@ export class SemesterController {
   }
 
   @Put(':id')
-  async putById(@Param('id') id : number, @Body() updateSemesterDto : UpdateSemesterDto ){
+  async putById(@Param('id', ParseIntPipe) id : number, @Body() updateSemesterDto : UpdateSemesterDto ){
     return this.semesterService.put( id , updateSemesterDto)
   }
 
   @Delete(':id')
-  async deleteById(@Param('id') id : number){
+  async deleteById(@Param('id', ParseIntPipe) id : number){
     return this.semesterService.delete({id})
   }
 
