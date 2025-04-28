@@ -153,7 +153,7 @@ function saveCallAndGoBack() {
 </script>
 
 <style scoped>
-@import url("../../shared/shared.css");
+@import url("../shared/shared.css");
 
 #select-all {
     margin-left: 0;

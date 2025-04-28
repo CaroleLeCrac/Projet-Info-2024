@@ -127,7 +127,7 @@ function exportStudentData() {
 
 
 <style scoped>
-@import url("../../shared/shared.css");
+@import url("../shared/shared.css");
 
 .button {
   margin-top: 0;

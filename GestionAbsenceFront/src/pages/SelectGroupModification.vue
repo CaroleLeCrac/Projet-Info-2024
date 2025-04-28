@@ -37,5 +37,5 @@ const filteredGroups = computed(() =>
 </template>
 
 <style scoped>
-@import url("../../shared/shared.css");
+@import url("../shared/shared.css");
 </style>

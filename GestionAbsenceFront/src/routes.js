@@ -1,21 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import HomeView from './pages/HomeView/HomeView.vue'
-import SelectStudentModification from './pages/SelectStudentModification/SelectStudentModification.vue'
-import GroupModification from './pages/GroupModification/GroupModification.vue'
-import StudentModification from './pages/StudentModification/StudentModification.vue'
-import SelectGroupModification from './pages/SelectGroupModification/SelectGroupModification.vue'
-import SlotPage from './pages/Slot/SlotPage.vue'
-import CallPage from './pages/Call/CallPage.vue'
-import SummaryPage from './pages/Summary/SummaryPage.vue'
-import CourseSummaryPage from './pages/CourseSummary/CourseSummaryPage.vue'
-import StudentSummaryPage from './pages/StudentSummary/StudentSummaryPage.vue'
-import CoursesManagementPage from './pages/CoursesManagement/CoursesManagementPage.vue'
-import StudentsManagementPage from './pages/StudentsManagement/StudentsManagementPage.vue'
+import SelectStudentModification from './pages/SelectStudentModification.vue'
+import GroupModification from './pages/GroupModification.vue'
+import StudentModification from './pages/StudentModification.vue'
+import SelectGroupModification from './pages/SelectGroupModification.vue'
+import SlotPage from './pages/SlotPage.vue'
+import CallPage from './pages/CallPage.vue'
+import SummaryPage from './pages/SummaryPage.vue'
+import CourseSummaryPage from './pages/CourseSummaryPage.vue'
+import StudentSummaryPage from './pages/StudentSummaryPage.vue'
+import CoursesManagementPage from './pages/CoursesManagementPage.vue'
+import StudentsManagementPage from './pages/StudentsManagementPage.vue'
 
 const routes = [
-  { path: '/', name: 'HomeView', component: HomeView },
-  { path: '/creneau', name: 'Slot',component: SlotPage },
+  { path: '/', name: 'Slot',component: SlotPage },
   { path: '/appel/:courseDate', name: 'CMCall', component: CallPage },
   { path: '/appel/:courseDate/:groupNumber', name: 'CallWithGroup', component: CallPage },
   { path: '/recapitulatifs', name: 'Summary', component: SummaryPage },
