@@ -51,6 +51,6 @@ const filteredProfesionals = computed(() => {
 </script>
 
 <style scoped>
-@import url("../../shared/shared.css");
+@import url("../shared/shared.css");
 
 </style>

@@ -17,20 +17,15 @@ const breadcrumbSteps = computed(() => {
   const name = route.name
 
   switch (name) {
-    case 'HomeView':
-      return [{ label: 'Accueil', to: null }]
-
     case 'Slot':
       return [
-        { label: 'Accueil', to: '/' },
-        { label: 'Choix du créneau', to: null }
+        { label: 'Accueil', to: null }
       ]
 
     case 'CMCall':
     case 'CallWithGroup':
       return [
         { label: 'Accueil', to: '/' },
-        { label: 'Choix du créneau', to: `/creneau/${route.params.profesionalSurname}` },
         { label: 'Appel', to: null }
       ]
 

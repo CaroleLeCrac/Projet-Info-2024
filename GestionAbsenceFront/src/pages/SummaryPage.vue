@@ -94,7 +94,7 @@ const filteredCourses = computed(() => {
 </script>
 
 <style scoped>
-@import url("../../shared/shared.css");
+@import url("../shared/shared.css");
 
 .buttons-container {
   display: flex;

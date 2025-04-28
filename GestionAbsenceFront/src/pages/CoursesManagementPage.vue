@@ -125,7 +125,7 @@ function saveChanges() {
 </script>
 
 <style scoped>
-@import url("../../shared/shared.css");
+@import url("../shared/shared.css");
 
 .groups-info div {
     margin-bottom: 1rem;

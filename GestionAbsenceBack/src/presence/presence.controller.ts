@@ -32,6 +32,7 @@ export class PresenceController {
       presence_slot: {
         connect: { id: createPresenceDto.slot_id },
       },
+      attendance: createPresenceDto.attendance,
     };
     return this.presenceService.post(data);
   }

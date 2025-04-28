@@ -26,7 +26,6 @@ export class SessionTypeController {
     const data: Prisma.session_typeCreateInput = {
       course_type_name: createSessionTypeDto.course_type_name,
       nb_repetitions: createSessionTypeDto.nb_repetitions,
-      full_promo: createSessionTypeDto.full_promo,
       session_type_course_material: {
         connect: {
           id: createSessionTypeDto.course_material_id,
@@ -45,7 +44,6 @@ export class SessionTypeController {
     const data: Prisma.session_typeUpdateInput = {
       course_type_name: updateSessionTypeDto.course_type_name,
       nb_repetitions: updateSessionTypeDto.nb_repetitions,
-      full_promo: updateSessionTypeDto.full_promo,
       session_type_course_material: {
         connect: { id: updateSessionTypeDto.course_material_id },
       },
