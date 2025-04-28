@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Delete, Param, Body } from "@nestjs/common";
 import { InscriptionService} from "./inscription.service";
-import { CreateInscriptionDto } from "./dto/create-inscriptipn.dto";
+import { CreateInscriptionDto } from "./dto/create-inscription.dto";
 import { Prisma } from "@prisma/client";
 
 @Controller('inscription')

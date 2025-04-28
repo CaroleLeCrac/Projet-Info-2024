@@ -1,4 +1,4 @@
 export type CreateSemesterDto = {
-    year : string
+    year : number
     name : string
 }
