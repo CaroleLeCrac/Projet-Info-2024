@@ -1,4 +1,4 @@
 export type UpdateSemesterDto = {
-    year? : string
+    year? : number
     name? : string
 }

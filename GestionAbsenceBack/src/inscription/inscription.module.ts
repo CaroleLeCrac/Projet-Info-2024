@@ -8,4 +8,4 @@ import { PrismaModule } from 'src/prisma.module';
   controllers: [InscritpionController],
   providers: [InscriptionService],
 })
-export class PresenceModule { }
+export class InscriptionModule { }

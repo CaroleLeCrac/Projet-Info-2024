@@ -50,7 +50,7 @@ model group {
 
 model semester {
   id Int @id @default(autoincrement())
-  year DateTime
+  year Int
   name String
   semester_group group[]
   semester_course_material course_material[]
@@ -60,6 +60,7 @@ model course_material {
   id Int @id @default(autoincrement())
   name String
   semester_id Int
+  full_promo Boolean
   course_material_semester semester @relation(fields: [semester_id], references: [id])
   course_material_session_type session_type[]
 }
@@ -68,7 +69,6 @@ model session_type {
   id Int @id @default(autoincrement())
   course_type_name String
   nb_repetitions Int
-  full_promo Boolean
   course_material_id Int
   session_type_course_material course_material @relation(fields: [course_material_id], references: [id])
   session_type_slot slot[]
@@ -77,6 +77,7 @@ model session_type {
 model presence {
   student_id Int
   slot_id Int
+  attendance Boolean
   presence_student student @relation(fields: [student_id], references: [id])
   presence_slot slot @relation(fields: [slot_id], references: [id])
   @@id ([student_id, slot_id])
