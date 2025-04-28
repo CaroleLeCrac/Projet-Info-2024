@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Param, Body } from "@nestjs/common";
+import { Controller, Get, Post, Delete, Param, Body, ParseIntPipe } from "@nestjs/common";
 import { InscriptionService} from "./inscription.service";
 import { CreateInscriptionDto } from "./dto/create-inscription.dto";
 import { Prisma } from "@prisma/client";
@@ -7,7 +7,7 @@ import { Prisma } from "@prisma/client";
 export class InscritpionController {
     constructor (private readonly inscriptionService : InscriptionService) {}
     @Get(':student_id/:group_id')
-    async getById(@Param('student_id') student_id: number, @Param ('group_id') group_id: number)
+    async getById(@Param('student_id', ParseIntPipe) student_id: number, @Param ('group_id', ParseIntPipe) group_id: number)
     {
         return this.inscriptionService.get({student_id_group_id : {student_id, group_id}})
     }
@@ -31,7 +31,7 @@ export class InscritpionController {
     }
 
     @Delete(':student_id/:group_id')
-    async deleteById(@Param('student_id') student_id: number, @Param('group_id') group_id: number) {
+    async deleteById(@Param('student_id', ParseIntPipe) student_id: number, @Param('group_id', ParseIntPipe) group_id: number) {
       return this.inscriptionService.delete({student_id_group_id :{student_id, group_id}})
     }
 }
