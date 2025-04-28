@@ -19,12 +19,13 @@ export class CourseMaterialController {
 
   @Post()
   async put(@Body() createCourseMaterialDto : CreateCourseMaterialDto) {
-      const {semester_id, name} = createCourseMaterialDto
+      const {semester_id, name, full_promo} = createCourseMaterialDto
       const data : Prisma.course_materialCreateInput = {
           course_material_semester : {
               connect: {id : semester_id}
           },
-          name
+          name, 
+          full_promo
       }
       return this.courseMaterialService.post(data);
   }
