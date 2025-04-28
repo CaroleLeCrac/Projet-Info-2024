@@ -1,9 +1,9 @@
 <!--Page de gestion des groupes-->
 <template>
     <main class="left">
-        <PromoSelector v-model="selectedPromo" />
+        <PromoSelector v-model="selectedSemester" />
 
-        <h1>Joindre les fichiers .csv ou .xlsx</h1>
+        <h1>Joindre les fichiers .csv</h1>
 
         <form @submit.prevent="submit" class="file-upload-form">
             <div class="forms-container">
@@ -18,7 +18,7 @@
                 <div v-if="options.length > 0" class="form-column">
                     <div class="file-upload-section" v-for="option in options" :key="option.name">
                         <span>{{ option.label }} :</span>
-                        <input type="file" accept=".csv,.xlsx" :ref="el => fileInputs[option.name] = el"
+                        <input type="file" accept=".csv" :ref="el => fileInputs[option.name] = el"
                             class="file-upload" @change="fileChange($event, option.name)" />
                     </div>
                 </div>
@@ -37,7 +37,7 @@ const selectedPromo = ref('L1')
 const options = ref([])
 
 const sections = [
-    { name: 'etudiants', label: 'Étudiant.e.s' },
+    { name: 'etudiants', label: 'Tou.te.s les étudiant.e.s' },
     { name: 'groupes', label: 'Groupes de TD/TP/TM' },
     { name: 'cours', label: 'Cours Communs' }
 ]
@@ -71,7 +71,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-@import url("../../shared/shared.css");
+@import url("../shared/shared.css");
 
 .file-upload-form {
     display: flex;

@@ -110,7 +110,7 @@ function addStudent(student) {
 </template>
 
 <style scoped>
-@import url("../../shared/shared.css");
+@import url("../shared/shared.css");
 
 .container {
   display: grid;
