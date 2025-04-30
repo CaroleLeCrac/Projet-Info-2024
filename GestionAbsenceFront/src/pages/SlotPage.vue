@@ -1,4 +1,4 @@
-<!--Page de sélection du créneau-->
+<!--Page d'accueil de sélection du créneau-->
 <template>
     <main class="center">
         <h1>Sélectionner un créneau</h1>
@@ -33,7 +33,7 @@ onMounted(() => {
 const filteredCoursesByDate = computed(() => {
     const formattedDate = selectedDate.value;
     return courses.value.filter(course => course.date === formattedDate);
-}); 
+});
 
 function generateRoute(course) {
     if (course.name === "TD" || course.name === "TM" || course.name == "TP") {

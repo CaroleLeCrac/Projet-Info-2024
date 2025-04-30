@@ -1,4 +1,5 @@
-<!--Page d'accueil avec la sélection du professeur-->
+<!--Page de sélection du professeur-->
+<!--Page non utilisée-->
 <template>
     <main class="center">
         <h1>Encadrant.e.s</h1>
@@ -52,5 +53,4 @@ const filteredProfesionals = computed(() => {
 
 <style scoped>
 @import url("../shared/shared.css");
-
 </style>

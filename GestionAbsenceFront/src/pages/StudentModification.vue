@@ -1,4 +1,79 @@
 <!--Page de modification d'informations ou d'ajout d'un étudiant-->
+<template>
+    <main class="left">
+        <div class="page-layout">
+
+            <div class="left-column">
+                <h2>Remplissez les informations de l'étudiant.e</h2>
+                <form class="container">
+                    <div>
+                        <label for="studentNumber">Numéro étudiant : </label>
+                        <input type="text" id="studentNumber" v-model="student.studentNumber"
+                            :placeholder="student.studentNumber ? '' : 'Numéro de l\'étudiant.e'" />
+                    </div>
+                    <div>
+                        <label for="name">Nom : </label>
+                        <input type="text" id="surname" v-model="student.surname"
+                            :placeholder="student.surname ? '' : 'Nom de l\'étudiant.e'" />
+                    </div>
+                    <div>
+                        <label for="surname">Prénom : </label>
+                        <input type="text" id="name" v-model="student.name"
+                            :placeholder="student.name ? '' : 'Prénom de l\'étudiant.e'" />
+                    </div>
+                    <div>
+                        <label for="mail">Mail : </label>
+                        <input type="text" id="mail" v-model="student.mail"
+                            :placeholder="student.mail ? '' : 'Mail de l\'étudiant.e'" />
+                    </div>
+
+                    <div>
+                        <label>Année en cours : </label>
+                        <select name="inscriptionYear">
+                            <option v-for="year in years">{{ year.name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="groups">
+                        <label>Groupes : </label>
+                        <ul class="list-groups">
+                            <li v-for="group in groups" :key="group.number">
+                                <div id="container-group" class="list-container">
+                                    <input class="checkbox-group" type="checkbox" :value="group.name"
+                                        v-model="selectedGroups">
+                                    <label for="group.name">{{ group.name }}</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="right-column">
+                <h2>Sélectionnez les options de l'étudiant.e</h2>
+                <div id="course-filters">
+                    <input class="search-bar" type="search" v-model="searchQueryCourse"
+                        placeholder="Rechercher un cours" />
+                    <button id="select-all" class="button" @click="selectAllCourses">
+                        {{ allSelectedCourses ? "Déselectionner tous les cours" : "Sélectionner tous les cours" }}
+                    </button>
+                </div>
+                <ul class="list-courses">
+                    <li v-for="course in filteredCourses" :key="course.name">
+                        <div class="list-container">
+                            <input class="checkbox-course" type="checkbox" :value="course.name"
+                                v-model="selectedCourses">
+                            <label for="course.name">{{ course.name }}</label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <button id="save-changes" class="button" v-if="!changesSaved" @click="saveChangesAndGoBack">
+            Enregistrer les changements</button>
+    </main>
+</template>
+
 <script setup>
 
 import { ref, onMounted, computed } from 'vue';
@@ -100,79 +175,6 @@ function saveChangesAndGoBack() {
 
 </script>
 
-<template>
-    <main class="left">
-        <div class="page-layout">
-
-            <div class="left-column">
-                <h2>Remplissez les informations de l'étudiant.e</h2>
-                <form class="container">
-                    <div>
-                        <label for="studentNumber">Numéro étudiant : </label>
-                        <input type="text" id="studentNumber" v-model="student.studentNumber"
-                            :placeholder="student.studentNumber ? '' : 'Numéro de l\'étudiant.e'" />
-                    </div>
-                    <div>
-                        <label for="name">Nom : </label>
-                        <input type="text" id="surname" v-model="student.surname"
-                            :placeholder="student.surname ? '' : 'Nom de l\'étudiant.e'" />
-                    </div>
-                    <div>
-                        <label for="surname">Prénom : </label>
-                        <input type="text" id="name" v-model="student.name"
-                            :placeholder="student.name ? '' : 'Prénom de l\'étudiant.e'" />
-                    </div>
-                    <div>
-                        <label for="mail">Mail : </label>
-                        <input type="text" id="mail" v-model="student.mail"
-                            :placeholder="student.mail ? '' : 'Mail de l\'étudiant.e'" />
-                    </div>
-
-                    <div>
-                        <label>Année en cours : </label>
-                        <select name="inscriptionYear">
-                            <option v-for="year in years">{{ year.name }}</option>
-                        </select>
-                    </div>
-
-                    <div class="groups">
-                        <label>Groupes : </label>
-                        <ul class="list-groups">
-                            <li v-for="group in groups" :key="group.number">
-                                <div id="container-group" class="list-container">
-                                    <input class="checkbox-group" type="checkbox" :value="group.name" v-model="selectedGroups">
-                                    <label for="group.name">{{ group.name }}</label>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </form>
-            </div>
-
-            <div class="right-column">
-                <h2>Sélectionnez les options de l'étudiant.e</h2>
-                <div id="course-filters">
-                    <input class="search-bar" type="search" v-model="searchQueryCourse"
-                        placeholder="Rechercher un cours" />
-                    <button id="select-all" class="button" @click="selectAllCourses">
-                        {{ allSelectedCourses ? "Déselectionner tous les cours" : "Sélectionner tous les cours" }}
-                    </button>
-                </div>
-                <ul class="list-courses">
-                    <li v-for="course in filteredCourses" :key="course.name">
-                        <div class="list-container">
-                            <input class="checkbox-course" type="checkbox" :value="course.name" v-model="selectedCourses">
-                            <label for="course.name">{{ course.name }}</label>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <button id="save-changes" class="button" v-if="!changesSaved" @click="saveChangesAndGoBack">
-            Enregistrer les changements</button>
-    </main>
-</template>
-
 <style scoped>
 @import url("../shared/shared.css");
 
@@ -236,7 +238,8 @@ div.groups {
     grid-template-columns: 34% 66%;
 }
 
-.list-groups, .list-courses {
+.list-groups,
+.list-courses {
     list-style-type: none;
     font-size: 0.75rem;
     padding-left: 0;
@@ -249,7 +252,8 @@ div.groups {
     width: 70%;
 }
 
-.list-groups>li, .list-courses>li {
+.list-groups>li,
+.list-courses>li {
     background-color: var(--color-6);
     border-radius: 5px;
 }
