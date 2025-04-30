@@ -9,8 +9,11 @@
                 <button id="select-all" class="button" @click="selectAll">
                     {{ allSelected ? "Déselectionner tou.te.s" : "Sélectionner tou.te.s" }}
                 </button>
-                <input class="search-bar" type="search" v-model="searchQueryInGroup"
-                    placeholder="Rechercher un.e étudiant.e">
+                <div id="search-bar">
+                    <SearchIcon />
+                    <input class="search-bar" type="search" v-model="searchQueryInGroup"
+                        placeholder="Rechercher un.e étudiant.e">
+                </div>
                 <ul class="list-presence">
                     <li v-for="student in filteredStudentsInGroup" :key="student.studentNumber">
                         <div class="student-list-container">
@@ -51,6 +54,7 @@
 
 <script setup>
 
+import SearchIcon from '@/assets/icon/SearchIcon.vue';
 import { ref, onMounted, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
@@ -157,6 +161,12 @@ function saveCallAndGoBack() {
 
 #select-all {
     margin-left: 0;
+}
+
+#search-bar {
+    display: flex;
+    align-items: center;
+    justify-items: center;
 }
 
 .search-bar {
