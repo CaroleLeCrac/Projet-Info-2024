@@ -1,12 +1,18 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, ParseIntPipe } from '@nestjs/common';
 import { SlotService } from './slot.service';
-import { CreateSlotDto } from './dto/ceate-slot.dto';
+import { CreateSlotDto } from './dto/create-slot-by-session.dto';
+import { CreateSlotBySessionDto } from './dto/ceate-slot.dto';
 import { UpdateSlotDto } from './dto/update-slot.dto';
 import { Prisma } from '@prisma/client';
 
 @Controller('slot')
 export class SlotController {
   constructor(private readonly slotService: SlotService) { }
+
+  @Post('by-session')
+  async postBySession(@Body() createSlotBySessionDto : CreateSlotBySessionDto){
+    return this.slotService.postBySessionName(createSlotBySessionDto)
+  }
 
   //recuperer slot par son id
   @Get(':id')
@@ -46,5 +52,10 @@ export class SlotController {
   @Delete(':id')
   async deleteById(@Param('id', ParseIntPipe) id: number) {
     return this.slotService.delete({ id: Number(id) });
+  }
+
+  @Delete()
+  async deleteMany(){
+    return this.slotService.deleteMany()
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma, slot } from '@prisma/client';
+import { CreateSlotBySessionDto } from './dto/ceate-slot.dto';
 
 @Injectable()
 export class SlotService {
@@ -14,6 +15,33 @@ export class SlotService {
 
   async getAll(): Promise<slot[]> {
     return this.prisma.slot.findMany();
+  }
+
+  async postBySessionName(data : CreateSlotBySessionDto) {
+    const {groupId, courseName, sessionType, date} = data
+    const tempSessionType = await this.prisma.session_type.findFirst({
+      where : {
+        course_type_name : sessionType,
+          session_type_course_material : {
+            name : courseName,
+        },
+      },
+      include : { session_type_course_material : true}
+    })
+    if (!tempSessionType) {
+      throw new Error('Type de session avec ce nom de matière introuvable');
+    }
+    return this.prisma.slot.create({
+      data : {
+        date,
+        slot_group : {
+          connect : { id : groupId}
+        },
+        slot_session_type : {
+          connect : {id : tempSessionType.id},
+        },
+      },
+    })
   }
 
   async post(data: Prisma.slotCreateInput): Promise<slot> {
@@ -33,5 +61,9 @@ export class SlotService {
     return this.prisma.slot.delete({
       where: id,
     });
+  }
+
+  async deleteMany(){
+    return this.prisma.slot.deleteMany()
   }
 }

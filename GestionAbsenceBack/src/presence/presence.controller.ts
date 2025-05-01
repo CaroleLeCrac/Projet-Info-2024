@@ -36,6 +36,11 @@ export class PresenceController {
     return this.presenceService.post(data);
   }
 
+  @Post('many/:slot_id')
+  async postMany(@Param ('slot_id',ParseIntPipe) slot_id : number, @Body() student_ids : number[]){
+    return this.presenceService.postMany(slot_id, student_ids)
+  }
+
   //supprimer 
   @Delete(':student_id/:slot_id')
   async deleteById(@Param('student_id', ParseIntPipe) student_id: number, @Param('slot_id', ParseIntPipe) slot_id: number) {
@@ -43,5 +48,10 @@ export class PresenceController {
       student_id, slot_id,
       student_id_slot_id: undefined
     });
+  }
+
+  @Delete()
+  async deleteMany(){
+    return this.presenceService.deleteMany()
   }
 }

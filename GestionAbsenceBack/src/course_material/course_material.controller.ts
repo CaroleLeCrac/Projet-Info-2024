@@ -12,6 +12,11 @@ export class CourseMaterialController {
       return this.courseMaterialService.get({id});
   }
 
+  @Get('presence/student/:studentId')
+  async getByStudentIdWithPresence(@Param('studentId', ParseIntPipe) studentId : number){
+    return this.courseMaterialService.getByStudentWithPresence(studentId)
+  }
+
   @Get()
   getAll() {
       return this.courseMaterialService.getAll();

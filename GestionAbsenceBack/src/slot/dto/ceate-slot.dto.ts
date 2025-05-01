@@ -1,5 +1,6 @@
-export type CreateSlotDto = {
-    group_id: number;
-    session_type_id: number;
+export type CreateSlotBySessionDto = {
+    groupId: number;
+    courseName : string;
+    sessionType : string;
     date: Date;
   };

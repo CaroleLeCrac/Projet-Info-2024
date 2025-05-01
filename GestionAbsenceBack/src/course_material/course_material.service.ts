@@ -12,6 +12,24 @@ export class CourseMaterialService {
       });
     }
 
+    async getByStudentWithPresence(studentId : number) {
+      const absences = await this.prisma.presence.findMany({
+        where : {
+          presence_student : {
+              id : studentId,
+          },
+        },
+        include : {
+          presence_student : true,
+          presence_slot : true,
+        },
+      })
+      return absences.map(presence => ({
+        student : presence.presence_student,
+        date : presence.presence_slot.date
+      }))
+    }
+
     async getAll(): Promise<course_material[]> {
         return this.prisma.course_material.findMany();
     }

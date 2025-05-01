@@ -22,9 +22,21 @@ export class PresenceService {
     });
   }
 
+  async postMany(slotId : number, studentIds : number[]){
+    const data = studentIds.map(studentId => ({
+      student_id : studentId,
+      slot_id : slotId
+    }))
+    await this.prisma.presence.createMany({data})
+  }
+
   async delete(id: Prisma.presenceWhereUniqueInput): Promise<presence> {
     return this.prisma.presence.delete({
       where: id,
     });
+  }
+
+  async deleteMany(){
+    return this.prisma.presence.deleteMany()
   }
 }
