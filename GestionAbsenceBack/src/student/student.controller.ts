@@ -7,9 +7,23 @@ import { UpdateStudentDto } from './dto/update-student.dto';
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
+  @Get('presence/course/:courseId')
+  async getBycourseIdWithPresence(@Param('courseId', ParseIntPipe) courseId : number, ){
+    return this.studentService.getByCourseWithPresence(courseId)
+  }
+
+  @Get('by-group/:groupId')
+  async getByGroupId(@Param('groupId', ParseIntPipe) groupId : number){
+    return this.studentService.getByGroup(groupId)
+  }
+
+  @Get('same-other-group/:groupId')
+  async getByOtherGroup(@Param('groupId', ParseIntPipe) groupId : number){
+    return this.studentService.getByOtherGroups(groupId)
+  }
+
   @Get(':id')
   async getById(@Param('id', ParseIntPipe) id : number) {
-    console.log(id)
     return this.studentService.get({ id });
   }
 
@@ -31,6 +45,11 @@ export class StudentController {
   @Delete(':id')
   async deleteById(@Param('id', ParseIntPipe) id : number){
     return this.studentService.delete({id})
+  }
+
+  @Delete()
+  async deleteMany(){
+    return this.studentService.deleteMany()
   }
 
 }

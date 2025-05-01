@@ -7,7 +7,7 @@ import { UpdateSemesterDto } from './dto/update-semester.dto';
 @Controller('semester')
 export class SemesterController {
   constructor(private readonly semesterService: SemesterService) {} 
-
+  
   @Get(':id')
   async getById(@Param('id', ParseIntPipe) id : number) {
     return this.semesterService.get({ id });

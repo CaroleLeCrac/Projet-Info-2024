@@ -9,10 +9,11 @@ import { PresenceModule } from './presence/presence.module';
 import { InscriptionModule } from './inscription/inscription.module';
 import { GroupModule } from './group/group.module';
 import { CourseMaterialModule } from './course_material/course_material.module';
+import { CsvModule } from './csv/csv.module';
 
 
 @Module({
-  imports: [StudentModule, SlotModule, SemesterModule, SessionTypeModule, PresenceModule, InscriptionModule, GroupModule, CourseMaterialModule],
+  imports: [StudentModule, SlotModule, SemesterModule, SessionTypeModule, PresenceModule, InscriptionModule, GroupModule, CourseMaterialModule, CsvModule],
   controllers: [AppController],
   providers: [AppService],
 })

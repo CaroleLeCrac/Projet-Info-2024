@@ -2,24 +2,40 @@ import { Controller, Get, Post, Put, Delete, Param, Body, ParseIntPipe } from '@
 import { Prisma } from '@prisma/client';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
+import { CreateGroupBySemesterNameDto } from './dto/create-group-semester-name.dto';
 import { GroupService } from './group.service';
 
 @Controller('group')
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}
 
+    @Get('year/:year')
+    async getByYear(@Param('year', ParseIntPipe) year : number){
+        return this.groupService.getByYear(year)
+    }
+
+    @Get('by-student/:studentId')
+    async getByStudent(@Param('studentId', ParseIntPipe) studentId : number){
+        return this.groupService.getByStudentId(studentId)
+    }
+
+    @Get('by-semester')
+    async getBySemesterName(){
+        return this.groupService.getBySemester()
+    }
+
     @Get(':id')
     async getById(@Param('id', ParseIntPipe) id: number) {
-        return this.groupService.get({id});
+        return this.groupService.get({id})
     }
 
     @Get()
     getAll() {
-        return this.groupService.getAll();
+        return this.groupService.getAll()
     }
 
     @Post()
-    async put(@Body() createGroupDto : CreateGroupDto) {
+    async post(@Body() createGroupDto : CreateGroupDto) {
         const {semester_id, name} = createGroupDto
         const data : Prisma.groupCreateInput = {
             group_semester : {
@@ -27,7 +43,13 @@ export class GroupController {
             },
             name
         }
-        return this.groupService.post(data);
+        return this.groupService.post(data)
+    }
+
+    @Post('from-semester-name')
+    async createGroup(@Body() createGroupBySemesterNameDto : CreateGroupBySemesterNameDto){
+        const {semester_name, name} = createGroupBySemesterNameDto
+        return this.groupService.createFromSemesterName(createGroupBySemesterNameDto)
     }
 
     @Put(':id')
@@ -43,5 +65,10 @@ export class GroupController {
     @Delete(':id')
     async deleteById(@Param('id', ParseIntPipe) id : number){
         return this.groupService.delete(id)
+    }
+
+    @Delete()
+    async deleteMany(){
+        return this.groupService.deleteMany()
     }
 }
