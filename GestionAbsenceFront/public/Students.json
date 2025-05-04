@@ -5,64 +5,336 @@
             "name": "Lena",
             "studentNumber": 1,
             "groupNumber": 31,
-            "mail": "Lena@gmail"
+            "mail": "lena@gmail.com"
         },
         {
             "surname": "Mitton",
             "name": "Carole",
             "studentNumber": 2,
             "groupNumber": 31,
-            "mail": "Carole@gmail"
-
+            "mail": "carole@gmail.com"
         },
         {
             "surname": "Dubus",
             "name": "Roxane",
             "studentNumber": 3,
             "groupNumber": 31,
-            "mail": "Roxane@gmail"
+            "mail": "roxane@gmail.com"
         },
         {
             "surname": "Gros",
             "name": "Baudouin",
             "studentNumber": 4,
             "groupNumber": 32,
-            "mail": "Baudouin@gmail"
+            "mail": "baudouin@gmail.com"
         },
         {
             "surname": "Olive",
             "name": "Benjamin",
             "studentNumber": 5,
             "groupNumber": 32,
-            "mail": "Benjamin@gmail"
+            "mail": "benjamin@gmail.com"
         },
         {
             "surname": "Weislo",
             "name": "Louise",
             "studentNumber": 6,
             "groupNumber": 32,
-            "mail": "Louise@gmail"
+            "mail": "louise@gmail.com"
         },
         {
             "surname": "Volle",
             "name": "Ornella",
             "studentNumber": 7,
             "groupNumber": 33,
-            "mail": "Ornella@gmail"
+            "mail": "ornella@gmail.com"
         },
         {
             "surname": "Larbière",
             "name": "Felix",
             "studentNumber": 8,
             "groupNumber": 33,
-            "mail": "Felix@gmail"
+            "mail": "felix@gmail.com"
         },
         {
             "surname": "Moroni",
             "name": "Louka",
             "studentNumber": 9,
             "groupNumber": 33,
-            "mail": "Louka@gmail"
+            "mail": "louka@gmail.com"
+        },
+        {
+            "surname": "Martin",
+            "name": "Julien",
+            "studentNumber": 10,
+            "groupNumber": 11,
+            "mail": "julien@gmail.com"
+        },
+        {
+            "surname": "Durand",
+            "name": "Camille",
+            "studentNumber": 11,
+            "groupNumber": 11,
+            "mail": "camille@gmail.com"
+        },
+        {
+            "surname": "Petit",
+            "name": "Lucas",
+            "studentNumber": 12,
+            "groupNumber": 11,
+            "mail": "lucas@gmail.com"
+        },
+        {
+            "surname": "Lemoine",
+            "name": "Anna",
+            "studentNumber": 13,
+            "groupNumber": 12,
+            "mail": "anna@gmail.com"
+        },
+        {
+            "surname": "Giraud",
+            "name": "Maxime",
+            "studentNumber": 14,
+            "groupNumber": 12,
+            "mail": "maxime@gmail.com"
+        },
+        {
+            "surname": "Chopin",
+            "name": "Inès",
+            "studentNumber": 15,
+            "groupNumber": 12,
+            "mail": "ines@gmail.com"
+        },
+        {
+            "surname": "Perrin",
+            "name": "Sophie",
+            "studentNumber": 16,
+            "groupNumber": 13,
+            "mail": "sophie@gmail.com"
+        },
+        {
+            "surname": "Leroy",
+            "name": "Hugo",
+            "studentNumber": 17,
+            "groupNumber": 13,
+            "mail": "hugo@gmail.com"
+        },
+        {
+            "surname": "Lopez",
+            "name": "Claire",
+            "studentNumber": 18,
+            "groupNumber": 13,
+            "mail": "claire@gmail.com"
+        },
+        {
+            "surname": "Faure",
+            "name": "Jules",
+            "studentNumber": 19,
+            "groupNumber": 21,
+            "mail": "jules@gmail.com"
+        },
+        {
+            "surname": "Carpentier",
+            "name": "Eva",
+            "studentNumber": 20,
+            "groupNumber": 21,
+            "mail": "eva@gmail.com"
+        },
+        {
+            "surname": "Marchand",
+            "name": "Antoine",
+            "studentNumber": 21,
+            "groupNumber": 21,
+            "mail": "antoine@gmail.com"
+        },
+        {
+            "surname": "Roux",
+            "name": "Thomas",
+            "studentNumber": 22,
+            "groupNumber": 22,
+            "mail": "thomas@gmail.com"
+        },
+        {
+            "surname": "Gauthier",
+            "name": "Emma",
+            "studentNumber": 23,
+            "groupNumber": 22,
+            "mail": "emma@gmail.com"
+        },
+        {
+            "surname": "Barbier",
+            "name": "Nina",
+            "studentNumber": 24,
+            "groupNumber": 22,
+            "mail": "nina@gmail.com"
+        },
+        {
+            "surname": "Noel",
+            "name": "Leo",
+            "studentNumber": 25,
+            "groupNumber": 23,
+            "mail": "leo@gmail.com"
+        },
+        {
+            "surname": "Roy",
+            "name": "Elise",
+            "studentNumber": 26,
+            "groupNumber": 23,
+            "mail": "elise@gmail.com"
+        },
+        {
+            "surname": "Renard",
+            "name": "Axel",
+            "studentNumber": 27,
+            "groupNumber": 23,
+            "mail": "axel@gmail.com"
+        },
+        {
+            "surname": "Benoit",
+            "name": "Chloé",
+            "studentNumber": 28,
+            "groupNumber": 1,
+            "mail": "chloe@gmail.com"
+        },
+        {
+            "surname": "Gilbert",
+            "name": "Nathan",
+            "studentNumber": 29,
+            "groupNumber": 1,
+            "mail": "nathan@gmail.com"
+        },
+        {
+            "surname": "Muller",
+            "name": "Sarah",
+            "studentNumber": 30,
+            "groupNumber": 1,
+            "mail": "sarah@gmail.com"
+        },
+        {
+            "surname": "Bernard",
+            "name": "Lucie",
+            "studentNumber": 31,
+            "groupNumber": 2,
+            "mail": "lucie@gmail.com"
+        },
+        {
+            "surname": "Henry",
+            "name": "Adam",
+            "studentNumber": 32,
+            "groupNumber": 2,
+            "mail": "adam@gmail.com"
+        },
+        {
+            "surname": "Leclerc",
+            "name": "Julie",
+            "studentNumber": 33,
+            "groupNumber": 2,
+            "mail": "julie@gmail.com"
+        },
+        {
+            "surname": "Dupuis",
+            "name": "Victor",
+            "studentNumber": 34,
+            "groupNumber": 3,
+            "mail": "victor@gmail.com"
+        },
+        {
+            "surname": "Fontaine",
+            "name": "Zoé",
+            "studentNumber": 35,
+            "groupNumber": 3,
+            "mail": "zoe@gmail.com"
+        },
+        {
+            "surname": "Marin",
+            "name": "Clément",
+            "studentNumber": 36,
+            "groupNumber": 3,
+            "mail": "clement@gmail.com"
+        },
+        {
+            "surname": "Clement",
+            "name": "Pauline",
+            "studentNumber": 37,
+            "groupNumber": 4,
+            "mail": "pauline@gmail.com"
+        },
+        {
+            "surname": "Blanc",
+            "name": "Yanis",
+            "studentNumber": 38,
+            "groupNumber": 4,
+            "mail": "yanis@gmail.com"
+        },
+        {
+            "surname": "Guillaume",
+            "name": "Elena",
+            "studentNumber": 39,
+            "groupNumber": 4,
+            "mail": "elena@gmail.com"
+        },
+        {
+            "surname": "Michel",
+            "name": "Bastien",
+            "studentNumber": 40,
+            "groupNumber": 5,
+            "mail": "bastien@gmail.com"
+        },
+        {
+            "surname": "Renaud",
+            "name": "Manon",
+            "studentNumber": 41,
+            "groupNumber": 5,
+            "mail": "manon@gmail.com"
+        },
+        {
+            "surname": "Charles",
+            "name": "Lola",
+            "studentNumber": 42,
+            "groupNumber": 5,
+            "mail": "lola@gmail.com"
+        },
+        {
+            "surname": "Robert",
+            "name": "Quentin",
+            "studentNumber": 43,
+            "groupNumber": 6,
+            "mail": "quentin@gmail.com"
+        },
+        {
+            "surname": "Garnier",
+            "name": "Alicia",
+            "studentNumber": 44,
+            "groupNumber": 6,
+            "mail": "alicia@gmail.com"
+        },
+        {
+            "surname": "Chevalier",
+            "name": "Mathis",
+            "studentNumber": 45,
+            "groupNumber": 6,
+            "mail": "mathis@gmail.com"
+        },
+        {
+            "surname": "Lemoine",
+            "name": "Maëlys",
+            "studentNumber": 46,
+            "groupNumber": 7,
+            "mail": "maelys@gmail.com"
+        },
+        {
+            "surname": "Faivre",
+            "name": "Kylian",
+            "studentNumber": 47,
+            "groupNumber": 7,
+            "mail": "kylian@gmail.com"
+        },
+        {
+            "surname": "Fernandez",
+            "name": "Laura",
+            "studentNumber": 48,
+            "groupNumber": 7,
+            "mail": "laura@gmail.com"
         }
     ]
 }

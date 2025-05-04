@@ -2,15 +2,83 @@
   "groups": [
     {
       "name": "Groupe 1",
-      "groupNumber": "31"
+      "groupNumber": "11",
+      "semester": "S1"
     },
     {
       "name": "Groupe 2",
-      "groupNumber": "32"
+      "groupNumber": "12",
+      "semester": "S1"
     },
     {
       "name": "Groupe 3",
-      "groupNumber": "33"
+      "groupNumber": "13",
+      "semester": "S1"
+    },
+    {
+      "name": "Groupe 1",
+      "groupNumber": "21",
+      "semester": "S3"
+    },
+    {
+      "name": "Groupe 2",
+      "groupNumber": "22",
+      "semester": "S3"
+    },
+    {
+      "name": "Groupe 3",
+      "groupNumber": "23",
+      "semester": "S3"
+    },
+    {
+      "name": "Groupe 1",
+      "groupNumber": "31",
+      "semester": "S5"
+    },
+    {
+      "name": "Groupe 2",
+      "groupNumber": "32",
+      "semester": "S5"
+    },
+    {
+      "name": "Groupe 3",
+      "groupNumber": "33",
+      "semester": "S5"
+    },
+    {
+      "name": "Promo L1",
+      "groupNumber": "1",
+      "semester": "S1"
+    },
+    {
+      "name": "Promo L2",
+      "groupNumber": "2",
+      "semester": "S3"
+    },
+    {
+      "name": "Promo L3",
+      "groupNumber": "3",
+      "semester": "S5"
+    },
+    {
+      "name": "Groupe COG",
+      "groupNumber": "4",
+      "semester": "S3"
+    },
+    {
+      "name": "Groupe ECO",
+      "groupNumber": "5",
+      "semester": "S3"
+    },
+    {
+      "name": "Groupe COG",
+      "groupNumber": "6",
+      "semester": "S5"
+    },
+    {
+      "name": "Groupe ECO",
+      "groupNumber": "7",
+      "semester": "S5"
     }
   ]
 }

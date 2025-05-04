@@ -6,8 +6,8 @@
         <ul class="list">
             <li v-for="course in filteredCoursesByDate" :key="course.date">
                 <label>
-                    <RouterLink :to="generateRoute(course)" class="router-link">
-                        {{ course.date }} {{ course.name }} {{ course.coursename }}</RouterLink>
+                    <RouterLink :to="`/${course.name}/${course.coursename}/groupe`" class="router-link">
+                        {{ course.name }} {{ course.coursename }}</RouterLink>
                 </label>
             </li>
         </ul>
@@ -34,14 +34,6 @@ const filteredCoursesByDate = computed(() => {
     const formattedDate = selectedDate.value;
     return courses.value.filter(course => course.date === formattedDate);
 });
-
-function generateRoute(course) {
-    if (course.name === "TD" || course.name === "TM" || course.name == "TP") {
-        return `/appel/${course.date}/${course.groupNumber}`;
-    } else {
-        return `/appel/${course.date}`
-    }
-}
 
 </script>
 

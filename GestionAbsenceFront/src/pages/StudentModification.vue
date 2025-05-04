@@ -122,7 +122,7 @@ onMounted(() => {
         .then((response) => response.json())
         .then((data) => {
             console.log("Données JSON récupérées : ", data);
-            groups.value = data.groups;
+            groups.value = data.groups.slice(0, 3); // à modifier pour avoir les bons groupes
 
         })
         .catch((error) => console.error('Error loading data:', error));

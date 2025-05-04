@@ -47,12 +47,17 @@ function selectSemester(semester) {
 <style scoped>
 @import url("../shared.css");
 
-.selector, .promos {
+.selector,
+.promos {
     display: flex;
     border: 1px solid black;
     background-color: var(--color-6);
     width: 100%;
-    margin-top: 1rem;
+    margin-top: 0rem;
+}
+
+.selector {
+    margin-bottom: 1rem;
 }
 
 .selector:last-child {
@@ -60,9 +65,10 @@ function selectSemester(semester) {
     border-top: none;
 }
 
-.selector button, .promos button {
+.selector button,
+.promos button {
     flex: 1;
-    padding: 1rem;
+    padding: 0.5rem;
     background-color: var(--color-5);
     border: none;
     border-right: 1px solid black;
@@ -71,11 +77,13 @@ function selectSemester(semester) {
     cursor: pointer;
 }
 
-.selector button:last-child, .promos button:last-child {
+.selector button:last-child,
+.promos button:last-child {
     border-right: none;
 }
 
-.selector button.active, .promos button.active {
+.selector button.active,
+.promos button.active {
     background-color: var(--color-4);
 }
 

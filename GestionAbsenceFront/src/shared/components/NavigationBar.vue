@@ -6,7 +6,10 @@
       <RouterLink to="/recapitulatifs" class="summary-navigation">Voir le récapitulatif des absences</RouterLink>
       <RouterLink to="/selection/etudiant" class="modification-navigation">Modifier étudiant.e</RouterLink>
       <RouterLink to="/selection/groupe" class="modification-navigation">Modifier groupe</RouterLink>
+      <RouterLink to="/gestion/etudiants" class="students-management">Gestion des étudiants</RouterLink>
 
+
+      <!--Menu déroulant de deux boutons non utilisé au final
       <div class="drop-down">
         <button class="drop-down-btn" @click="OpenDropDown">Gestion des données ▾</button>
         <div class="drop-down-menu" :class="{ show: dropDownOpen }">
@@ -14,6 +17,7 @@
           <RouterLink to="/gestion/etudiants" class="router-link">Gestion des étudiants</RouterLink>
         </div>
       </div>
+      -->
     </div>
   </nav>
 </template>
@@ -22,6 +26,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { RouterLink } from 'vue-router';
 
+/*
 const dropDownOpen = ref(false);
 
 function closeDropDown(event) {
@@ -41,7 +46,7 @@ onBeforeUnmount(() => {
 
 function OpenDropDown() {
   dropDownOpen.value = !dropDownOpen.value;
-}
+}*/
 </script>
 
 
@@ -81,6 +86,7 @@ function OpenDropDown() {
 /* Style pour le RouterLink Recap et Modif*/
 .summary-navigation,
 .modification-navigation,
+.students-management,
 .drop-down-btn {
   text-decoration: none;
   color: black;
@@ -96,7 +102,8 @@ function OpenDropDown() {
   background-color: var(--color-1);
 }
 
-.modification-navigation {
+.modification-navigation,
+.students-management {
   background-color: var(--color-4);
 }
 
@@ -108,11 +115,12 @@ function OpenDropDown() {
 
 .summary-navigation:hover,
 .modification-navigation:hover,
+.students-management:hover,
 .drop-down-btn:hover {
   background-color: var(--color-5);
 }
 
-/* Menu déroulant */
+/* Style Menu déroulant non utilisé
 
 .drop-down {
   position: relative;
@@ -150,5 +158,5 @@ function OpenDropDown() {
 
 .router-link:hover {
   background-color: var(--color-5);
-}
+}*/
 </style>

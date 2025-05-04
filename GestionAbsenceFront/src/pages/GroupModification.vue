@@ -52,29 +52,35 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 
-const students = ref([]);
 const searchQuery1 = ref('');
 const searchQuery2 = ref('');
 
+const students = ref([]);
 const studentsInGroup = ref([]);  // Liste des étudiant.e.s du groupe
 const studentsOutsideGroup = ref([]);  // Liste des étudiant.e.s extérieur.e.s au groupe
 const route = useRoute();
-const currentGroupNumber = route.params.id;
+const currentGroupNumber = Number(route.params.id);
 
 onMounted(() => {
-  fetch('/Students.json')
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Données JSON récupérées : ", data);
-      students.value = data.students || [];
-      studentsInGroup.value = students.value.filter(
-        (student) => student.groupNumber === Number(currentGroupNumber)
-      )
-      studentsOutsideGroup.value = students.value.filter(
-        (student) => student.groupNumber !== Number(currentGroupNumber)
-      )
+  fetch('/Groups.json')
+    .then(response => response.json())
+    .then(data => {
+      const groups = data.groups;
+
+      fetch('/Students.json')
+        .then((response) => response.json())
+        .then((data) => {
+          students.value = data.students;
+
+          studentsInGroup.value = students.value.filter(
+            (student) => student.groupNumber === currentGroupNumber
+          )
+          studentsOutsideGroup.value = students.value.filter(
+            (student) => student.groupNumber !== currentGroupNumber
+          )
+        }).catch((error) => console.error('Error loading students data : ', error))
     })
-    .catch((error) => console.error('Error loading data:', error));
+    .catch((error) => console.error('Error loading groups data:', error));
 });
 
 const filteredStudentsInGroup = computed(() =>
