@@ -22,10 +22,16 @@ const breadcrumbSteps = computed(() => {
         { label: 'Accueil', to: null }
       ]
 
-    case 'CMCall':
-    case 'CallWithGroup':
+    case 'SelectGroupCall':
       return [
         { label: 'Accueil', to: '/' },
+        { label: 'Groupe du créneau', to: null }
+      ]
+
+    case 'Call':
+      return [
+        { label: 'Accueil', to: '/' },
+        { label: 'Groupe du créneau', to: '/${route.params.courseType}/${route.params.courseName}/groupe' },
         { label: 'Appel', to: null }
       ]
 
@@ -75,12 +81,13 @@ const breadcrumbSteps = computed(() => {
         { label: 'Modification d’un groupe', to: null }
       ]
 
+    /* Pour le bouton 1 du menu déroulant non utilisé
     case 'CoursesManagement':
       return [
         { label: 'Accueil', to: '/' },
         { label: 'Gestion des données des cours', to: null }
       ]
-
+    */
     case 'StudentsManagement':
       return [
         { label: 'Accueil', to: '/' },

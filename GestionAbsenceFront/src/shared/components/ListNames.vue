@@ -1,3 +1,15 @@
+<!--Composant non utilisé-->
+<!--Composant de liste d'étudiant.e.s-->
+<template>
+  <h2>Liste de Noms</h2>
+  <select v-model="multiSelected" multiple style="width:500px">
+    <option v-for="student in students" :key="student.studentNumber">
+      {{ student.surname }}
+    </option>
+  </select>
+  <p>Selected: {{ multiSelected }}</p>
+</template>
+
 <script setup>
 import { ref, onMounted } from 'vue'
 
@@ -16,12 +28,3 @@ onMounted(() => {
 });
 
 </script>
-<template>
-  <h2>Liste de Noms</h2>
-  <select v-model="multiSelected" multiple style="width:500px">
-    <option v-for="student in students" :key="student.studentNumber">
-      {{ student.surname }}
-    </option>
-  </select>
-  <p>Selected: {{ multiSelected }}</p>
-</template>

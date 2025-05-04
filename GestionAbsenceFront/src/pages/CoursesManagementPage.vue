@@ -1,4 +1,5 @@
-<!--Page de gestion des cours-->
+<!--Page de gestion des cours non utilisé selon la revue de la base de données
+Pour plus d'informations, cf Rapport du S6-->
 <template>
     <main class="left">
         <PromoSelector v-model="selectedSemester" />

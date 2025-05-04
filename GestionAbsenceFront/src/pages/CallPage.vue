@@ -1,31 +1,34 @@
 <!--Page de sélection des absences pour un créneau-->
 <template>
     <main class="left">
-        <h1>Appel</h1>
-        <div class="sections-container">
+        <h1>Appel pour {{ courseTypeAndName }}</h1>
+        <!-- Pour diviser en 2 sections lorsqu'on affiche les étudiants extérieurs
+        <div class="sections-container">-->
 
-            <div class="section">
-                <h2 v-if="groupNumber !== null">Etudiant.e.s du groupe {{ groupNumber }}</h2>
-                <button id="select-all" class="button" @click="selectAll">
-                    {{ allSelected ? "Déselectionner tou.te.s" : "Sélectionner tou.te.s" }}
-                </button>
-                <input class="search-bar" type="search" v-model="searchQueryInGroup"
-                    placeholder="Rechercher un.e étudiant.e">
-                <ul class="list-presence">
-                    <li v-for="student in filteredStudentsInGroup" :key="student.studentNumber">
-                        <div class="student-list-container">
-                            <div class="student-info">
-                                <input type="checkbox" :value="student.studentNumber" v-model="absentStudents">
-                                <label>{{ student.studentNumber }} {{ student.surname }} {{ student.name }}</label>
-                            </div>
-                            <div class="student-group-number">
-                                <p>Groupe {{ student.groupNumber }}</p>
-                            </div>
+        <div> <!-- Ajouter class="section" si on utilise les 2 sections-->
+            <h2>{{ groupName }}</h2>
+            <button id="select-all" class="button" @click="selectAll">
+                {{ allSelected ? "Déselectionner tou.te.s" : "Sélectionner tou.te.s" }}
+            </button>
+            <input class="search-bar" type="search" v-model="searchQuery" placeholder="Rechercher un.e étudiant.e">
+            <ul class="list-presence">
+                <li v-for="student in filteredStudents" :key="student.studentNumber">
+                    <div class="student-list-container">
+                        <div class="student-info">
+                            <input type="checkbox" :value="student.studentNumber" v-model="absentStudents">
+                            <label>{{ student.studentNumber }} {{ student.surname }} {{ student.name }}</label>
                         </div>
-                    </li>
-                </ul>
-            </div>
+                        <div class="student-group-number">
+                            <p>{{ student.groupNumber }}</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
 
+        <!-- Cette section est utile pour la gestion des absences des étudiant.e.s extérieur.e.s au groupe sélectionné-->
+        <!-- Elle n'est pas utilisée suite au modification de la base de données au S6 du projet (cf. rapport et documentation)
+             Dans le script, tout ce qui est nécessaire pour cette section sera aussi en commentaire
             <div v-if="groupNumber !== null" class="section">
                 <h2>Autres étudiant.e.s</h2>
                 <input class="search-bar" type="search" v-model="searchQueryOutsideGroup"
@@ -45,6 +48,7 @@
                 </ul>
             </div>
         </div>
+        -->
         <button v-if="!callSaved" id="btn-save" class="button" @click="saveCallAndGoBack">Sauvegarder l'appel</button>
     </main>
 </template>
@@ -54,16 +58,17 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
-const studentsInGroup = ref([]); // Liste des étudiants du groupe (si CM = tous les étudiants)
-const studentsOutsideGroup = ref([]); // Liste des étudiants extérieurs au groupe
-const searchQueryInGroup = ref("");
-const searchQueryOutsideGroup = ref("");
+const studentsInGroup = ref([]); // Liste des étudiants
+//const studentsOutsideGroup = ref([]); // Liste des étudiants extérieurs au groupe
+const searchQuery = ref("");
+//const searchQueryOutsideGroup = ref("");
 
 const route = useRoute();
-// Numéro du groupe récupéré si ce n'est pas un CM
-const groupNumber = route.params.groupNumber ? parseInt(route.params.groupNumber) : null;
+// Nom du groupe récupéré pour l'afficher
+const groupName = route.params.groupName;
+const groupNumber = Number(route.params.groupNumber);
+const courseTypeAndName = `${route.params.courseType} ${route.params.courseName}`;
 
-const groups = ref([]); // UTILE ??
 const buttonStates = ({});
 onMounted(() => {
     fetch('/Students.json')
@@ -72,14 +77,20 @@ onMounted(() => {
             console.log("Données des étudiants récupérées : ", data)
             const students = data.students;
 
+            students.forEach(student => {
+                if (student.groupNumber === groupNumber) {
+                    studentsInGroup.value.push(student);
+                }
+            });
+
             // Tri en groupes
-            if (groupNumber !== null) {
+            /*if (groupNumber !== null) {
                 studentsInGroup.value = students.filter(s => s.groupNumber === groupNumber);
                 studentsOutsideGroup.value = students.filter(s => s.groupNumber !== groupNumber);
             } else {
                 studentsInGroup.value = students;
                 studentsOutsideGroup.value = [];
-            }
+            }*/
             buttonStates.value = studentsInGroup.value.reduce((acc, student) => {
                 acc[student.studentNumber] = true
                 return acc
@@ -87,35 +98,25 @@ onMounted(() => {
             console.log("Etat actuel des boutons : ", buttonStates.value)
         })
         .catch(error => console.error('Error loading students data:', error))
-
-    fetch('/Groups.json')
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Données des groupes récupérées : ", data)
-            groups.value = data.groups;
-        })
-        .catch(error => console.error("Error loading groups data : ", error))
 });
 
 const props = defineProps({
     students: Array
 })
 
-const filteredStudentsInGroup = computed(() =>
+const filteredStudents = computed(() =>
     studentsInGroup.value.filter(s =>
-        s.name.toLowerCase().includes(searchQueryInGroup.value.toLowerCase()) ||
-        s.surname.toLowerCase().includes(searchQueryInGroup.value.toLowerCase())
+        s.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        s.surname.toLowerCase().includes(searchQuery.value.toLowerCase())
     )
 );
 
-
-const filteredStudentsOutsideGroup = computed(() =>
+/*const filteredStudentsOutsideGroup = computed(() =>
     studentsOutsideGroup.value.filter(s =>
         s.name.toLowerCase().includes(searchQueryOutsideGroup.value.toLowerCase()) ||
         s.surname.toLowerCase().includes(searchQueryOutsideGroup.value.toLowerCase())
     )
-);
-
+);*/
 
 const absentStudents = ref([]);
 

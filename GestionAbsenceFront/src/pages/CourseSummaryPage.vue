@@ -41,14 +41,14 @@
 
         <!-- Sélectionner une date spécifique -->
         <h2 id="select-date">Sélectionner une ou plusieurs date.s</h2>
-          <ul v-if="filteredDates.length > 0" class="checkbox-list">
-            <li v-for="date in filteredDates" :key="date">
-              <div class="list-container">
-                <input class="checkbox" type="checkbox" :value="date" v-model="selectedDates">
-                <label for="date">{{ date }}</label>
-              </div>
-            </li>
-          </ul>
+        <ul v-if="filteredDates.length > 0" class="checkbox-list">
+          <li v-for="date in filteredDates" :key="date">
+            <div class="list-container">
+              <input class="checkbox" type="checkbox" :value="date" v-model="selectedDates">
+              <label for="date">{{ date }}</label>
+            </div>
+          </li>
+        </ul>
         <p v-else>Aucune date disponible pour cette matière.</p>
       </div>
     </div>
@@ -64,7 +64,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute();
 const courseName = route.params.id; // Récupérer le nom de la matière à partir des paramètres de la route
 
-const students = ref([]); 
+const students = ref([]);
 const selectedStudents = ref([])  // Les étudiants sélectionnés
 const selectedDates = ref([])  // Liste des dates sélectionnées
 const absencesList = ref([]) // Liste des absences
@@ -122,7 +122,7 @@ const filteredStudents = computed(() => {
     absencesList.value.filter(absence => absence.coursename === courseName)
       .map(absence => absence.surname)
   );
-  
+
   return students.value.filter(student =>
     surnamesInCourse.has(student.surname)
   );

@@ -1,4 +1,24 @@
 <!--Page de sélection d'un étudiant pour modifier ses informations-->
+<template>
+  <main class="left">
+    <h1>Sélectionner l'étudiant.e à modifier</h1>
+    <div id="container">
+      <div>
+        <input class="search-bar" type="search" v-model="searchQuery" placeholder="Rechercher un.e étudiant.e" />
+        <ul class="list">
+          <li v-for="student in filteredStudents" :key="student.studentNumber">
+            <RouterLink class="router-link" :to="`/modification/etudiant/${student.studentNumber}`">
+              {{ student.name }} {{ student.surname }}
+            </RouterLink>
+          </li>
+        </ul>
+      </div>
+      <RouterLink id="add-student" class="router-link" :to="`/modification/etudiant/${0}`">Ajouter un.e étudiant.e
+      </RouterLink>
+    </div>
+  </main>
+</template>
+
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 
@@ -22,25 +42,6 @@ const filteredStudents = computed(() =>
   )
 );
 </script>
-
-<template>
-  <main class="left">
-    <h1>Sélectionner l'étudiant.e à modifier</h1>
-    <div id="container">
-      <div>
-        <input class="search-bar" type="search" v-model="searchQuery" placeholder="Rechercher un.e étudiant.e" />
-        <ul class="list">
-          <li v-for="student in filteredStudents" :key="student.studentNumber">
-            <RouterLink class="router-link" :to="`/modification/etudiant/${student.studentNumber}`">
-              {{ student.name }} {{ student.surname }}
-            </RouterLink>
-          </li>
-        </ul>
-      </div>
-      <RouterLink id="add-student" class="router-link" :to="`/modification/etudiant/${0}`">Ajouter un.e étudiant.e</RouterLink>
-    </div>
-  </main>
-</template>
 
 <style scoped>
 @import url("../shared/shared.css");
