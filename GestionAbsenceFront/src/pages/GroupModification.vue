@@ -5,7 +5,10 @@
       <!-- Liste des étudiant.e.s du groupe -->
       <div class="left-container">
         <h1>Liste des étudiant.e.s du groupe {{ currentGroupNumber }}</h1>
-        <input class="search-bar" type="search" v-model="searchQuery1" placeholder="Rechercher un.e étudiant.e" />
+        <div class="search-container">
+          <SearchIcon class="search-icon" />
+          <input class="search-bar" type="search" v-model="searchQuery1" placeholder="Rechercher un.e étudiant.e" />
+        </div>
         <ul class="list">
           <li v-for="student in filteredStudentsInGroup" :key="student.studentNumber" class="students-list">
             <div class="student-list-container">
@@ -26,7 +29,10 @@
       <!-- Liste des étudiant.e.s extérieur.e.s au groupe -->
       <div class="right-container">
         <h1>Liste des autres étudiant.e.s</h1>
-        <input class="search-bar" type="search" v-model="searchQuery2" placeholder="Rechercher un.e étudiant.e" />
+        <div class="search-container">
+          <SearchIcon class="search-icon" />
+          <input class="search-bar" type="search" v-model="searchQuery2" placeholder="Rechercher un.e étudiant.e" />
+        </div>
         <ul class="list">
           <li v-for="student in filteredStudentsOutsideGroup" :key="student.studentNumber" class="students-list">
             <div class="student-list-container">
@@ -50,7 +56,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
-
+import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
 
 const searchQuery1 = ref('');
 const searchQuery2 = ref('');

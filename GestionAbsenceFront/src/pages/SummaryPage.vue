@@ -15,7 +15,10 @@
       <div class="section">
         <h2>Matières</h2>
         <!-- SearchBar pour la matière -->
-        <input type="search" v-model="courseQuery" placeholder="Rechercher une matière" class="search-bar" />
+        <div class="search-container">
+          <SearchIcon class="search-icon" />
+          <input type="search" v-model="courseQuery" placeholder="Rechercher une matière" class="search-bar" />
+        </div>
         <ul class="list">
           <li v-for="course in filteredCourses">
             <label>
@@ -31,7 +34,10 @@
       <div class="section">
         <h2>Étudiant.e.s</h2>
         <!-- SearchBar pour l'étudiant -->
-        <input type="search" v-model="studentQuery" placeholder="Rechercher un.e étudiant.e" class="search-bar" />
+        <div class="search-container">
+          <SearchIcon class="search-icon" />
+          <input type="search" v-model="studentQuery" placeholder="Rechercher un.e étudiant.e" class="search-bar" />
+        </div>
         <ul class="list">
           <li v-for="student in filteredStudents">
             <label>
@@ -48,6 +54,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
+import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
 
 // Références pour la sélection des étudiants, matières et absences
 const students = ref([]);  // Liste des étudiants

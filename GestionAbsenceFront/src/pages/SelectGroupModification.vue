@@ -6,7 +6,10 @@
     <div class="sections-container">
       <div class="section">
         <h2>Groupes de L1</h2>
-        <input class="search-bar" type="search" v-model="selectedGroupL1" placeholder="Rechercher un groupe de L1">
+        <div class="search-container">
+          <SearchIcon class="search-icon" />
+          <input class="search-bar" type="search" v-model="selectedGroupL1" placeholder="Rechercher un groupe de L1">
+        </div>
         <ul class="list">
           <li v-for="group in filteredGroupsL1" :key="group.groupNumber">
             <RouterLink :to="`/modification/groupe/${group.groupNumber}`" class="router-link">{{ group.name }}
@@ -17,7 +20,10 @@
 
       <div class="section">
         <h2>Groupes de L2</h2>
-        <input class="search-bar" type="search" v-model="selectedGroupL2" placeholder="Rechercher un groupe de L2">
+        <div class="search-container">
+          <SearchIcon class="search-icon" />
+          <input class="search-bar" type="search" v-model="selectedGroupL2" placeholder="Rechercher un groupe de L2">
+        </div>
         <ul class="list">
           <li v-for="group in filteredGroupsL2" :key="group.groupNumber">
             <RouterLink :to="`/modification/groupe/${group.groupNumber}`" class="router-link">{{ group.name }}
@@ -28,7 +34,10 @@
 
       <div class="section">
         <h2>Groupes de L3</h2>
-        <input class="search-bar" type="search" v-model="selectedGroupL3" placeholder="Rechercher un groupe de L3">
+        <div class="search-container">
+          <SearchIcon class="search-icon" />
+          <input class="search-bar" type="search" v-model="selectedGroupL3" placeholder="Rechercher un groupe de L3">
+        </div>
         <ul class="list">
           <li v-for="group in filteredGroupsL3" :key="group.groupNumber">
             <RouterLink :to="`/modification/groupe/${group.groupNumber}`" class="router-link">{{ group.name }}
@@ -42,6 +51,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
+import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
 
 const groups = ref([]);
 

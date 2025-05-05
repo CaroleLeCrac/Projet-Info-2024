@@ -7,10 +7,13 @@
 
         <div> <!-- Ajouter class="section" si on utilise les 2 sections-->
             <h2>{{ groupName }}</h2>
+            <div class="search-container">
+                <SearchIcon class="search-icon" />
+                <input class="search-bar" type="search" v-model="searchQuery" placeholder="Rechercher un.e étudiant.e">
+            </div>
             <button id="select-all" class="button" @click="selectAll">
                 {{ allSelected ? "Déselectionner tou.te.s" : "Sélectionner tou.te.s" }}
             </button>
-            <input class="search-bar" type="search" v-model="searchQuery" placeholder="Rechercher un.e étudiant.e">
             <ul class="list-presence">
                 <li v-for="student in filteredStudents" :key="student.studentNumber">
                     <div class="student-list-container">
@@ -57,6 +60,7 @@
 
 import { ref, onMounted, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
 
 const studentsInGroup = ref([]); // Liste des étudiants
 //const studentsOutsideGroup = ref([]); // Liste des étudiants extérieurs au groupe
@@ -157,12 +161,7 @@ function saveCallAndGoBack() {
 @import url("../shared/shared.css");
 
 #select-all {
-    margin-left: 0;
-}
-
-.search-bar {
-    display: block;
-    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .list-presence {

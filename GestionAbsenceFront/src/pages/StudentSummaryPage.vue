@@ -29,7 +29,10 @@
       <div class="section" id="right-section">
         <!-- Sélectionner une matière -->
         <h2>Sélectionner une ou plusieurs matière.s</h2>
-        <input class="search-bar" type="search" v-model="searchQueryCourse" placeholder="Rechercher une matière">
+        <div class="search-container">
+          <SearchIcon class="search-icon" />
+          <input class="search-bar" type="search" v-model="searchQueryCourse" placeholder="Rechercher une matière">
+        </div>
         <ul class="list-courses">
           <li v-for="course in filteredCourses" :key="course.name" :value="course.name">
             <div class="list-container">
@@ -47,6 +50,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
 
 const route = useRoute();
 const studentNumber = Number(route.params.id); // Récupérer le num de l'étudiant sélectionné à partir des paramètres de la route
