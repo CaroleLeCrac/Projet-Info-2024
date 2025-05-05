@@ -114,10 +114,25 @@ function exportStudentData() {
     absence.date
   ])
 
+  // Regroupement des absences pas matière pour avoir les totaux
+  // Attention c'est par matière et non par CM, TD et TP d'une matière
+  const absenceCountByCourse = {};
+  filteredAbsences.value.forEach(abs => {
+    if (!absenceCountByCourse[abs.coursename]) {
+      absenceCountByCourse[abs.coursename] = 0;
+    }
+    absenceCountByCourse[abs.coursename]++;
+  })
+
+  const totalHeader = ['Matière', 'Nombre total d\'absences'];
+  const totals = Object.entries(absenceCountByCourse).map(([course, count]) => [course, count]);
+
   // Création du fichier CSV
   let csvContent = "data:text/csv;charset=utf-8,"
     + headers.join(",") + "\n"
-    + rows.map(row => row.join(",")).join("\n");
+    + rows.map(row => row.join(",")).join("\n")
+    + "\n\n" + totalHeader.join(",") + "\n"
+    + totals.map(row => row.join(",")).join("\n");
 
   // Création d'un lien pour télécharger le fichier CSV
   const encodedUri = encodeURI(csvContent);
