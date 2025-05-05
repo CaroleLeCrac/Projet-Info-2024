@@ -4,7 +4,10 @@
     <h1>Sélectionner l'étudiant.e à modifier</h1>
     <div id="container">
       <div>
-        <input class="search-bar" type="search" v-model="searchQuery" placeholder="Rechercher un.e étudiant.e" />
+        <div class="search-container">
+          <SearchIcon class="search-icon" />
+          <input class="search-bar" type="search" v-model="searchQuery" placeholder="Rechercher un.e étudiant.e" />
+        </div>
         <ul class="list">
           <li v-for="student in filteredStudents" :key="student.studentNumber">
             <RouterLink class="router-link" :to="`/modification/etudiant/${student.studentNumber}`">
@@ -21,6 +24,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
 
 const students = ref([])
 const searchQuery = ref('')

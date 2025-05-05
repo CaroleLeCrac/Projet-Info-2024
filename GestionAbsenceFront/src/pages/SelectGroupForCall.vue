@@ -1,13 +1,17 @@
 <!--Page de sélection du groupe pour faire l'appel-->
 <template>
-    <main class="center">
+    <main class="left">
         <h1>Sélectionner un groupe</h1>
 
         <div class="sections-container">
             <div class="section">
                 <h2>Groupes de L1</h2>
-                <input class="search-bar" type="search" v-model="selectedGroupL1"
-                    placeholder="Rechercher un groupe de L1">
+                <div class="search-container">
+                    <SearchIcon class="search-icon" />
+                    <input class="search-bar" type="search" v-model="selectedGroupL1"
+                        placeholder="Rechercher un groupe de L1">
+                </div>
+
                 <ul class="list">
                     <li v-for="group in filteredGroupsL1" :key="group.groupNumber">
                         <RouterLink
@@ -20,8 +24,11 @@
 
             <div class="section">
                 <h2>Groupes de L2</h2>
-                <input class="search-bar" type="search" v-model="selectedGroupL2"
-                    placeholder="Rechercher un groupe de L2">
+                <div class="search-container">
+                    <SearchIcon class="search-icon" />
+                    <input class="search-bar" type="search" v-model="selectedGroupL2"
+                        placeholder="Rechercher un groupe de L2">
+                </div>
                 <ul class="list">
                     <li v-for="group in filteredGroupsL2" :key="group.groupNumber">
                         <RouterLink
@@ -34,8 +41,11 @@
 
             <div class="section">
                 <h2>Groupes de L3</h2>
-                <input class="search-bar" type="search" v-model="selectedGroupL3"
-                    placeholder="Rechercher un groupe de L3">
+                <div class="search-container">
+                    <SearchIcon class="search-icon" />
+                    <input class="search-bar" type="search" v-model="selectedGroupL3"
+                        placeholder="Rechercher un groupe de L3">
+                </div>
                 <ul class="list">
                     <li v-for="group in filteredGroupsL3" :key="group.groupNumber">
                         <RouterLink
@@ -51,6 +61,7 @@
 
 <script setup>
 
+import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 

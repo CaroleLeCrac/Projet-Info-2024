@@ -51,13 +51,14 @@
 
             <div class="right-column">
                 <h2>Sélectionnez les options de l'étudiant.e</h2>
-                <div id="course-filters">
+                <div class="search-container">
+                    <SearchIcon class="search-icon" />
                     <input class="search-bar" type="search" v-model="searchQueryCourse"
                         placeholder="Rechercher un cours" />
-                    <button id="select-all" class="button" @click="selectAllCourses">
-                        {{ allSelectedCourses ? "Déselectionner tous les cours" : "Sélectionner tous les cours" }}
-                    </button>
                 </div>
+                <button id="select-all" class="button" @click="selectAllCourses">
+                    {{ allSelectedCourses ? "Déselectionner tous les cours" : "Sélectionner tous les cours" }}
+                </button>
                 <ul class="list-courses">
                     <li v-for="course in filteredCourses" :key="course.name">
                         <div class="list-container">
@@ -78,7 +79,7 @@
 
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-
+import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
 
 const students = ref([]);
 const student = ref([]);
@@ -291,13 +292,12 @@ div.groups {
     font-weight: bold;
 }
 
-.search-bar,
-#select-all {
-    margin: 0;
+.search-bar {
+    margin-left: 0;
 }
 
 #select-all {
-    margin-left: 2rem;
+    margin: 0;
 }
 
 .checkbox-course {

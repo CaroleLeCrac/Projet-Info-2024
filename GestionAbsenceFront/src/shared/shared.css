@@ -45,8 +45,21 @@ strong {
     font-weight: bold;
 }
 
+.search-container {
+    position: relative;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 0.7rem;
+    top: 30%;
+    transform: translateY(-50%);
+}
+
 .search-bar {
     padding: 0.5rem;
+    padding-left: 2.25rem;
     font-size: 1rem;
     width: max-content;
     margin-bottom: 1.5rem;
@@ -97,7 +110,8 @@ strong {
     width: max-content;
 }
 
-.list-container { /* Pour les listes avec checkbox */
+.list-container {
+    /* Pour les listes avec checkbox */
     margin-bottom: 0.7rem;
     font-size: 1rem;
     height: 1.875rem;
@@ -128,7 +142,6 @@ strong {
 }
 
 #select-all {
-    margin-left: 40px;
     background-color: var(--color-6);
     padding: 0.4rem;
 }
@@ -179,7 +192,7 @@ strong {
     margin-right: 1rem;
 }
 
-.student-group-number > p {
+.student-group-number>p {
     font-size: 1rem;
     margin: 0;
     margin-left: 3rem;

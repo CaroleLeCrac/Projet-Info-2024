@@ -31,7 +31,7 @@ const breadcrumbSteps = computed(() => {
     case 'Call':
       return [
         { label: 'Accueil', to: '/' },
-        { label: 'Groupe du créneau', to: '/${route.params.courseType}/${route.params.courseName}/groupe' },
+        { label: 'Groupe du créneau', to: `/${route.params.courseType}/${route.params.courseName}/groupe` },
         { label: 'Appel', to: null }
       ]
 
