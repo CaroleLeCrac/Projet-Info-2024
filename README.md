@@ -13,7 +13,7 @@ This project is coded in Javascript, TypeScript, HTML and CSS.
 
 Diagrams fo the database, as well as other documents such as the decomposition of the website, can be found in the Visuals document.
 
-## Front-end Setup
+# Front-end Setup
 The front-end is coded with Vue.js. 
 The front-end code is located in the `./GestionAbsencesFront/` directory. 
 
@@ -33,7 +33,7 @@ npm run dev
 npm run build
 ```
 
-## Back-end Setup
+# Back-end Setup
 The back-end is coded with NestJs with the ORM Prisma.
 The back-end code is located in the `./GestionAbsenceBack/` directory.
 
@@ -41,9 +41,13 @@ The back-end code is located in the `./GestionAbsenceBack/` directory.
 npm install
 ```
 
+### Database Configuration
+- SQL Database.
+- Recommanded URL in .env file
+``` env
+DATABASE_URL="file:./dev.db"
+```
 ### Generate database file from schema.prisma
-SQL Database
-
 ```sh
 npx prisma migrate dev --name init
 ```
