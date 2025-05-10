@@ -62,7 +62,7 @@ import { useRoute } from 'vue-router'
 
 
 const route = useRoute();
-const courseName = route.params.id; // Récupérer le nom de la matière à partir des paramètres de la route
+const courseName = route.params.courseName; // Récupérer le nom de la matière à partir des paramètres de la route
 
 const students = ref([]);
 const selectedStudents = ref([])  // Les étudiants sélectionnés

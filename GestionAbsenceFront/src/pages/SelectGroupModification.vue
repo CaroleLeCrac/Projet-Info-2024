@@ -11,8 +11,8 @@
           <input class="search-bar" type="search" v-model="selectedGroupL1" placeholder="Rechercher un groupe de L1">
         </div>
         <ul class="list">
-          <li v-for="group in filteredGroupsL1" :key="group.groupNumber">
-            <RouterLink :to="`/modification/groupe/${group.groupNumber}`" class="router-link">{{ group.name }}
+          <li v-for="group in filteredGroupsL1" :key="group.id">
+            <RouterLink :to="`/modification/groupe/${group.id}`" class="router-link">{{ group.name }}
             </RouterLink>
           </li>
         </ul>
@@ -25,8 +25,8 @@
           <input class="search-bar" type="search" v-model="selectedGroupL2" placeholder="Rechercher un groupe de L2">
         </div>
         <ul class="list">
-          <li v-for="group in filteredGroupsL2" :key="group.groupNumber">
-            <RouterLink :to="`/modification/groupe/${group.groupNumber}`" class="router-link">{{ group.name }}
+          <li v-for="group in filteredGroupsL2" :key="group.id">
+            <RouterLink :to="`/modification/groupe/${group.id}`" class="router-link">{{ group.name }}
             </RouterLink>
           </li>
         </ul>
@@ -39,8 +39,8 @@
           <input class="search-bar" type="search" v-model="selectedGroupL3" placeholder="Rechercher un groupe de L3">
         </div>
         <ul class="list">
-          <li v-for="group in filteredGroupsL3" :key="group.groupNumber">
-            <RouterLink :to="`/modification/groupe/${group.groupNumber}`" class="router-link">{{ group.name }}
+          <li v-for="group in filteredGroupsL3" :key="group.id">
+            <RouterLink :to="`/modification/groupe/${group.id}`" class="router-link">{{ group.name }}
             </RouterLink>
           </li>
         </ul>
@@ -52,38 +52,50 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
+import { getAllGroups } from '@/shared/fetchers/groups';
+import { getAllSemesters } from '@/shared/fetchers/semesters';
 
 const groups = ref([]);
+const semesters = ref([]); // pour trier par année dans les sections
 
 onMounted(() => {
-  fetch('/Groups.json')
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Données JSON récupérées : ", data);
-      groups.value = data.groups;
+  Promise.all([
+    getAllGroups(),
+    getAllSemesters()
+  ])
+    .then(([groupRes, semesterRes]) => {
+      return Promise.all([groupRes.json(), semesterRes.json()]);
     })
-    .catch(error => console.error('Error loading data:', error));
+    .then(([groupsData, semestersData]) => {
+      groups.value = groupsData.map(g => ({
+        ...g,
+        semester_name: semestersData.find(s => s.id === g.semester_id)?.name || 'Unknow'
+      }));
+
+      semesters.value = semestersData;
+    })
+    .catch((error) => console.error('Error loading groups and semesters data : ', error))
 });
 
 // Filtrage des groupes selon la search-bar et selon la promo
 const selectedGroupL1 = ref('');
 const filteredGroupsL1 = computed(() =>
   groups.value.filter(g =>
-    (g.semester === "S1" || g.semester === "S2") &&
+    ['S1', 'S2'].includes(g.semester_name) &&
     g.name.toLowerCase().includes(selectedGroupL1.value.toLowerCase())
   ));
 
 const selectedGroupL2 = ref('');
 const filteredGroupsL2 = computed(() =>
   groups.value.filter(g =>
-    (g.semester === "S3" || g.semester === "S4") &&
+    ['S3', 'S4'].includes(g.semester_name) &&
     g.name.toLowerCase().includes(selectedGroupL2.value.toLowerCase())
   ));
 
 const selectedGroupL3 = ref('');
 const filteredGroupsL3 = computed(() =>
   groups.value.filter(g =>
-    (g.semester === "S5" || g.semester === "S6") &&
+    ['S5', 'S6'].includes(g.semester_name) &&
     g.name.toLowerCase().includes(selectedGroupL3.value.toLowerCase())
   ));
 </script>

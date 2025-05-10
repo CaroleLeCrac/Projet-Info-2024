@@ -1,6 +1,12 @@
 {
     "options": [
         {
+            "name": "Sciences cognitives"
+        },
+        {
+            "name": "Sciences économiques"
+        },
+        {
             "name": "Introduction à l'IA"
         },
         {

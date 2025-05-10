@@ -41,8 +41,8 @@
         <ul class="list">
           <li v-for="student in filteredStudents">
             <label>
-              <RouterLink :to="`/recapitulatifs/etudiant/${student.studentNumber}`" class="router-link">
-                {{ student.name }} {{ student.surname }}
+              <RouterLink :to="`/recapitulatifs/etudiant/${student.id}`" class="router-link">
+                {{ student.name }}
               </RouterLink>
             </label>
           </li>
@@ -55,6 +55,8 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
+import { getAllStudents } from '@/shared/fetchers/students';
+import { getAllCourses } from '@/shared/fetchers/course_material';
 
 // Références pour la sélection des étudiants, matières et absences
 const students = ref([]);  // Liste des étudiants
@@ -67,19 +69,19 @@ const courseQuery = ref('');
 // Chargement des données
 onMounted(() => {
   // Chargement des étudiants depuis le fichier JSON
-  fetch('/Students.json')
+  getAllStudents()
     .then((response) => response.json())
     .then((data) => {
-      students.value = data.students
+      students.value = data
       console.log('Étudiants chargés:', students.value);
     })
     .catch((error) => console.error('Erreur de chargement des étudiants:', error))
 
   // Chargement des matières
-  fetch('/Courses.json')
+  getAllCourses()
     .then((response) => response.json())
     .then((data) => {
-      courses.value = data.courses
+      courses.value = data
       console.log('Matières chargées:', courses.value);
     })
     .catch((error) => console.error('Erreur de chargement des matières:', error))
@@ -88,7 +90,7 @@ onMounted(() => {
 // Filtrer les étudiants barre de recherche
 const filteredStudents = computed(() => {
   return students.value.filter((student) =>
-    (student.name + ' ' + student.surname).toLowerCase().includes(studentQuery.value.toLowerCase())
+    student.name.toLowerCase().includes(studentQuery.value.toLowerCase())
   )
 })
 

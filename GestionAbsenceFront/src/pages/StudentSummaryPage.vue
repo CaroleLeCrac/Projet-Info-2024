@@ -53,7 +53,7 @@ import { useRoute } from 'vue-router'
 import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
 
 const route = useRoute();
-const studentNumber = Number(route.params.id); // Récupérer le num de l'étudiant sélectionné à partir des paramètres de la route
+const studentNumber = Number(route.params.studentId); // Récupérer le num de l'étudiant sélectionné à partir des paramètres de la route
 const student = ref(null);
 
 const selectedCourses = ref([])  // Liste matières sélectionnées

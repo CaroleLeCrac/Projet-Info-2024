@@ -15,14 +15,11 @@
                 {{ allSelected ? "Déselectionner tou.te.s" : "Sélectionner tou.te.s" }}
             </button>
             <ul class="list-presence">
-                <li v-for="student in filteredStudents" :key="student.studentNumber">
+                <li v-for="student in filteredStudents" :key="student.id">
                     <div class="student-list-container">
                         <div class="student-info">
-                            <input type="checkbox" :value="student.studentNumber" v-model="absentStudents">
-                            <label>{{ student.studentNumber }} {{ student.surname }} {{ student.name }}</label>
-                        </div>
-                        <div class="student-group-number">
-                            <p>{{ student.groupNumber }}</p>
+                            <input type="checkbox" :value="student.id" v-model="presentStudentsId">
+                            <label>{{ student.name }}</label>
                         </div>
                     </div>
                 </li>
@@ -61,6 +58,7 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
+import { getStudentsByGroupId } from '@/shared/fetchers/students';
 
 const studentsInGroup = ref([]); // Liste des étudiants
 //const studentsOutsideGroup = ref([]); // Liste des étudiants extérieurs au groupe
@@ -70,36 +68,15 @@ const searchQuery = ref("");
 const route = useRoute();
 // Nom du groupe récupéré pour l'afficher
 const groupName = route.params.groupName;
-const groupNumber = Number(route.params.groupNumber);
+const groupId = Number(route.params.groupId);
 const courseTypeAndName = `${route.params.courseType} ${route.params.courseName}`;
 
-const buttonStates = ({});
 onMounted(() => {
-    fetch('/Students.json')
+    getStudentsByGroupId(groupId)
         .then((response) => response.json())
         .then((data) => {
             console.log("Données des étudiants récupérées : ", data)
-            const students = data.students;
-
-            students.forEach(student => {
-                if (student.groupNumber === groupNumber) {
-                    studentsInGroup.value.push(student);
-                }
-            });
-
-            // Tri en groupes
-            /*if (groupNumber !== null) {
-                studentsInGroup.value = students.filter(s => s.groupNumber === groupNumber);
-                studentsOutsideGroup.value = students.filter(s => s.groupNumber !== groupNumber);
-            } else {
-                studentsInGroup.value = students;
-                studentsOutsideGroup.value = [];
-            }*/
-            buttonStates.value = studentsInGroup.value.reduce((acc, student) => {
-                acc[student.studentNumber] = true
-                return acc
-            }, {})
-            console.log("Etat actuel des boutons : ", buttonStates.value)
+            studentsInGroup.value = data;
         })
         .catch(error => console.error('Error loading students data:', error))
 });
@@ -110,8 +87,7 @@ const props = defineProps({
 
 const filteredStudents = computed(() =>
     studentsInGroup.value.filter(s =>
-        s.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-        s.surname.toLowerCase().includes(searchQuery.value.toLowerCase())
+        s.name.toLowerCase().includes(searchQuery.value.toLowerCase())
     )
 );
 
@@ -122,30 +98,35 @@ const filteredStudents = computed(() =>
     )
 );*/
 
-const absentStudents = ref([]);
+const presentStudentsId = ref([]);
+
+const absentStudentsId = computed(() =>
+    studentsInGroup.value
+        .map(student => student.id)
+        .filter(id => !presentStudentsId.value.includes(id))
+);
 
 const allSelected = ref(false);
 
 function selectAll() { // ne modifie rien dans la liste des étudiants extérieurs
-    allSelected.value = !allSelected.value;
+    const studentsIdInGroup = studentsInGroup.value.map(student => student.id);
 
-    const studentsNumberInGroup = studentsInGroup.value.map(student => student.studentNumber);
-
-    if (allSelected.value) {
-        const set = new Set(absentStudents.value); // pour éviter les doublons
-        studentsNumberInGroup.forEach(studentNumber => set.add(studentNumber));
-        absentStudents.value = Array.from(set);
+    if (!allSelected.value) {
+        presentStudentsId.value = studentsIdInGroup.slice();
     } else {
-        absentStudents.value = absentStudents.value.filter(studentNumber => !studentsNumberInGroup.includes(studentNumber));
+        presentStudentsId.value = [];
     }
+    allSelected.value = !allSelected.value;
+    console.log(absentStudentsId);
 }
 
 
 const callSaved = ref(false);
 
 function saveCall() {
-    /* Sauvegarder l'appel */
+    console.log("Étudiants absents :", absentStudentsId.value);
     callSaved.value = true;
+    // TODO: envoyer absentStudentsId.value au backend
 }
 
 const router = useRouter();
@@ -166,7 +147,7 @@ function saveCallAndGoBack() {
 
 .list-presence {
     list-style-type: none;
-    width: max-content;
+    width: 35%;
     font-size: 1rem;
     padding-left: 0;
 }

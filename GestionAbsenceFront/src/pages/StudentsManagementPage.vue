@@ -5,7 +5,11 @@
         <div class="header-section">
             <h1>Liste des étudiant.e.s</h1>
 
-            <button class="button" id="refresh-bdd-btn" @click="refreshBDD">Vider la base de données</button>
+            <div>
+                <button class="button" id="refresh-ade-btn" @click="refreshADE">Mettre à jour les données des EDT
+                    ADE</button>
+                <button class="button" id="refresh-bdd-btn" @click="refreshBDD">Vider la base de données</button>
+            </div>
         </div>
 
         <PromoSelector v-model="selectedSemesterForStudents" />
@@ -44,6 +48,13 @@
 import { ref, reactive } from 'vue'
 import PromoSelector from '@/shared/components/PromoSelector.vue';
 
+function refreshADE() {
+    const confirmRefresh = window.confirm("⚠️ Cette action va vider les données stockées dans la BDD qui sont récupérées depuis ADE puis, récupérer à nouveau les données actuelles pour mettre à jour la BDD. Vous ne pourrez pas revenir en arrière ! Êtes-vous sûr.e ?");
+    if (confirmRefresh) {
+        //màj ADE
+    }
+}
+
 function refreshBDD() {
     const confirmRefresh = window.confirm("⚠️ Cette action va vider la base de données. Vous ne pourrez pas revenir en arrière ! Êtes-vous sûr.e ?");
     if (confirmRefresh) {
@@ -77,6 +88,11 @@ function submit() {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.header-section>div {
+    display: flex;
+    gap: 1rem;
 }
 
 #refresh-bdd-btn {

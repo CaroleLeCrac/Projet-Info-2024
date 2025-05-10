@@ -12,21 +12,10 @@
                             :placeholder="student.studentNumber ? '' : 'Numéro de l\'étudiant.e'" />
                     </div>
                     <div>
-                        <label for="name">Nom : </label>
-                        <input type="text" id="surname" v-model="student.surname"
-                            :placeholder="student.surname ? '' : 'Nom de l\'étudiant.e'" />
-                    </div>
-                    <div>
-                        <label for="surname">Prénom : </label>
+                        <label for="name">Nom et Prénom: </label>
                         <input type="text" id="name" v-model="student.name"
-                            :placeholder="student.name ? '' : 'Prénom de l\'étudiant.e'" />
+                            :placeholder="student.name ? '' : 'Nom de l\'étudiant.e'" />
                     </div>
-                    <div>
-                        <label for="mail">Mail : </label>
-                        <input type="text" id="mail" v-model="student.mail"
-                            :placeholder="student.mail ? '' : 'Mail de l\'étudiant.e'" />
-                    </div>
-
                     <div>
                         <label>Année en cours : </label>
                         <select name="inscriptionYear">
@@ -60,11 +49,11 @@
                     {{ allSelectedCourses ? "Déselectionner tous les cours" : "Sélectionner tous les cours" }}
                 </button>
                 <ul class="list-courses">
-                    <li v-for="course in filteredCourses" :key="course.name">
+                    <li v-for="option in options" :key="option.name">
                         <div class="list-container">
-                            <input class="checkbox-course" type="checkbox" :value="course.name"
+                            <input class="checkbox-course" type="checkbox" :value="option.name"
                                 v-model="selectedCourses">
-                            <label for="course.name">{{ course.name }}</label>
+                            <label for="option.name">{{ option.name }}</label>
                         </div>
                     </li>
                 </ul>
@@ -83,11 +72,11 @@ import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
 
 const students = ref([]);
 const student = ref([]);
-const courses = ref([]);
+const options = ref([]);
 const groups = ref([]);
 const years = ref([]);
 const route = useRoute();
-const currentStudentNumber = route.params.id;
+const studentId = route.params.studentId;
 
 onMounted(() => {
     fetch('/Students.json')
@@ -95,9 +84,9 @@ onMounted(() => {
         .then((data) => {
             console.log("Données JSON récupérées : ", data);
             students.value = data.students;
-            if (currentStudentNumber !== '0') {
+            if (studentId !== '0') {
                 const studentData = students.value.find(
-                    (student) => student.studentNumber === Number(currentStudentNumber)
+                    (student) => student.studentNumber === Number(studentId)
                 )
                 if (studentData) {
                     student.value = { ...studentData }
@@ -108,11 +97,11 @@ onMounted(() => {
 });
 
 onMounted(() => {
-    fetch('/Courses.json')
+    fetch('/Options.json')
         .then((response) => response.json())
         .then((data) => {
             console.log("Données JSON récupérées : ", data);
-            courses.value = data.courses;
+            options.value = data.options;
 
         })
         .catch((error) => console.error('Error loading data:', error));
@@ -146,7 +135,7 @@ const selectedCourses = ref([]);
 
 const searchQueryCourse = ref('');
 const filteredCourses = computed(() =>
-    courses.value.filter(c =>
+    options.value.filter(c =>
         c.name.toLowerCase().includes(searchQueryCourse.value.toLowerCase())
     )
 );
@@ -156,7 +145,7 @@ const allSelectedCourses = ref(false);
 function selectAllCourses() {
     allSelectedCourses.value = !allSelectedCourses.value;
     if (allSelectedCourses.value) {
-        selectedCourses.value = courses.value.map(course => course.name);
+        selectedCourses.value = options.value.map(course => course.name);
     } else {
         selectedCourses.value = [];
     }
