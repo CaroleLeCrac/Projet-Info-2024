@@ -21,12 +21,22 @@ export class CourseMaterialService {
         },
         include : {
           presence_student : true,
-          presence_slot : true,
+          presence_slot : {
+            include : {
+              slot_session_type : {
+                include : {
+                  session_type_course_material : true,
+                },
+              },
+            },
+          },
         },
       })
       return absences.map(presence => ({
         student : presence.presence_student,
-        date : presence.presence_slot.date
+        date : presence.presence_slot.date,
+        courseType : presence.presence_slot.slot_session_type.course_type_name,
+        courseName : presence.presence_slot.slot_session_type.session_type_course_material.name
       }))
     }
 
