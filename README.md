@@ -9,15 +9,13 @@ _Application features:_
 - modify/add students to the database
 - modify/add TD groups to the database
 
-This project is coded in Javascript, HTML and CSS.
-
-The front-end is coded with Vue.js and the back-end is coded with Node.js.
-The front-end code can be found in the GestionAbsencesFront document.
-The back-end is yet to be coded.
+This project is coded in Javascript, TypeScript, HTML and CSS.
 
 Diagrams fo the database, as well as other documents such as the decomposition of the website, can be found in the Visuals document.
 
-## Project Setup
+## Front-end Setup
+The front-end is coded with Vue.js. 
+The front-end code is located in the `./GestionAbsencesFront/` directory. 
 
 ```sh
 npm install
@@ -33,4 +31,25 @@ npm run dev
 
 ```sh
 npm run build
+```
+
+## Back-end Setup
+The back-end is coded with NestJs with the ORM Prisma.
+The back-end code is located in the `./GestionAbsenceBack/` directory.
+
+```sh
+npm install
+```
+
+### Generate database file from schema.prisma
+SQL Database
+
+```sh
+npx prisma migrate dev --name init
+```
+
+### Compile and Hot-Reload for Development
+
+```sh
+npm run start
 ```
