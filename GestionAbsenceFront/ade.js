@@ -10,7 +10,7 @@ app.use(cors());
 
 // Fonction pour récupérer la session ID
 async function getSessionId() {
-    const response = await fetch('https://ade-uga-info-ro.grenet.fr/jsp/webapi?data=d492b20c0c7f48f27fcf0491e9607cfd0aceb141e80ec5a2743c822702d89226b802c20c0bac3aa39dac749c7a5ea85dc58e26c66dcf6a0d4cf9b27b6336cb66,1');
+    const response = await fetch('https://lien_ADE');
     const xmlText = await response.text();
     const json = await parseStringPromise(xmlText);
     return json.session.$.id;
@@ -21,9 +21,9 @@ app.get('/api/recupMatieres', async (req, res) => {
         const sessionId = await getSessionId();
 
         // Fixer le projet
-        await fetch(`https://ade-uga-info-ro.grenet.fr/jsp/webapi?sessionId=${sessionId}&function=setProject&projectId=8`);
+        await fetch(`https://lien_ADEsessionId=${sessionId}&function=setProject&projectId=8`);
 
-        const activitiesResponse = await fetch(`https://ade-uga-info-ro.grenet.fr/jsp/webapi?sessionId=${sessionId}&function=getActivities&tree=TRUE`);
+        const activitiesResponse = await fetch(`https://lien_ADEsessionId=${sessionId}&function=getActivities&tree=TRUE`);
         const activitiesXml = await activitiesResponse.text();
         const activitiesData = await parseStringPromise(activitiesXml);
 
@@ -108,10 +108,10 @@ app.get('/api/creneaux', async (req, res) => {
         const sessionId = await getSessionId();
 
         // Fixer le projet
-        await fetch(`https://ade-uga-info-ro.grenet.fr/jsp/webapi?sessionId=${sessionId}&function=setProject&projectId=8`);
+        await fetch(`https://lien_ADEsessionId=${sessionId}&function=setProject&projectId=8`);
 
         // Récup des matières
-        const activitiesResponse = await fetch(`https://ade-uga-info-ro.grenet.fr/jsp/webapi?sessionId=${sessionId}&function=getActivities&tree=TRUE`);
+        const activitiesResponse = await fetch(`https://lien_ADEsessionId=${sessionId}&function=getActivities&tree=TRUE`);
         const activitiesXml = await activitiesResponse.text();
         const activitiesData = await parseStringPromise(activitiesXml);
         const activities = [];
@@ -181,7 +181,7 @@ app.get('/api/creneaux', async (req, res) => {
         // le format attendu par l’API ADE est "MM/dd/yyyy"
         const formattedString = `${(month).toString().padStart(2, '0')}/${day.toString().padStart(2, '0')}/${year}`;
 
-        const eventsResponse = await fetch(`https://ade-uga-info-ro.grenet.fr/jsp/webapi?sessionId=${sessionId}&function=getEvents&date=${formattedString}`);
+        const eventsResponse = await fetch(`https://lien_ADEsessionId=${sessionId}&function=getEvents&date=${formattedString}`);
         const eventsXml = await eventsResponse.text();
         const eventsData = await parseStringPromise(eventsXml);
 
