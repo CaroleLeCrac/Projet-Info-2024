@@ -2,9 +2,9 @@
   <main class="left">
     <!-- Conteneur pour les boutons "Exporter" -->
     <div class="buttons-container">
-      <button class="button">Exporter les absences des L1</button>
-      <button class="button">Exporter les absences des L2</button>
-      <button class="button">Exporter les absences des L3</button>
+      <button class="button" @click="exportAbsL1">Exporter les absences des L1</button>
+      <button class="button" @click="exportAbsL2">Exporter les absences des L2</button>
+      <button class="button" @click="exportAbsL3">Exporter les absences des L3</button>
     </div>
 
     <h1>Sélectionner la matière ou l'étudiant.e</h1>
@@ -22,7 +22,7 @@
         <ul class="list">
           <li v-for="course in filteredCourses">
             <label>
-              <RouterLink :to="`/recapitulatifs/matiere/${course.name}`" class="router-link">
+              <RouterLink :to="`/recapitulatifs/matiere/${course.id}`" class="router-link">
                 {{ course.name }}
               </RouterLink>
             </label>
@@ -57,6 +57,7 @@ import { ref, onMounted, computed } from 'vue';
 import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
 import { getAllStudents } from '@/shared/fetchers/students';
 import { getAllCourses } from '@/shared/fetchers/course_material';
+import { getAbsenceByYear } from '@/shared/fetchers/presence';
 
 // Références pour la sélection des étudiants, matières et absences
 const students = ref([]);  // Liste des étudiants
@@ -67,24 +68,9 @@ const studentQuery = ref('');
 const courseQuery = ref('');
 
 // Chargement des données
-onMounted(() => {
-  // Chargement des étudiants depuis le fichier JSON
-  getAllStudents()
-    .then((response) => response.json())
-    .then((data) => {
-      students.value = data
-      console.log('Étudiants chargés:', students.value);
-    })
-    .catch((error) => console.error('Erreur de chargement des étudiants:', error))
-
-  // Chargement des matières
-  getAllCourses()
-    .then((response) => response.json())
-    .then((data) => {
-      courses.value = data
-      console.log('Matières chargées:', courses.value);
-    })
-    .catch((error) => console.error('Erreur de chargement des matières:', error))
+onMounted(async () => {
+  students.value = await getAllStudents();
+  courses.value = await getAllCourses();
 })
 
 // Filtrer les étudiants barre de recherche
@@ -100,6 +86,55 @@ const filteredCourses = computed(() => {
     course.name.toLowerCase().includes(courseQuery.value.toLowerCase())
   )
 })
+
+function formatDate(date) {
+  const dateFormat = new Date(date);
+  const day = String(dateFormat.getDate()).padStart(2, '0');
+  const month = String(dateFormat.getMonth() + 1).padStart(2, '0');
+  const year = dateFormat.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+
+function generateCSV(abs, filename) {
+  const headers = ['Cours', 'Date', 'Numéro étudiant', 'Nom et Prénom'];
+  const rows = abs.value.map(abs => [
+    `${abs.session_type} ${abs.course_material}`,
+    formatDate(abs.date),
+    abs.student_number,
+    abs.name
+  ]);
+
+  const csvContent = "data:text/csv;charset=utf-8,"
+    + headers.join(';') + "\n"
+    + rows.map(row => row.join(';')).join("\n");
+
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", filename);
+  document.body.appendChild(link);
+  link.click();
+}
+
+async function exportAbsL1() {
+  const absences = await getAbsenceByYear(1);
+  console.log("abs", absences)
+  if (!absences || !Array.isArray(absences)) {
+    alert("Erreur : les absences sont introuvables.");
+    return;
+  }
+  generateCSV(absences, 'Absences_L1_MIASHS.csv');
+}
+
+async function exportAbsL2() {
+  const absences = await getAbsenceByYear(2);
+  generateCSV(absences.value, 'Absences_L2_MIASHS.csv');
+}
+
+async function exportAbsL3() {
+  const absences = await getAbsenceByYear(3);
+  generateCSV(absences.value, 'Absences_L3_MIASHS.csv');
+}
 </script>
 
 <style scoped>

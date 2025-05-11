@@ -9,9 +9,9 @@
           <input class="search-bar" type="search" v-model="searchQuery" placeholder="Rechercher un.e étudiant.e" />
         </div>
         <ul class="list">
-          <li v-for="student in filteredStudents" :key="student.studentNumber">
-            <RouterLink class="router-link" :to="`/modification/etudiant/${student.studentNumber}`">
-              {{ student.name }} {{ student.surname }}
+          <li v-for="student in filteredStudents" :key="student.id">
+            <RouterLink class="router-link" :to="`/modification/etudiant/${student.id}`">
+              {{ student.name }}
             </RouterLink>
           </li>
         </ul>
@@ -25,24 +25,18 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
+import { getAllStudents } from '@/shared/fetchers/students';
 
 const students = ref([])
 const searchQuery = ref('')
 
-onMounted(() => {
-  fetch('/Students.json')
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Données JSON récupérées : ", data);
-      students.value = data.students;
-    })
-    .catch(error => console.error('Error loading data:', error));
+onMounted(async () => {
+  students.value = await getAllStudents();
 });
 
 const filteredStudents = computed(() =>
   students.value.filter((stu) =>
-    stu.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-    stu.surname.toLowerCase().includes(searchQuery.value.toLowerCase())
+    stu.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   )
 );
 </script>

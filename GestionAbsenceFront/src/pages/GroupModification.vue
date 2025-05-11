@@ -60,6 +60,7 @@ import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
 import { getGroupById } from '@/shared/fetchers/groups';
 import { getStudentsByGroupId, getStudentsSameOtherGroup } from '@/shared/fetchers/students';
 import { getSemesterById } from '@/shared/fetchers/semesters';
+import { deleteInscriptionById, postInscription } from '@/shared/fetchers/inscriptions';
 
 const searchQuery1 = ref('');
 const searchQuery2 = ref('');
@@ -72,33 +73,10 @@ const group = ref();
 const semester = ref();
 
 onMounted(async () => {
-  try {
-    const groupResponse = await getGroupById(currentGroupId);
-    const groupData = await groupResponse.json();
-    group.value = groupData;
-
-    const semesterResponse = await getSemesterById(group.value.semester_id);
-    const semesterData = await semesterResponse.json();
-    semester.value = semesterData;
-
-    const studentsInGroupResponse = await getStudentsByGroupId(currentGroupId);
-    studentsInGroup.value = await studentsInGroupResponse.json();
-
-    const studentsOutsideGroupResponse = await getStudentsSameOtherGroup(currentGroupId);
-    const rawStudents = await studentsOutsideGroupResponse.json();
-    // pour extraire les étudiant.e.s :
-    studentsOutsideGroup.value = rawStudents.map(student => {
-      if (student.inscription_student && student.inscription_group) {
-        return {
-          ...student.inscription_student,
-          originalGroupName: student.inscription_group.name
-        };
-      }
-      return student.inscription_student || student;
-    });
-  } catch (error) {
-    console.error('Error during data loading:', error);
-  }
+  group.value = await getGroupById(currentGroupId);
+  semester.value = await getSemesterById(group.value.semester_id);
+  studentsInGroup.value = await getStudentsByGroupId(currentGroupId);
+  studentsOutsideGroup.value = await getStudentsSameOtherGroup(currentGroupId);
 });
 
 
@@ -114,19 +92,34 @@ const filteredStudentsOutsideGroup = computed(() =>
   )
 );
 
-function deleteStudent(student) {
-  const index = studentsInGroup.value.findIndex(s => s.studentNumber === student.studentNumber);
-  if (index !== -1) { // on s'assure que l'étudiant.e est dans la liste
-    studentsInGroup.value.splice(index, 1);
-    studentsOutsideGroup.value.push(student);
+async function deleteStudent(student) {
+  const confirmDelete = window.confirm(`Êtes-vous sûr de vouloir retirer ${student.name} du groupe ?`);
+  if (!confirmDelete) return;
+
+  try {
+    await deleteInscriptionById(student.id, currentGroupId);
+
+  } catch (error) {
+    console.error("Erreur lors de la suppression de l'inscription :", error);
+    alert("La suppression a échoué. Veuillez réessayer.");
   }
 }
 
-function addStudent(student) {
-  const index = studentsOutsideGroup.value.findIndex(s => s.studentNumber === student.studentNumber);
-  if (index !== -1) {
-    studentsOutsideGroup.value.splice(index, 1);
-    studentsInGroup.value.push(student);
+async function addStudent(student) {
+  const confirmDelete = window.confirm(`Êtes-vous sûr de vouloir ajouter ${student.name} au groupe ?`);
+  if (!confirmDelete) return;
+
+  try {
+    await postInscription(student.id, currentGroupId);
+    const index = studentsOutsideGroup.value.findIndex(s => s.id === student.id);
+    if (index !== -1) {
+      studentsOutsideGroup.value.splice(index, 1);
+      studentsInGroup.value.push(student);
+    }
+
+  } catch (error) {
+    console.error("Erreur lors de l'ajout de l'inscription :", error);
+    alert("L'ajout a échoué. Veuillez réessayer.");
   }
 }
 

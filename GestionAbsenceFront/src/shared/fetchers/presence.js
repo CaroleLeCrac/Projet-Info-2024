@@ -1,4 +1,31 @@
-export function postAbsence(slotId, [idStudents]) {
-    return fetch(`http://localhost:3000/presence/many/${slotId}`)
+export async function postAbsence(slotId, [idStudents]) {
+    try {
+        const response = await fetch(`http://localhost:3000/presence/many/${slotId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                semester_name: semester,
+                name: name
+            })
+        })
+        if (!response.ok) {
+            throw new Error("Erreur lors de l'envoi du groupe");
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Erreur lors de l'envoi du groupe :", error);
+    }
+}
+
+export async function getAbsenceByYear(year) {
+    try {
+        const response = await fetch(`http://localhost:3000/presence/by-year/${year}`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Erreur lors de la récupération des absences : ", error);
+    }
 }
 

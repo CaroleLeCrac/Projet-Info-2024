@@ -16,18 +16,16 @@
 
 <script setup>
 
-import { getSlots } from '@/shared/fetchers/slots';
 import { ref, onMounted, computed } from 'vue'
 
-const slots = ref([])
+const courses = ref([])
 const selectedDate = ref(new Date().toISOString().split('T')[0]);
 
 onMounted(() => {
-    getSlots()
+    fetch('/Slots.json')
         .then((response) => response.json())
         .then((data) => {
-            slots.value = data
-            console.log("créneaux : ", slots)
+            courses.value = data.coursedates
         })
         .catch((error) => console.error('Error loading courses data:', error))
     //récup type id pour avoir le nom de la matière
@@ -35,7 +33,7 @@ onMounted(() => {
 
 const filteredCoursesByDate = computed(() => {
     const formattedDate = selectedDate.value;
-    return slots.value.filter(course => course.date === formattedDate);
+    return courses.value.filter(course => course.date === formattedDate);
 });
 
 </script>

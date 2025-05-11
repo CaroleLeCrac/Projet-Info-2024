@@ -1,7 +1,7 @@
 <!--Page de sélection des absences pour un créneau-->
 <template>
     <main class="left">
-        <h1>Appel pour {{ courseTypeAndName }}</h1>
+        <h1>Appel pour {{ sessionType }} {{ courseName }}</h1>
         <!-- Pour diviser en 2 sections lorsqu'on affiche les étudiants extérieurs
         <div class="sections-container">-->
 
@@ -59,6 +59,11 @@ import { ref, onMounted, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
 import { getStudentsByGroupId } from '@/shared/fetchers/students';
+import { postAbsence } from '@/shared/fetchers/presence';
+import { postSlot } from '@/shared/fetchers/slots';
+import { postSemester } from '@/shared/fetchers/semesters';
+import { postSessionType } from '@/shared/fetchers/session_type';
+import { postCourseMaterial } from '@/shared/fetchers/course_material';
 
 const studentsInGroup = ref([]); // Liste des étudiants
 //const studentsOutsideGroup = ref([]); // Liste des étudiants extérieurs au groupe
@@ -69,16 +74,16 @@ const route = useRoute();
 // Nom du groupe récupéré pour l'afficher
 const groupName = route.params.groupName;
 const groupId = Number(route.params.groupId);
-const courseTypeAndName = `${route.params.courseType} ${route.params.courseName}`;
+const sessionType = route.params.sessionType;
+const courseName = route.params.courseName;
+const slot = ref(null);
 
-onMounted(() => {
-    getStudentsByGroupId(groupId)
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Données des étudiants récupérées : ", data)
-            studentsInGroup.value = data;
-        })
-        .catch(error => console.error('Error loading students data:', error))
+onMounted(async () => {
+    studentsInGroup.value = await getStudentsByGroupId(groupId);
+    //await postSemester();
+    //await postSessionType();
+    //await postCourseMaterial();
+    //slot.value = await postSlot(groupId, courseName, sessionType, date);
 });
 
 const props = defineProps({
@@ -122,11 +127,11 @@ function selectAll() { // ne modifie rien dans la liste des étudiants extérieu
 
 
 const callSaved = ref(false);
-
+//variable pour slotId
 function saveCall() {
     console.log("Étudiants absents :", absentStudentsId.value);
+    //postAbsence(slotId, absentStudentsId.value);
     callSaved.value = true;
-    // TODO: envoyer absentStudentsId.value au backend
 }
 
 const router = useRouter();

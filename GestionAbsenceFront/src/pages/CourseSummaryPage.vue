@@ -1,7 +1,7 @@
 <!--Page de récapitulatif des absences par matière-->
 <template>
   <main class="left">
-    <h1>Récapitulatif des absences pour la matière : {{ courseName }}</h1>
+    <h1>Récapitulatif des absences pour la matière : {{ courseId }}</h1>
 
     <div class="sections-container">
 
@@ -62,7 +62,7 @@ import { useRoute } from 'vue-router'
 
 
 const route = useRoute();
-const courseName = route.params.courseName; // Récupérer le nom de la matière à partir des paramètres de la route
+const courseId = Number(route.params.courseId); // Récupérer l'id de la matière à partir des paramètres de la route
 
 const students = ref([]);
 const selectedStudents = ref([])  // Les étudiants sélectionnés
@@ -104,7 +104,7 @@ function formatDate(date) {
 // Filtrer les absences en fonction de la matière, des étudiants et dates
 const filteredAbsences = computed(() => {
   return absencesList.value.filter(absence => {
-    const matchesCourse = absence.coursename === courseName;
+    const matchesCourse = absence.coursename === courseId;
     const matchesStudents = selectedStudents.value.length === 0 || selectedStudents.value.some(student => student.surname === absence.surname);
     const matchesDate = selectedDates.value.length === 0 || selectedDates.value.includes(formatDate(absence.date));
 
@@ -119,7 +119,7 @@ const filteredAbsences = computed(() => {
 // Filtrer les étudiants
 const filteredStudents = computed(() => {
   const surnamesInCourse = new Set(
-    absencesList.value.filter(absence => absence.coursename === courseName)
+    absencesList.value.filter(absence => absence.coursename === courseId)
       .map(absence => absence.surname)
   );
 
@@ -132,7 +132,7 @@ const filteredStudents = computed(() => {
 const filteredDates = computed(() => {
   return Array.from(new Set(
     absencesList.value
-      .filter(absence => absence.coursename === courseName)
+      .filter(absence => absence.coursename === courseId)
       .map(absence => formatDate(absence.date))
   ));
 });
@@ -161,7 +161,7 @@ function exportCourseData() {
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
   link.setAttribute("href", encodedUri);
-  link.setAttribute("download", `${courseName}_absences.csv`);
+  link.setAttribute("download", `${courseId}_absences.csv`);
   document.body.appendChild(link);
   link.click();  // Simule un clic pour déclencher le téléchargement
 }

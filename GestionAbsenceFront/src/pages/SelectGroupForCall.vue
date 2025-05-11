@@ -13,10 +13,10 @@
                 </div>
 
                 <ul class="list">
-                    <li v-for="group in filteredGroupsL1" :key="group.id">
-                        <RouterLink :to="`/${selectedSlotType}/${selectedSlotName}/${group.id}/${group.name}/appel`"
+                    <li v-for="groupL1 in filteredGroupsL1" :key="groupL1.id">
+                        <RouterLink :to="`/${selectedSlotType}/${selectedSlotName}/${groupL1.id}/${groupL1.name}/appel`"
                             class="router-link">
-                            {{ group.name }}</RouterLink>
+                            {{ groupL1.name }}</RouterLink>
                     </li>
                 </ul>
             </div>
@@ -29,10 +29,10 @@
                         placeholder="Rechercher un groupe de L2">
                 </div>
                 <ul class="list">
-                    <li v-for="group in filteredGroupsL2" :key="group.id">
-                        <RouterLink :to="`/${selectedSlotType}/${selectedSlotName}/${group.id}/${group.name}/appel`"
+                    <li v-for="groupL2 in filteredGroupsL2" :key="groupL2.id">
+                        <RouterLink :to="`/${selectedSlotType}/${selectedSlotName}/${groupL2.id}/${groupL2.name}/appel`"
                             class="router-link">
-                            {{ group.name }}</RouterLink>
+                            {{ groupL2.name }}</RouterLink>
                     </li>
                 </ul>
             </div>
@@ -45,10 +45,10 @@
                         placeholder="Rechercher un groupe de L3">
                 </div>
                 <ul class="list">
-                    <li v-for="group in filteredGroupsL3" :key="group.id">
-                        <RouterLink :to="`/${selectedSlotType}/${selectedSlotName}/${group.id}/${group.name}/appel`"
+                    <li v-for="groupL3 in filteredGroupsL3" :key="groupL3.id">
+                        <RouterLink :to="`/${selectedSlotType}/${selectedSlotName}/${groupL3.id}/${groupL3.name}/appel`"
                             class="router-link">
-                            {{ group.name }}</RouterLink>
+                            {{ groupL3.name }}</RouterLink>
                     </li>
                 </ul>
             </div>
@@ -59,56 +59,40 @@
 <script setup>
 
 import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
-import { getAllGroups } from '@/shared/fetchers/groups';
-import { getAllSemesters } from '@/shared/fetchers/semesters';
+import { getGroupByYear } from '@/shared/fetchers/groups';
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-const selectedSlotType = route.params.courseType;
+const selectedSlotType = route.params.sessionType;
 const selectedSlotName = route.params.courseName;
 
-const groups = ref([]);
-const semesters = ref([]); //pour trier par années dans les sections
+const groupsL1 = ref([]);
+const groupsL2 = ref([]);
+const groupsL3 = ref([]);
 
-onMounted(() => {
-    Promise.all([
-        getAllGroups(),
-        getAllSemesters()
-    ])
-        .then(([groupRes, semesterRes]) => {
-            return Promise.all([groupRes.json(), semesterRes.json()]);
-        })
-        .then(([groupsData, semestersData]) => {
-            groups.value = groupsData.map(g => ({
-                ...g,
-                semester_name: semestersData.find(s => s.id === g.semester_id)?.name || 'Unknow'
-            }));
-
-            semesters.value = semestersData;
-        })
-        .catch((error) => console.error('Error loading groups and semesters data : ', error))
+onMounted(async () => {
+    groupsL1.value = await getGroupByYear(1);
+    groupsL2.value = await getGroupByYear(2);
+    groupsL3.value = await getGroupByYear(3);
 });
 
 // Filtrage des groupes selon la search-bar et selon la promo
 const selectedGroupL1 = ref('');
 const filteredGroupsL1 = computed(() =>
-    groups.value.filter(g =>
-        ['S1', 'S2'].includes(g.semester_name) &&
+    groupsL1.value.filter(g =>
         g.name.toLowerCase().includes(selectedGroupL1.value.toLowerCase())
     ));
 
 const selectedGroupL2 = ref('');
 const filteredGroupsL2 = computed(() =>
-    groups.value.filter(g =>
-        ['S3', 'S4'].includes(g.semester_name) &&
+    groupsL2.value.filter(g =>
         g.name.toLowerCase().includes(selectedGroupL2.value.toLowerCase())
     ));
 
 const selectedGroupL3 = ref('');
 const filteredGroupsL3 = computed(() =>
-    groups.value.filter(g =>
-        ['S5', 'S6'].includes(g.semester_name) &&
+    groupsL3.value.filter(g =>
         g.name.toLowerCase().includes(selectedGroupL3.value.toLowerCase())
     ));
 
