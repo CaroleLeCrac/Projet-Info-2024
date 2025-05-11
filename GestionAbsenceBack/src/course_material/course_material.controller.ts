@@ -57,7 +57,7 @@ export class CourseMaterialController {
 
   // Créer une matière de cours
   @Post('/course_materialfrom-ade')
-  async createCourseMaterials(@Body() course_materials: { name: string, semestre: number }[]) {
+  async createCourseMaterials(@Body() course_materials: { name: string, semester_id: number }[]) {
     return this.courseMaterialService.createADE(course_materials);
   }
 

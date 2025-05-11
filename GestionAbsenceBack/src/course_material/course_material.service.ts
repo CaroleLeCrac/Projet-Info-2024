@@ -67,11 +67,11 @@ export class CourseMaterialService {
     })
   }
   
-async createADE(courseMaterials: { name: string, semestre: number }[]) {
+async createADE(courseMaterials: { name: string, semester_id: number }[]) {
   const createdMaterials = await Promise.all(
     courseMaterials.map(async (courseMaterial) => {
       // Vérification préalable de l'existence du semestre
-      if (!courseMaterial.semestre) {
+      if (!courseMaterial.semester_id) {
         // Si semestre est null ou undefined, on ignore cette matière
         console.log(`Semestre invalide pour la matière: ${courseMaterial.name}. Ignoré.`);
         return null;
@@ -79,12 +79,12 @@ async createADE(courseMaterials: { name: string, semestre: number }[]) {
 
       // Recherche du semestre par son id
       const semester = await this.prisma.semester.findUnique({
-        where: { id: courseMaterial.semestre },
+        where: { id: courseMaterial.semester_id },
       });
 
       // Si le semestre n'existe pas, on ignore cette matière
       if (!semester) {
-        console.log(`Semestre avec l'ID ${courseMaterial.semestre} non trouvé. Matière ignorée.`);
+        console.log(`Semestre avec l'ID ${courseMaterial.semester_id} non trouvé. Matière ignorée.`);
         return null;
       }
 

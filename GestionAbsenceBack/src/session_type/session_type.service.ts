@@ -42,31 +42,31 @@ async deleteAll() {
     });
   }
 
-async createADE(sessionTypes: { type: string; name: string; courseMaterialId: number }[]) {
+async createADE(sessionTypes: { course_type_name: string, course_material_id: number}[]) {
   const createdSessionTypes = await Promise.all(
     sessionTypes.map(async (sessionType) => {
       // Vérification préalable de la validité du courseMaterialId
-      if (!sessionType.courseMaterialId) {
-        console.log(`ID de la matière de cours invalide pour le type de session: ${sessionType.type}. Ignoré.`);
+      if (!sessionType.course_material_id) {
+        console.log(`ID de la matière de cours invalide pour le type de session: ${sessionType.course_type_name}. Ignoré.`);
         return null;
       }
 
       // Recherche de la matière de cours par ID
       const courseMaterial = await this.prisma.course_material.findUnique({
-        where: { id: sessionType.courseMaterialId },
+        where: { id: sessionType.course_material_id },
       });
 
       // Si la matière de cours n'existe pas, on ignore cette entrée et ne pas créer de sessionType
       if (!courseMaterial) {
-        console.error(`Matière de cours avec l'ID '${sessionType.courseMaterialId}' non trouvée. Type de session ignoré.`);
+        console.error(`Matière de cours avec l'ID '${sessionType.course_material_id}' non trouvée. Type de session ignoré.`);
         return null; // Ignorer cette entrée
       }
 
       // Si courseMaterial existe, créer le sessionType
       return this.prisma.session_type.create({
         data: {
-          course_type_name: sessionType.type,
-          course_material_id: sessionType.courseMaterialId,
+          course_type_name: sessionType.course_type_name,
+          course_material_id: sessionType.course_material_id,
         },
       });
     })
