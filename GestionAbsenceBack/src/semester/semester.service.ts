@@ -6,6 +6,7 @@ import { Prisma, semester } from '@prisma/client';
 @Injectable()
 export class SemesterService {
   constructor(private prisma: PrismaService) {}
+  
 async createADE(semesters: { semestre: string }[]) {
   const createdSemesters = await Promise.all(
     semesters.map(async (semester) => {
