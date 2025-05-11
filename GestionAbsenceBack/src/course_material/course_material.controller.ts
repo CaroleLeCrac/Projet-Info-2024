@@ -44,9 +44,22 @@ export class CourseMaterialController {
       return this.courseMaterialService.put(id, data)
   }
 
+  // Supprimer toutes les matières de cours
+  @Delete('/all')
+  async deleteAllCourseMaterials() {
+    return this.courseMaterialService.deleteAll();
+  }
+  
   @Delete(':id')
   async deleteById(@Param('id', ParseIntPipe) id : number){
       return this.courseMaterialService.delete(id)
   }
+
+  // Créer une matière de cours
+  @Post('/course_materialfrom-ade')
+  async createCourseMaterials(@Body() course_materials: { name: string, semestre: number }[]) {
+    return this.courseMaterialService.createADE(course_materials);
+  }
+
 
 }
