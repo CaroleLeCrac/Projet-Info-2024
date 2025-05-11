@@ -3,13 +3,12 @@ import { SemesterService } from './semester.service';
 import { CreateSemesterDto } from './dto/create-semester.dto';
 import { UpdateSemesterDto } from './dto/update-semester.dto';
 
-
 @Controller('semester')
 export class SemesterController {
-  constructor(private readonly semesterService: SemesterService) {} 
-  
+  constructor(private readonly semesterService: SemesterService) { }
+
   @Get(':id')
-  async getById(@Param('id', ParseIntPipe) id : number) {
+  async getById(@Param('id', ParseIntPipe) id: number) {
     return this.semesterService.get({ id });
   }
 
@@ -18,19 +17,30 @@ export class SemesterController {
     return this.semesterService.getAll();
   }
 
+  @Post('/semesterfrom-ade')
+  async createSemester(@Body() semesters: { semestre: string }[]) {
+    return this.semesterService.createADE(semesters);
+  }
+
+  @Delete('/all')
+  async deleteAllSemesters() {
+    return this.semesterService.deleteAll();
+  }
+
+
   @Post()
-  async put(@Body() createSemesterDto : CreateSemesterDto) {
+  async put(@Body() createSemesterDto: CreateSemesterDto) {
     return this.semesterService.post(createSemesterDto)
   }
 
   @Put(':id')
-  async putById(@Param('id', ParseIntPipe) id : number, @Body() updateSemesterDto : UpdateSemesterDto ){
-    return this.semesterService.put( id , updateSemesterDto)
+  async putById(@Param('id', ParseIntPipe) id: number, @Body() updateSemesterDto: UpdateSemesterDto) {
+    return this.semesterService.put(id, updateSemesterDto)
   }
 
   @Delete(':id')
-  async deleteById(@Param('id', ParseIntPipe) id : number){
-    return this.semesterService.delete({id})
+  async deleteById(@Param('id', ParseIntPipe) id: number) {
+    return this.semesterService.delete({ id })
   }
 
 }

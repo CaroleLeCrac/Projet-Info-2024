@@ -10,7 +10,7 @@ app.use(cors());
 
 // Fonction pour récupérer la session ID
 async function getSessionId() {
-    const response = await fetch('https://lien_ADE');
+    const response = await fetch('lienADE');
     const xmlText = await response.text();
     const json = await parseStringPromise(xmlText);
     return json.session.$.id;
@@ -21,9 +21,9 @@ app.get('/api/recupMatieres', async (req, res) => {
         const sessionId = await getSessionId();
 
         // Fixer le projet
-        await fetch(`https://lien_ADEsessionId=${sessionId}&function=setProject&projectId=8`);
+        await fetch(`lienADEsessionId=${sessionId}&function=setProject&projectId=8`);
 
-        const activitiesResponse = await fetch(`https://lien_ADEsessionId=${sessionId}&function=getActivities&tree=TRUE`);
+        const activitiesResponse = await fetch(`lienADEsessionId=${sessionId}&function=getActivities&tree=TRUE`);
         const activitiesXml = await activitiesResponse.text();
         const activitiesData = await parseStringPromise(activitiesXml);
 
@@ -45,7 +45,7 @@ app.get('/api/recupMatieres', async (req, res) => {
             if (/Semestre/i.test(name)) {
                 const match = name.match(/\d+/);
                 if (match) {
-                    newContext.semestre = parseInt(match[0], 10);
+                    newContext.semestre = match[0].toString();
                 }
             }
 
@@ -66,14 +66,15 @@ app.get('/api/recupMatieres', async (req, res) => {
                 newContext.type = typeMatch[1].toUpperCase();
             }
 
-            // Ajout des activités
             if (folder.activity) {
                 folder.activity.forEach(activity => {
-                    activities.push({
-                        semestre: newContext.semestre || null,
-                        type: newContext.type || null,
-                        name: newContext.matiereName || null,
-                    });
+                    if (newContext.semestre != null || newContext.type != null || newContext.matiereName != null) {
+                        activities.push({
+                            semestre: newContext.semestre || null,
+                            type: newContext.type || null,
+                            name: newContext.matiereName || null,
+                        });
+                    }
                 });
             }
 
@@ -108,10 +109,10 @@ app.get('/api/creneaux', async (req, res) => {
         const sessionId = await getSessionId();
 
         // Fixer le projet
-        await fetch(`https://lien_ADEsessionId=${sessionId}&function=setProject&projectId=8`);
+        await fetch(`lienADEsessionId=${sessionId}&function=setProject&projectId=8`);
 
         // Récup des matières
-        const activitiesResponse = await fetch(`https://lien_ADEsessionId=${sessionId}&function=getActivities&tree=TRUE`);
+        const activitiesResponse = await fetch(`lienADEsessionId=${sessionId}&function=getActivities&tree=TRUE`);
         const activitiesXml = await activitiesResponse.text();
         const activitiesData = await parseStringPromise(activitiesXml);
         const activities = [];
@@ -181,7 +182,7 @@ app.get('/api/creneaux', async (req, res) => {
         // le format attendu par l’API ADE est "MM/dd/yyyy"
         const formattedString = `${(month).toString().padStart(2, '0')}/${day.toString().padStart(2, '0')}/${year}`;
 
-        const eventsResponse = await fetch(`https://lien_ADEsessionId=${sessionId}&function=getEvents&date=${formattedString}`);
+        const eventsResponse = await fetch(`lienADEsessionId=${sessionId}&function=getEvents&date=${formattedString}`);
         const eventsXml = await eventsResponse.text();
         const eventsData = await parseStringPromise(eventsXml);
 
@@ -210,123 +211,93 @@ app.get('/api/creneaux', async (req, res) => {
     }
 });
 
-app.listen(3001, () => {
-    console.log('Serveur lancé sur http://localhost:3001');
+app.listen(PORT, () => {
+    console.log(`Serveur lancé sur http://localhost:${PORT}`);
 });
 
-/*
-fetch('http://localhost:3000/api/creneaux') //requete get les donnees "events"
+fetch('http://localhost:3001/api/recupMatieres')
     .then(response => {
         if (!response.ok) {
-            throw new Error('Erreur lors de la recuperation des donnees de ADE');
-        }
-        return response.json();
-    })
-    .then(async (events) => {
-
-        const postResponse = await fetch('http://localhost:3000/api/slot/from-ade', { // envoie mes donnees recuperes vers backend api/slot/from-ade
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(events)
-        });
-
-        //id int autoincrementer, group id je ne men occupe pas, session type id, date, name
-
-        if (!postResponse.ok) {
-            throw new Error('Erreur lors de lenvoi des donnees creneaux au back');
-        }
-
-        console.log('Donnees envoyes avec succes');
-    })
-    .catch(error => {
-        console.error('Erreur:', error);
-    });
-
-
-fetch('http://localhost:3000/api/recupMatieres') //requete get les donnees "uniqueActivities"
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erreur lors de la recuperation des donnees de ADE');
+            throw new Error('Erreur lors de la récupération des données de ADE');
         }
         return response.json();
     })
     .then(async (uniqueActivities) => {
+        // 1. Extraire les semestres uniques
+        const semesters = uniqueActivities
+            .filter(item => item.semestre)
+            .map(item => ({ semestre: item.semestre }));
 
-        //envoie seulement type matieres
-        const postResponseSessiontype = await fetch('http://localhost:3000/api/session-type/from-ade', { // envoie mes donnees recuperes vers backend api/sessiontype/from-ade
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(uniqueActivities)
-        });
-        if (!postResponseSessiontype.ok) {
-            throw new Error('Erreur lors de lenvoi des donnees sessionstype au back');
-        }
 
-        //envoie seulement noms de matieres 
-        const postResponseCourseName = await fetch('http://localhost:3000/api/courseName/from-ade', { // envoie mes donnees recuperes vers backend api/courseName/from-ade
-            method: 'PUT',
+            console.log("semesters",semesters);
+        // 2. Envoyer les semestres au backend
+        const postResponseSemester = await fetch('http://localhost:3000/semester/semesterfrom-ade', {
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(uniqueActivities)
+            body: JSON.stringify(semesters),
         });
-        if (!postResponseCourseName.ok) {
-            throw new Error('Erreur lors de lenvoi des donnees coursename au back');
-        }
 
-        //envoie seulement semestre
-        const postResponseSemester = await fetch('http://localhost:3000/api/semester/from-ade', { // envoie mes donnees recuperes vers backend api/smeester/from-ade
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(uniqueActivities)
-        });
         if (!postResponseSemester.ok) {
-            throw new Error('Erreur lors de lenvoi des donnees semestre au back');
+            const errorText = await postResponseSemester.text();
+            console.error('Erreur backend:', errorText);
+            throw new Error('Erreur lors de l’envoi des données semestre au back');
         }
 
-        console.log('Donnees envoyes avec succes');
+        console.log("postSemester",postResponseSemester);
+
+        const createdSemesters = await postResponseSemester.json();
+
+        console.log("createdsemesters avec id",createdSemesters);
+
+        // 3. Extraire les matières et les associer à leur semestre (en utilisant l'ID du semestre)
+        const courseMaterialsWithId = uniqueActivities
+            .filter(item => item.name && item.semestre)
+            .map((item, index) => ({
+                name: item.name,
+                semesterId: createdSemesters.find(s => s.name === item.semestre)?.id  // Associer la matière à l'ID du semestre
+            }));
+
+        // 4. Envoyer les matières avec l'ID du semestre au backend
+        const postResponseCourseMaterial = await fetch('http://localhost:3000/course_material/course_materialfrom-ade', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(courseMaterialsWithId)
+        });
+
+        if (!postResponseCourseMaterial.ok) {
+            const errorText = await postResponseCourseMaterial.text();
+            console.error('Erreur backend:', errorText);
+            throw new Error('Erreur lors de l’envoi des données coursename au back');
+        }
+
+        const createdCourseMaterials = await postResponseCourseMaterial.json();
+
+        // 5. Extraire les types de session et les associer à la bonne matière via courseMaterialId
+        const sessionTypesWithId = uniqueActivities
+            .filter(item => item.type && item.name)
+            .map((item) => {
+                const matchedCourse = createdCourseMaterials.find(c => c.name === item.name);
+                return {
+                    type: item.type,
+                    courseMaterialId: matchedCourse?.id  // Associer le type de session à l'ID de la matière correspondante
+                };
+            });
+
+        // 6. Envoyer les types de session avec l'ID de la matière au backend
+        const postResponseSessionType = await fetch('http://localhost:3000/session_type/session_typefrom-ade', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(sessionTypesWithId)
+        });
+
+        if (!postResponseSessionType.ok) {
+            const errorText = await postResponseSessionType.text();
+            console.error('Erreur backend:', errorText);
+            throw new Error('Erreur lors de l’envoi des données sessiontype au back');
+        }
+
+        console.log('Données envoyées avec succès');
     })
     .catch(error => {
         console.error('Erreur:', error);
     });
-*/
-/*
-//les 6 semestres
-const semesters = [...new Set(uniqueActivities.map(a => a.semester))].map((name, index) => ({
-    name
-}));
-
-//le nom des matieres
-const courseMaterials = uniqueActivities.map((a, index) => {
-    //trouve le lien avec les semestres
-    const semester = semesters.find(s => s.name === a.semester);
-    return {
-        name: a.name,
-        semester_id: semester.id
-    };
-});
-
-//le type de matiere
-const sessionTypes = uniqueActivities.map((a, index) => {
-    //lies au type et semestre assoscies
-    const course = courseMaterials.find(c => c.name === a.name && semesters[c.semester_id - 1].name === a.semester);
-    return {
-        name: a.type,
-        coursematerial_id: course.id
-    };
-});
-
-console.log("Semesters:", semesters);
-console.log("CourseMaterials:", courseMaterials);
-console.log("SessionTypes:", sessionTypes);
-console.log("Slots:", slots);
-
-const res1 = await fetch('/api/semester/from-ade', { method: 'PUT', headers, body: JSON.stringify(semesters) }); //envoie les donnes des semestres au back
-const res2 = await fetch('/api/courseMaterial/from-ade', { method: 'PUT', headers, body: JSON.stringify(courseMaterials) }); //envoie les noms de matieres au back
-const res3 = await fetch('/api/session-type/from-ade', { method: 'PUT', headers, body: JSON.stringify(sessionTypes) }); //envoie les donnees des types de matieres au back
-
-const result1 = await res1.json();
-const result2 = await res2.json();
-const result3 = await res3.json();
-console.log("Response semester:", result1);
-console.log("Response: nom de matieres", result2);
-console.log("Response: type de matieres", result3);
-*/
