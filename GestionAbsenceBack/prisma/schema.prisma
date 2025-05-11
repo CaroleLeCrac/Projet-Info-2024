@@ -64,8 +64,8 @@ model session_type {
 model presence {
   student_id Int
   slot_id Int
-  presence_student student @relation(fields: [student_id], references: [id])
-  presence_slot slot @relation(fields: [slot_id], references: [id])
+  presence_student student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  presence_slot slot @relation(fields: [slot_id], references: [id], onDelete: Cascade)
   @@id ([student_id, slot_id])
 }
 
