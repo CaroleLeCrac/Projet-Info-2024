@@ -55,16 +55,41 @@ export class StudentService {
       })
     }
     else {
-      const inscriptions = await this.prisma.inscription.findMany({
+      const baseGorupStudents = await this.prisma.inscription.findMany({
+        where : { group_id : baseGroup.id}, 
+        include : {
+          inscription_student : true,
+        }, 
+      })
+      const baseGroupStudentIds = baseGorupStudents.map((inscription) => inscription.inscription_student.id)
+      const semesterStudents = await this.prisma.inscription.findMany({
         where : {
-          group_id : {not : baseGroup.id},
+          group_id : { not : baseGroup.id },
+          inscription_group : {
+            semester_id : baseGroup.group_semester.id,
+          },
         },
         include : {
           inscription_student : true,
         },
       })
+      const filteredStudents = semesterStudents.filter((inscription) => {
+        return !baseGroupStudentIds.includes(inscription.inscription_student.id);
+      });
+
+      /*const inscriptions = await this.prisma.inscription.findMany({
+        where : {
+          group_id : {not : baseGroup.id},
+          inscription_group : {
+            semester_id : baseGroup.group_semester.id,
+          },
+        },
+        include : {
+          inscription_student : true,
+        },
+      })*/
       const uniqueStudentMap = new Map()
-      for (const inscription of inscriptions) {
+      for (const inscription of filteredStudents) {
         uniqueStudentMap.set(inscription.inscription_student.id, inscription.inscription_student)
       }
       studentsInGroups = Array.from(uniqueStudentMap.values())
