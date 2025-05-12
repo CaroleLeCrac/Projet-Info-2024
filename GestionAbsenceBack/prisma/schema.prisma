@@ -13,12 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model student {
+model semester {
   id Int @id @default(autoincrement())
-  student_number String
-  name String 
-  student_inscription inscription[]
-  student_presence presence[]
+  name String
+  semester_group group[] 
+  semester_course_material course_material[]
 }
 
 model inscription {
@@ -38,18 +37,11 @@ model group {
   group_slot slot[]
 }
 
-model semester {
-  id Int @id @default(autoincrement())
-  name String
-  semester_group group[]
-  semester_course_material course_material[]
-}
-
 model course_material {
   id Int @id @default(autoincrement())
   name String
   semester_id Int
-  course_material_semester semester @relation(fields: [semester_id], references: [id])
+  course_material_semester semester @relation(fields: [semester_id], references: [id], onDelete: Cascade)
   course_material_session_type session_type[]
 }
 
@@ -57,7 +49,7 @@ model session_type {
   id Int @id @default(autoincrement())
   course_type_name String
   course_material_id Int
-  session_type_course_material course_material @relation(fields: [course_material_id], references: [id])
+  session_type_course_material course_material @relation(fields: [course_material_id], references: [id], onDelete: Cascade)
   session_type_slot slot[]
 }
 
@@ -79,7 +71,10 @@ model slot {
   slot_session_type session_type @relation(fields: [session_type_id], references: [id])
 }
 
-
-
-
-
+model student {
+  id Int @id @default(autoincrement())
+  student_number String
+  name String 
+  student_inscription inscription[]
+  student_presence presence[]
+}
