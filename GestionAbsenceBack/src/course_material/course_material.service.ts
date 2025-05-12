@@ -58,7 +58,7 @@ export class CourseMaterialService {
   }
 
   async deleteAll() {
- await this.prisma.course_material.deleteMany();
+return  this.prisma.course_material.deleteMany();
 }
 
   async delete(id: number): Promise<course_material | null> {
