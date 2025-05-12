@@ -33,7 +33,7 @@ export class SessionTypeService {
 
 // Supprimer tous les types de session
 async deleteAll() {
-    await this.prisma.session_type.deleteMany();
+    return this.prisma.session_type.deleteMany();
 }
 
   async delete(id: Prisma.session_typeWhereUniqueInput): Promise<session_type> {
