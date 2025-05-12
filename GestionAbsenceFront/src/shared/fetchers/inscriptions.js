@@ -19,6 +19,20 @@ export async function postInscription(studentId, groupId) {
     }
 }
 
+export async function putInscriptionAndDeleteOldInscription(studentId, olgGroupId, newGroupId) {
+    try {
+        const response = await fetch(`http://localhost:3000/inscription/${studentId}/${olgGroupId}/${newGroupId}`, {
+            method: "PUT"
+        })
+        if (!response.ok) {
+            throw new Error("Erreur lors de l'envoi de l'inscription");
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Erreur lors de l'envoi de l'inscription :", error);
+    }
+}
+
 export async function putManyInscriptions(studentId, groupsId) {
     try {
         const response = await fetch(`http://localhost:3000/inscription/many/${studentId}`, {
@@ -70,10 +84,6 @@ export async function deleteInscriptionById(studentId, groupId) {
     }
 }
 
-export async function name(params) {
-
-}
-
 export async function deleteInscriptions() {
     try {
         const response = await fetch(`http://localhost:3000/inscription`, {
@@ -85,8 +95,4 @@ export async function deleteInscriptions() {
     } catch (error) {
         console.error("Erreur lors de la suppression des inscriptions:", error);
     }
-}
-
-export async function name(params) {
-
 }

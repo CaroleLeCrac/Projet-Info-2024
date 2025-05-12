@@ -36,7 +36,8 @@ export async function getStudentsSameOtherGroup(id) {
             if (student.inscription_student && student.inscription_group) {
                 return {
                     ...student.inscription_student,
-                    originalGroupName: student.inscription_group.name
+                    originalGroupName: student.inscription_group.name,
+                    originalGroupId: student.inscription_group.id
                 };
             }
             return student.inscription_student || student;

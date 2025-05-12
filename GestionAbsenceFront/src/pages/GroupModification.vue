@@ -60,7 +60,7 @@ import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
 import { getGroupById } from '@/shared/fetchers/groups';
 import { getStudentsByGroupId, getStudentsSameOtherGroup } from '@/shared/fetchers/students';
 import { getSemesterById } from '@/shared/fetchers/semesters';
-import { deleteInscriptionById, postInscription } from '@/shared/fetchers/inscriptions';
+import { deleteInscriptionById, postInscription, putInscriptionAndDeleteOldInscription } from '@/shared/fetchers/inscriptions';
 
 const searchQuery1 = ref('');
 const searchQuery2 = ref('');
@@ -99,6 +99,9 @@ async function deleteStudent(student) {
   try {
     await deleteInscriptionById(student.id, currentGroupId);
 
+    //remise à jour des listes
+    studentsInGroup.value = await getStudentsByGroupId(currentGroupId);
+    studentsOutsideGroup.value = await getStudentsSameOtherGroup(currentGroupId);
   } catch (error) {
     console.error("Erreur lors de la suppression de l'inscription :", error);
     alert("La suppression a échoué. Veuillez réessayer.");
@@ -106,17 +109,19 @@ async function deleteStudent(student) {
 }
 
 async function addStudent(student) {
-  const confirmDelete = window.confirm(`Êtes-vous sûr de vouloir ajouter ${student.name} au groupe ?`);
-  if (!confirmDelete) return;
+  const confirmAdd = window.confirm(`Êtes-vous sûr de vouloir ajouter ${student.name} au groupe ?`);
+  if (!confirmAdd) return;
 
   try {
-    await postInscription(student.id, currentGroupId);
-    const index = studentsOutsideGroup.value.findIndex(s => s.id === student.id);
-    if (index !== -1) {
-      studentsOutsideGroup.value.splice(index, 1);
-      studentsInGroup.value.push(student);
+    if (student.originalGroupId) {
+      await putInscriptionAndDeleteOldInscription(student.id, student.originalGroupId, currentGroupId);
+    } else {
+      await postInscription(student.id, currentGroupId);
     }
 
+    //remise à jour des listes
+    studentsInGroup.value = await getStudentsByGroupId(currentGroupId);
+    studentsOutsideGroup.value = await getStudentsSameOtherGroup(currentGroupId);
   } catch (error) {
     console.error("Erreur lors de l'ajout de l'inscription :", error);
     alert("L'ajout a échoué. Veuillez réessayer.");

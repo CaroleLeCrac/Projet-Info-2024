@@ -22,7 +22,7 @@
         <ul class="list">
           <li v-for="course in filteredCourses">
             <label>
-              <RouterLink :to="`/recapitulatifs/matiere/${course.id}`" class="router-link">
+              <RouterLink :to="`/recapitulatifs/matiere/${course.name}/${course.id}`" class="router-link">
                 {{ course.name }}
               </RouterLink>
             </label>
@@ -97,7 +97,7 @@ function formatDate(date) {
 
 function generateCSV(abs, filename) {
   const headers = ['Cours', 'Date', 'Numéro étudiant', 'Nom et Prénom'];
-  const rows = abs.value.map(abs => [
+  const rows = abs.map(abs => [
     `${abs.session_type} ${abs.course_material}`,
     formatDate(abs.date),
     abs.student_number,
@@ -105,8 +105,8 @@ function generateCSV(abs, filename) {
   ]);
 
   const csvContent = "data:text/csv;charset=utf-8,"
-    + headers.join(';') + "\n"
-    + rows.map(row => row.join(';')).join("\n");
+    + headers.join(',') + "\n"
+    + rows.map(row => row.join(',')).join("\n");
 
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
@@ -118,7 +118,6 @@ function generateCSV(abs, filename) {
 
 async function exportAbsL1() {
   const absences = await getAbsenceByYear(1);
-  console.log("abs", absences)
   if (!absences || !Array.isArray(absences)) {
     alert("Erreur : les absences sont introuvables.");
     return;
@@ -128,12 +127,20 @@ async function exportAbsL1() {
 
 async function exportAbsL2() {
   const absences = await getAbsenceByYear(2);
-  generateCSV(absences.value, 'Absences_L2_MIASHS.csv');
+  if (!absences || !Array.isArray(absences)) {
+    alert("Erreur : les absences sont introuvables.");
+    return;
+  }
+  generateCSV(absences, 'Absences_L2_MIASHS.csv');
 }
 
 async function exportAbsL3() {
   const absences = await getAbsenceByYear(3);
-  generateCSV(absences.value, 'Absences_L3_MIASHS.csv');
+  if (!absences || !Array.isArray(absences)) {
+    alert("Erreur : les absences sont introuvables.");
+    return;
+  }
+  generateCSV(absences, 'Absences_L3_MIASHS.csv');
 }
 </script>
 

@@ -1,7 +1,7 @@
 <!--Page de récapitulatif des absences par matière-->
 <template>
   <main class="left">
-    <h1>Récapitulatif des absences pour la matière : {{ courseId }}</h1>
+    <h1>Récapitulatif des absences pour la matière : {{ courseName }}</h1>
 
     <div class="sections-container">
 
@@ -19,8 +19,8 @@
         </button>
 
         <ul v-if="filteredAbsences.length > 0" class="list" id="absences-list">
-          <li v-for="absence in filteredAbsences" :key="absence.date">
-            <strong>{{ absence.studentName }}</strong> : {{ absence.date }}
+          <li v-for="absence in filteredAbsences" :key="absence.student.id + absence.date">
+            <strong>{{ absence.student.name }}</strong> : {{ formatDate(absence.date) }}
           </li>
         </ul>
         <p v-else>Aucune absence trouvée pour cette sélection.</p>
@@ -29,11 +29,11 @@
       <div class="section" id="right-section">
         <!-- Sélectionner un ou plusieurs étudiants -->
         <h2>Sélectionner un.e ou plusieurs étudiant.e.s</h2>
-        <ul v-if="filteredStudents.length > 0" class="checkbox-list">
-          <li v-for="student in filteredStudents" :key="student.studentNumber">
+        <ul v-if="students.length > 0" class="checkbox-list">
+          <li v-for="student in students" :key="student.student_number">
             <div class="list-container">
               <input class="checkbox" type="checkbox" :value="student" v-model="selectedStudents">
-              <label for="student.surname">{{ student.name }} {{ student.surname }} </label>
+              <label for="student.surname">{{ student.name }}</label>
             </div>
           </li>
         </ul>
@@ -57,62 +57,49 @@
 </template>
 
 <script setup>
+import { getStudentsAbsenceByCourse } from '@/shared/fetchers/presence';
+import { getAllStudents } from '@/shared/fetchers/students';
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 
 const route = useRoute();
 const courseId = Number(route.params.courseId); // Récupérer l'id de la matière à partir des paramètres de la route
+const courseName = route.params.courseName;
 
 const students = ref([]);
 const selectedStudents = ref([])  // Les étudiants sélectionnés
 const selectedDates = ref([])  // Liste des dates sélectionnées
-const absencesList = ref([]) // Liste des absences
+const absencesList = ref([]) // Liste des absences composée de l'étudiant et de la date (plusieurs fois le même étudiant si plusieurs absences)
 const allDates = ref([]) // Liste de tous les créneaux
 
 // Charger les données des absences et des dates
-onMounted(() => {
-  fetch('/StudentsAbsences.json')
-    .then((response) => response.json())
-    .then((data) => {
-      absencesList.value = data.studentsAbsence
-    })
-    .catch((error) => console.error('Erreur lors du chargement des absences:', error))
-
-  fetch('/Slots.json')
-    .then((response) => response.json())
-    .then((data) => {
-      allDates.value = data.coursedates
-    })
-    .catch((error) => console.error('Erreur lors du chargement des dates:', error))
-
-  fetch('/Students.json')
-    .then((response) => response.json())
-    .then((data) => {
-      students.value = data.students
-    })
-    .catch((error) => console.error("Erreur lors du chargement des étudiants:", error))
+onMounted(async () => {
+  absencesList.value = await getStudentsAbsenceByCourse(courseId);
+  students.value = await getAllStudents(); // mauvais, il faut récupérer les étudiants du semestre correspondant à la matière
 })
 
 // Fonction pour formater correctement les dates
-function formatDate(date) {
+/*function formatDate(date) {
   const d = new Date(date);
   // Utilisation de toLocaleDateString pour obtenir la date au format "YYYY-MM-DD"
   return d.toLocaleDateString('en-CA');
+}*/
+
+function formatDate(date) {
+  const dateFormat = new Date(date);
+  const day = String(dateFormat.getDate()).padStart(2, '0');
+  const month = String(dateFormat.getMonth() + 1).padStart(2, '0');
+  const year = dateFormat.getFullYear();
+  return `${day}-${month}-${year}`;
 }
 
 // Filtrer les absences en fonction de la matière, des étudiants et dates
 const filteredAbsences = computed(() => {
   return absencesList.value.filter(absence => {
-    const matchesCourse = absence.coursename === courseId;
-    const matchesStudents = selectedStudents.value.length === 0 || selectedStudents.value.some(student => student.surname === absence.surname);
+    const matchesStudents = selectedStudents.value.length === 0 || selectedStudents.value.some(student => student.id === absence.student.id);
     const matchesDate = selectedDates.value.length === 0 || selectedDates.value.includes(formatDate(absence.date));
-
-    if (matchesCourse && matchesStudents && matchesDate) { //pour avoir le student.name
-      const student = students.value.find(s => s.surname === absence.surname);
-      absence.studentName = student ? `${student.name} ${student.surname}` : absence.surname;
-    }
-    return matchesCourse && matchesStudents && matchesDate;
+    return matchesStudents && matchesDate;
   });
 });
 
@@ -145,11 +132,11 @@ function showAllAbsences() {
 
 // Fonction pour exporter les données en CSV
 function exportCourseData() {
-  const headers = ['Étudiant', 'Date de l\'absence', 'Matière'];
+  const headers = ['Numéro étudiant', 'Étudiant.e', 'Date de l\'absence'];
   const rows = filteredAbsences.value.map(absence => [
-    absence.studentName,
-    absence.date,
-    absence.coursename
+    absence.student.student_number,
+    absence.student.name,
+    formatDate(absence.date)
   ]);
 
   // Création du fichier CSV
@@ -161,7 +148,7 @@ function exportCourseData() {
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
   link.setAttribute("href", encodedUri);
-  link.setAttribute("download", `${courseId}_absences.csv`);
+  link.setAttribute("download", `${courseName}_absences.csv`);
   document.body.appendChild(link);
   link.click();  // Simule un clic pour déclencher le téléchargement
 }

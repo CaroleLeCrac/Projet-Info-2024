@@ -29,3 +29,22 @@ export async function getAbsenceByYear(year) {
     }
 }
 
+export async function getStudentsAbsenceByCourse(courseId) {
+    try {
+        const response = await fetch(`http://localhost:3000/student/presence/course/${courseId}`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Erreur lors de la récupération des absences : ", error);
+    }
+}
+
+export async function getStudentAbsencesById(id) {
+    try {
+        const response = await fetch(`http://localhost:3000/course_material/presence/student/${id}`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Erreur lors de la récupération des absences : ", error);
+    }
+}
