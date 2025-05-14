@@ -1,3 +1,7 @@
+export async function getSlots(date) {
+
+}
+
 export async function postSlot(groupId, courseName, sessionType, date) {
     try {
         const response = await fetch("http://localhost:3000/slot/by-session", {

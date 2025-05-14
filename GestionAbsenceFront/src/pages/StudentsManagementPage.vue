@@ -55,6 +55,7 @@ import { deleteSessionType } from '@/shared/fetchers/session_type';
 import { deleteCourseMaterial } from '@/shared/fetchers/course_material';
 import { deleteSlots } from '@/shared/fetchers/slots';
 import { deletePresences } from '@/shared/fetchers/presence';
+import { refreshADEGetAndPost } from '../../ade';
 
 function refreshADE() {
     const confirmRefresh = window.confirm("⚠️ Cette action va vider les données stockées dans la BDD qui sont récupérées depuis ADE puis, récupérer à nouveau les données actuelles pour mettre à jour la BDD. Vous ne pourrez pas revenir en arrière ! Êtes-vous sûr.e ?");
@@ -62,7 +63,7 @@ function refreshADE() {
         deleteSemester();
         deleteCourseMaterial();
         deleteSessionType();
-        //refreshADEGetAndPost();
+        refreshADEGetAndPost();
     }
 }
 

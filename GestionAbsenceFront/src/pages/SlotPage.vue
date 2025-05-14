@@ -17,8 +17,8 @@
 
 <script setup>
 
-import { getAllSlots } from '@/ade.js';
 import { ref, onMounted, watch } from 'vue'
+import { getAllSlots } from '../../ade.js';
 
 const courses = ref([])
 const selectedDate = ref(new Date().toISOString().split('T')[0]);
