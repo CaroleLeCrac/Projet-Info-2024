@@ -114,6 +114,34 @@ export class StudentService {
     }
   }
 
+  async getByCourseMaterial(courseMaterialId : number){
+    const courseMaterialSemester = await this.prisma.course_material.findUnique({
+      where : {
+        id : courseMaterialId,
+      },
+    })
+    const groups = await this.prisma.group.findMany({
+      where : {
+        semester_id : courseMaterialSemester?.semester_id
+      }
+    })
+    const groupIds = groups.map((group) => group.id)
+    const inscriptions = await this.prisma.inscription.findMany({
+      where : {
+        group_id : { in : groupIds},
+      },
+    })
+    const inscriptionStudentIds = Array.from( new Set (inscriptions.map((inscription) => inscription.student_id)))
+    const students = await this.prisma.student.findMany({
+      where : {
+        id : {
+          in : inscriptionStudentIds,
+        },
+      },
+    })
+    return students
+  }
+
   async getByCourseWithPresence(courseId : number){
     const absences = await this.prisma.presence.findMany({
       where : {
