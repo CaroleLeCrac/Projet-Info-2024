@@ -17,9 +17,9 @@ export class SemesterController {
     return this.semesterService.getAll();
   }
 
-  @Post('/semesterfrom-ade')
-  async createSemester(@Body() semesters: { semestre: string }[]) {
-    return this.semesterService.createADE(semesters);
+  @Post('/from-ade')
+  async postSemester(@Body() semesters: { name: string }[]) {
+    return this.semesterService.postSemester(semesters);
   }
 
   @Delete('/all')

@@ -17,6 +17,11 @@ export class CourseMaterialController {
     return this.courseMaterialService.getByStudentWithPresence(studentId)
   }
 
+  @Get('by-student/:studentId')
+  async getCourseMaterialByStudent(@Param('studentId', ParseIntPipe) studentId : number){
+    return this.courseMaterialService.getByStudent(studentId)
+  }
+  
   @Get()
   getAll() {
       return this.courseMaterialService.getAll();
@@ -56,9 +61,9 @@ export class CourseMaterialController {
   }
 
   // Créer une matière de cours
-  @Post('/course_materialfrom-ade')
+  @Post('/from-ade')
   async createCourseMaterials(@Body() course_materials: { name: string, semester_id: number }[]) {
-    return this.courseMaterialService.createADE(course_materials);
+    return this.courseMaterialService.postCourse_Material(course_materials);
   }
 
 

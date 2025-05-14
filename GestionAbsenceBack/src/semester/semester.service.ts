@@ -7,11 +7,12 @@ import { Prisma, semester } from '@prisma/client';
 export class SemesterService {
   constructor(private prisma: PrismaService) {}
   
-async createADE(semesters: { semestre: string }[]) {
+
+async postSemester(semesters: { name: string }[]) {
   const createdSemesters = await Promise.all(
     semesters.map(async (semester) => {
       // Vérification que le semestre n'est pas null ou vide
-      if (!semester.semestre) {
+      if (!semester.name) {
         console.log('Semestre invalide, ignoré.');
         return null;  // Ignore cette entrée si le semestre est invalide
       }
@@ -20,12 +21,12 @@ async createADE(semesters: { semestre: string }[]) {
       try {
         const createdSemester = await this.prisma.semester.create({
           data: {
-            name: semester.semestre,
+            name: semester.name,
           },
         });
         return createdSemester;
       } catch (error) {
-        console.error(`Erreur lors de la création du semestre: ${semester.semestre}`, error);
+        console.error(`Erreur lors de la création du semestre: ${semester.name}`, error);
         return null;  // En cas d'erreur, ignorer cette entrée
       }
     })
