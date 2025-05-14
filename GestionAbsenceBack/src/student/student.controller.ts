@@ -17,6 +17,11 @@ export class StudentController {
     return this.studentService.getByGroup(groupId)
   }
 
+  @Get('by-course_material/:courseMaterialId')
+  async getByCourseMaterialSemester(@Param('courseMaterialId', ParseIntPipe) courseMaterialId : number){
+    return this.studentService.getByCourseMaterial(courseMaterialId)
+  }
+
   @Get('same-other-group/:groupId')
   async getByOtherGroup(@Param('groupId', ParseIntPipe) groupId : number){
     return this.studentService.getByOtherGroups(groupId)

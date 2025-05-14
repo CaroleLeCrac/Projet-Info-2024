@@ -97,6 +97,34 @@ export class StudentService {
     return studentsInGroups
   }
 
+  async getByCourseMaterial(courseMaterialId : number){
+    const courseMaterialSemester = await this.prisma.course_material.findUnique({
+      where : {
+        id : courseMaterialId,
+      },
+    })
+    const groups = await this.prisma.group.findMany({
+      where : {
+        semester_id : courseMaterialSemester?.semester_id
+      }
+    })
+    const groupIds = groups.map((group) => group.id)
+    const inscriptions = await this.prisma.inscription.findMany({
+      where : {
+        group_id : { in : groupIds},
+      },
+    })
+    const inscriptionStudentIds = Array.from( new Set (inscriptions.map((inscription) => inscription.student_id)))
+    const students = await this.prisma.student.findMany({
+      where : {
+        id : {
+          in : inscriptionStudentIds,
+        },
+      },
+    })
+    return students
+  }
+
   //Function pour trouvé les groupe avec des noms similaire (TD1, TD2, TD3)
   private isOneCharDifferent(s1 : string, s2 : string){
     if (s1.length === s2.length ){
