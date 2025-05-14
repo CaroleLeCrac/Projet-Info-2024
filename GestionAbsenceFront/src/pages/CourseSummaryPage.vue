@@ -39,7 +39,8 @@
         </ul>
         <p v-else>Aucun.e étudiant.e absent.e dans cette matière</p>
 
-        <!-- Sélectionner une date spécifique -->
+        <!--Filtrage par date non utile
+        Sélectionner une date spécifique
         <h2 id="select-date">Sélectionner une ou plusieurs date.s</h2>
         <ul v-if="filteredDates.length > 0" class="checkbox-list">
           <li v-for="date in filteredDates" :key="date">
@@ -50,6 +51,7 @@
           </li>
         </ul>
         <p v-else>Aucune date disponible pour cette matière.</p>
+      -->
       </div>
     </div>
 
@@ -58,7 +60,7 @@
 
 <script setup>
 import { getStudentsAbsenceByCourse } from '@/shared/fetchers/presence';
-import { getAllStudents } from '@/shared/fetchers/students';
+import { getStudentsBySemesterCourse } from '@/shared/fetchers/students';
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -69,22 +71,14 @@ const courseName = route.params.courseName;
 
 const students = ref([]);
 const selectedStudents = ref([])  // Les étudiants sélectionnés
-const selectedDates = ref([])  // Liste des dates sélectionnées
+//const selectedDates = ref([])  // Liste des dates sélectionnées NON UTILE car on ne filtre pas par date
 const absencesList = ref([]) // Liste des absences composée de l'étudiant et de la date (plusieurs fois le même étudiant si plusieurs absences)
-const allDates = ref([]) // Liste de tous les créneaux
 
 // Charger les données des absences et des dates
 onMounted(async () => {
   absencesList.value = await getStudentsAbsenceByCourse(courseId);
-  students.value = await getAllStudents(); // mauvais, il faut récupérer les étudiants du semestre correspondant à la matière
+  students.value = await getStudentsBySemesterCourse(courseId);
 })
-
-// Fonction pour formater correctement les dates
-/*function formatDate(date) {
-  const d = new Date(date);
-  // Utilisation de toLocaleDateString pour obtenir la date au format "YYYY-MM-DD"
-  return d.toLocaleDateString('en-CA');
-}*/
 
 function formatDate(date) {
   const dateFormat = new Date(date);
@@ -98,42 +92,29 @@ function formatDate(date) {
 const filteredAbsences = computed(() => {
   return absencesList.value.filter(absence => {
     const matchesStudents = selectedStudents.value.length === 0 || selectedStudents.value.some(student => student.id === absence.student.id);
-    const matchesDate = selectedDates.value.length === 0 || selectedDates.value.includes(formatDate(absence.date));
-    return matchesStudents && matchesDate;
+    return matchesStudents;
   });
 });
 
-// Filtrer les étudiants
-const filteredStudents = computed(() => {
-  const surnamesInCourse = new Set(
-    absencesList.value.filter(absence => absence.coursename === courseId)
-      .map(absence => absence.surname)
-  );
-
-  return students.value.filter(student =>
-    surnamesInCourse.has(student.surname)
-  );
-});
-
-// Filtrer les dates
+/* Filtrer les dates pour la section de filtrage par date
 const filteredDates = computed(() => {
   return Array.from(new Set(
     absencesList.value
       .filter(absence => absence.coursename === courseId)
       .map(absence => formatDate(absence.date))
   ));
-});
+});*/
 
 // Fonction pour réinitialiser tous les filtres
 function showAllAbsences() {
   selectedStudents.value = []
-  selectedDates.value = []
+  //selectedDates.value = [] Non utile car filtrage par date non utilisé
 }
 
 // Fonction pour exporter les données en CSV
 function exportCourseData() {
   const headers = ['Numéro étudiant', 'Étudiant.e', 'Date de l\'absence'];
-  const rows = filteredAbsences.value.map(absence => [
+  const rows = absencesList.value.map(absence => [
     absence.student.student_number,
     absence.student.name,
     formatDate(absence.date)

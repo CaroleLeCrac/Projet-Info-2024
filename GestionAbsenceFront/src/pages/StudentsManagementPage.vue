@@ -8,7 +8,7 @@
             <div>
                 <button class="button" id="refresh-ade-btn" @click="refreshADE">Mettre à jour les données des EDT
                     ADE</button>
-                <button class="button" id="refresh-bdd-btn" @click="refreshBDD">Vider la base de données</button>
+                <button class="button" id="refresh-bdd-btn" @click="viderBDD">Vider la base de données</button>
             </div>
         </div>
 
@@ -54,24 +54,26 @@ import { deleteSemester } from '@/shared/fetchers/semesters';
 import { deleteSessionType } from '@/shared/fetchers/session_type';
 import { deleteCourseMaterial } from '@/shared/fetchers/course_material';
 import { deleteSlots } from '@/shared/fetchers/slots';
+import { deletePresences } from '@/shared/fetchers/presence';
 
 function refreshADE() {
     const confirmRefresh = window.confirm("⚠️ Cette action va vider les données stockées dans la BDD qui sont récupérées depuis ADE puis, récupérer à nouveau les données actuelles pour mettre à jour la BDD. Vous ne pourrez pas revenir en arrière ! Êtes-vous sûr.e ?");
     if (confirmRefresh) {
-        //deleteSemester();
-        //deleteSessionType();
-        //deleteCourseMaterial();
-        //deleteSlots();
-        //remettre à jour : getSlots + postSemester() + postSessionType() + postCourseMaterial()
+        deleteSemester();
+        deleteCourseMaterial();
+        deleteSessionType();
+        //refreshADEGetAndPost();
     }
 }
 
-function refreshBDD() {
+function viderBDD() {
     const confirmRefresh = window.confirm("⚠️ Cette action va vider la base de données. Vous ne pourrez pas revenir en arrière ! Êtes-vous sûr.e ?");
     if (confirmRefresh) {
-        //deleteStudents();
-        //deleteInscriptions();
-        //deleteGroups();
+        deleteInscriptions();
+        deletePresences();
+        deleteStudents();
+        deleteSlots();
+        deleteGroups();
     }
 }
 

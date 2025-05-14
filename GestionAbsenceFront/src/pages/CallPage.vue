@@ -61,9 +61,6 @@ import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
 import { getStudentsByGroupId } from '@/shared/fetchers/students';
 import { postAbsence } from '@/shared/fetchers/presence';
 import { postSlot } from '@/shared/fetchers/slots';
-import { postSemester } from '@/shared/fetchers/semesters';
-import { postSessionType } from '@/shared/fetchers/session_type';
-import { postCourseMaterial } from '@/shared/fetchers/course_material';
 
 const studentsInGroup = ref([]); // Liste des étudiants
 //const studentsOutsideGroup = ref([]); // Liste des étudiants extérieurs au groupe
@@ -76,14 +73,12 @@ const groupName = route.params.groupName;
 const groupId = Number(route.params.groupId);
 const sessionType = route.params.sessionType;
 const courseName = route.params.courseName;
+const date = route.params.date;
 const slot = ref(null);
 
 onMounted(async () => {
     studentsInGroup.value = await getStudentsByGroupId(groupId);
-    //await postSemester();
-    //await postSessionType();
-    //await postCourseMaterial();
-    //slot.value = await postSlot(groupId, courseName, sessionType, date);
+    slot.value = await postSlot(groupId, courseName, sessionType, date);
 });
 
 const props = defineProps({
@@ -127,10 +122,9 @@ function selectAll() { // ne modifie rien dans la liste des étudiants extérieu
 
 
 const callSaved = ref(false);
-//variable pour slotId
 function saveCall() {
     console.log("Étudiants absents :", absentStudentsId.value);
-    //postAbsence(slotId, absentStudentsId.value);
+    postAbsence(slot.id, absentStudentsId.value);
     callSaved.value = true;
 }
 

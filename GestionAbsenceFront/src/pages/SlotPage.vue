@@ -4,10 +4,11 @@
         <h1>Sélectionner un créneau</h1>
         <input type="date" v-model="selectedDate" id="date-bar">
         <ul class="list">
-            <li v-for="course in filteredCoursesByDate" :key="course.date">
+            <li v-for="course in courses" :key="course.date">
                 <label>
-                    <RouterLink :to="`/${course.name}/${course.coursename}/groupe`" class="router-link">
-                        {{ course.name }} {{ course.coursename }}</RouterLink>
+                    <RouterLink :to="`/${course.type}/${course.matiere_name}/${course.date}/groupe`"
+                        class="router-link">
+                        {{ course.type }} {{ course.matiere_name }}</RouterLink>
                 </label>
             </li>
         </ul>
@@ -16,26 +17,19 @@
 
 <script setup>
 
-import { ref, onMounted, computed } from 'vue'
+import { getAllSlots } from '@/ade.js';
+import { ref, onMounted, watch } from 'vue'
 
 const courses = ref([])
 const selectedDate = ref(new Date().toISOString().split('T')[0]);
 
-onMounted(() => {
-    fetch('/Slots.json')
-        .then((response) => response.json())
-        .then((data) => {
-            courses.value = data.coursedates
-        })
-        .catch((error) => console.error('Error loading courses data:', error))
-    //récup type id pour avoir le nom de la matière
+onMounted(async () => {
+    courses.value = await getAllSlots(selectedDate.value);
 })
 
-const filteredCoursesByDate = computed(() => {
-    const formattedDate = selectedDate.value;
-    return courses.value.filter(course => course.date === formattedDate);
-});
-
+watch(selectedDate, async (newDate) => {
+    courses.value = await getAllSlots(newDate);
+})
 </script>
 
 <style scoped>

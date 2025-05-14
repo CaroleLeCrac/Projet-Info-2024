@@ -18,30 +18,16 @@ export async function getSemesterById(id) {
     }
 }
 
-export async function postSemester() {
-    try {
-        const response = await fetch("http://localhost:3000/semester/semesterfrom-ade", {
-            method: "POST"
-        })
-        if (!response.ok) {
-            throw new Error("Erreur lors de l'envoi du semester");
-        }
-        return await response.json();
-    } catch (error) {
-        console.error("Erreur lors de l'envoi du semestre :", error);
-    }
-}
-
 export async function deleteSemester() {
     try {
         const response = await fetch("http://localhost:3000/semester/all", {
             method: "DELETE"
         })
         if (!response.ok) {
-            throw new Error("Erreur lors de l'envoi de la suppression des semestres");
+            throw new Error("Erreur lors de la suppression des semestres");
         }
         return await response.json();
     } catch (error) {
-        console.error("Erreur lors de l'envoi de la suppression des semestres :", error);
+        console.error("Erreur lors de la suppression des semestres :", error);
     }
 }

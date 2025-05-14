@@ -6,7 +6,7 @@
       <RouterLink to="/recapitulatifs" class="summary-navigation">Voir le récapitulatif des absences</RouterLink>
       <RouterLink to="/selection/etudiant" class="modification-navigation">Modifier étudiant.e</RouterLink>
       <RouterLink to="/selection/groupe" class="modification-navigation">Modifier groupe</RouterLink>
-      <RouterLink to="/gestion/etudiants" class="students-management">Gestion des étudiants</RouterLink>
+      <RouterLink to="/gestion/etudiants" class="students-management">Gestion des étudiant.e.s</RouterLink>
 
 
       <!--Menu déroulant de deux boutons non utilisé au final

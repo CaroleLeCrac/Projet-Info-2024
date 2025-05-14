@@ -9,14 +9,14 @@ import CallPage from './pages/CallPage.vue'
 import SummaryPage from './pages/SummaryPage.vue'
 import CourseSummaryPage from './pages/CourseSummaryPage.vue'
 import StudentSummaryPage from './pages/StudentSummaryPage.vue'
-import CoursesManagementPage from './pages/CoursesManagementPage.vue'
+//import CoursesManagementPage from './pages/CoursesManagementPage.vue'
 import StudentsManagementPage from './pages/StudentsManagementPage.vue'
 import SelectGroupForCall from './pages/SelectGroupForCall.vue'
 
 const routes = [
   { path: '/', name: 'Slot', component: SlotPage },
-  { path: '/:sessionType/:courseName/groupe', name: 'SelectGroupCall', component: SelectGroupForCall },
-  { path: '/:sessionType/:courseName/:groupId/:groupName/appel', name: 'Call', component: CallPage },
+  { path: '/:sessionType/:courseName/:date/groupe', name: 'SelectGroupCall', component: SelectGroupForCall },
+  { path: '/:sessionType/:courseName/:date/:groupId/:groupName/appel', name: 'Call', component: CallPage },
   { path: '/recapitulatifs', name: 'Summary', component: SummaryPage },
   { path: '/selection/etudiant', name: 'SelectStudentModification', component: SelectStudentModification },
   { path: '/selection/groupe', name: 'SelectGroupModification', component: SelectGroupModification },

@@ -14,7 +14,8 @@
 
                 <ul class="list">
                     <li v-for="groupL1 in filteredGroupsL1" :key="groupL1.id">
-                        <RouterLink :to="`/${selectedSlotType}/${selectedSlotName}/${groupL1.id}/${groupL1.name}/appel`"
+                        <RouterLink
+                            :to="`/${selectedSlotType}/${selectedSlotName}/${date}/${groupL1.id}/${groupL1.name}/appel`"
                             class="router-link">
                             {{ groupL1.name }}</RouterLink>
                     </li>
@@ -30,7 +31,8 @@
                 </div>
                 <ul class="list">
                     <li v-for="groupL2 in filteredGroupsL2" :key="groupL2.id">
-                        <RouterLink :to="`/${selectedSlotType}/${selectedSlotName}/${groupL2.id}/${groupL2.name}/appel`"
+                        <RouterLink
+                            :to="`/${selectedSlotType}/${selectedSlotName}/${date}/${groupL2.id}/${groupL2.name}/appel`"
                             class="router-link">
                             {{ groupL2.name }}</RouterLink>
                     </li>
@@ -46,7 +48,8 @@
                 </div>
                 <ul class="list">
                     <li v-for="groupL3 in filteredGroupsL3" :key="groupL3.id">
-                        <RouterLink :to="`/${selectedSlotType}/${selectedSlotName}/${groupL3.id}/${groupL3.name}/appel`"
+                        <RouterLink
+                            :to="`/${selectedSlotType}/${selectedSlotName}/${date}/${groupL3.id}/${groupL3.name}/appel`"
                             class="router-link">
                             {{ groupL3.name }}</RouterLink>
                     </li>
@@ -66,6 +69,7 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 const selectedSlotType = route.params.sessionType;
 const selectedSlotName = route.params.courseName;
+const date = route.params.date;
 
 const groupsL1 = ref([]);
 const groupsL2 = ref([]);

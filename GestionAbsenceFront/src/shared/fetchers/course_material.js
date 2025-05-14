@@ -8,17 +8,13 @@ export async function getAllCourses() {
     }
 }
 
-export async function postCourseMaterial() {
+export async function getCoursesByStudent(studentId) {
     try {
-        const response = await fetch("http://localhost:3000/session_type/session_typefrom-ade", {
-            method: "POST"
-        })
-        if (!response.ok) {
-            throw new Error("Erreur lors de l'envoi de l'inscription");
-        }
-        return await response.json();
+        const response = await fetch(`http://localhost:3000/course_material/by-student/${studentId}`);
+        const data = await response.json();
+        return data;
     } catch (error) {
-        console.error("Erreur lors de l'envoi de l'inscription :", error);
+        console.error('Erreur de chargement des matières du semestre de l\'étudiant:', error);
     }
 }
 

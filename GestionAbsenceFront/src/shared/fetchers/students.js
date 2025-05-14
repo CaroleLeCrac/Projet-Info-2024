@@ -18,6 +18,16 @@ export async function getAllStudents() {
     }
 }
 
+export async function getStudentsBySemesterCourse(courseId) {
+    try {
+        const response = await fetch(`http://localhost:3000/student/by-course_material/${courseId}`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erreur de chargement des étudiants correspondants au semestre de la matière:', error)
+    }
+}
+
 export async function getStudentById(id) {
     try {
         const response = await fetch(`http://localhost:3000/student/${id}`);

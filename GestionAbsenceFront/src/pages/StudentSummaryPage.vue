@@ -34,9 +34,9 @@
           <input class="search-bar" type="search" v-model="searchQueryCourse" placeholder="Rechercher une matière">
         </div>
         <ul class="list-courses">
-          <li v-for="course in filteredCourses" :key="course.name" :value="course.name">
+          <li v-for="course in filteredCourses" :key="course.id" :value="course.id">
             <div class="list-container">
-              <input type="checkbox" class="checkbox-course" :value="course.name" v-model="selectedCourses">
+              <input type="checkbox" class="checkbox-course" :value="course.id" v-model="selectedCourses">
               <label for="course.name">{{ course.name }}</label>
             </div>
           </li>
@@ -53,7 +53,7 @@ import { useRoute } from 'vue-router'
 import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
 import { getStudentById } from '@/shared/fetchers/students';
 import { getStudentAbsencesById } from '@/shared/fetchers/presence';
-import { getAllCourses } from '@/shared/fetchers/course_material';
+import { getCoursesByStudent } from '@/shared/fetchers/course_material';
 
 const route = useRoute();
 const studentId = Number(route.params.studentId); // Récupérer le num de l'étudiant sélectionné à partir des paramètres de la route
@@ -67,7 +67,7 @@ const courses = ref([]) // Liste des matières
 onMounted(async () => {
   student.value = await getStudentById(studentId);
   absencesList.value = await getStudentAbsencesById(studentId);
-  courses.value = await getAllCourses(); //modif pour filtrer les matières du semestre de l'étu
+  courses.value = await getCoursesByStudent(studentId);
 })
 
 function formatDate(date) {
@@ -90,7 +90,7 @@ const filteredAbsences = computed(() => {
   if (!student.value) return [] // Vérifier que student est chargé
 
   return absencesList.value.filter(absence => {
-    return selectedCourses.value.length === 0 || selectedCourses.value.includes(absence.courseName);
+    return selectedCourses.value.length === 0 || selectedCourses.value.includes(absence.courseId);
   })
 })
 
@@ -102,7 +102,7 @@ function showAllAbsences() {
 // Fonction pour exporter les données en csv
 function exportStudentData() {
   const headers = ['Matière', 'Type de séance', 'Date de l\'absence']
-  const rows = filteredAbsences.value.map(absence => [
+  const rows = absencesList.value.map(absence => [
     absence.courseName,
     absence.courseType,
     formatDate(absence.date)
@@ -110,7 +110,7 @@ function exportStudentData() {
 
   // Regroupement des absences pas matière et par type de séance pour avoir les totaux
   const absenceCountByCourseType = {};
-  filteredAbsences.value.forEach(abs => {
+  absencesList.value.forEach(abs => {
     const key = `${abs.courseName}|||${abs.courseType}`;
     if (!absenceCountByCourseType[key]) {
       absenceCountByCourseType[key] = 0;

@@ -1,4 +1,4 @@
-export async function postAbsence(slotId, [idStudents]) {
+export async function postAbsence(slotId, idStudents) {
     try {
         const response = await fetch(`http://localhost:3000/presence/many/${slotId}`, {
             method: "POST",
@@ -6,8 +6,7 @@ export async function postAbsence(slotId, [idStudents]) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                semester_name: semester,
-                name: name
+                idStudents
             })
         })
         if (!response.ok) {
@@ -46,5 +45,18 @@ export async function getStudentAbsencesById(id) {
         return data;
     } catch (error) {
         console.error("Erreur lors de la récupération des absences : ", error);
+    }
+}
+
+export async function deletePresences() {
+    try {
+        const response = await fetch(`http://localhost:3000/presence`, {
+            method: "DELETE"
+        })
+        if (!response.ok) {
+            throw new Error("Erreur lors de la suppression des inscriptions");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la suppression des inscriptions:", error);
     }
 }
