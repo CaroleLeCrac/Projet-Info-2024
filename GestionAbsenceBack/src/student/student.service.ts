@@ -55,16 +55,41 @@ export class StudentService {
       })
     }
     else {
-      const inscriptions = await this.prisma.inscription.findMany({
+      const baseGorupStudents = await this.prisma.inscription.findMany({
+        where : { group_id : baseGroup.id}, 
+        include : {
+          inscription_student : true,
+        }, 
+      })
+      const baseGroupStudentIds = baseGorupStudents.map((inscription) => inscription.inscription_student.id)
+      const semesterStudents = await this.prisma.inscription.findMany({
         where : {
-          group_id : {not : baseGroup.id},
+          group_id : { not : baseGroup.id },
+          inscription_group : {
+            semester_id : baseGroup.group_semester.id,
+          },
         },
         include : {
           inscription_student : true,
         },
       })
+      const filteredStudents = semesterStudents.filter((inscription) => {
+        return !baseGroupStudentIds.includes(inscription.inscription_student.id);
+      });
+
+      /*const inscriptions = await this.prisma.inscription.findMany({
+        where : {
+          group_id : {not : baseGroup.id},
+          inscription_group : {
+            semester_id : baseGroup.group_semester.id,
+          },
+        },
+        include : {
+          inscription_student : true,
+        },
+      })*/
       const uniqueStudentMap = new Map()
-      for (const inscription of inscriptions) {
+      for (const inscription of filteredStudents) {
         uniqueStudentMap.set(inscription.inscription_student.id, inscription.inscription_student)
       }
       studentsInGroups = Array.from(uniqueStudentMap.values())
@@ -87,6 +112,34 @@ export class StudentService {
       }
       return diff === 1
     }
+  }
+
+  async getByCourseMaterial(courseMaterialId : number){
+    const courseMaterialSemester = await this.prisma.course_material.findUnique({
+      where : {
+        id : courseMaterialId,
+      },
+    })
+    const groups = await this.prisma.group.findMany({
+      where : {
+        semester_id : courseMaterialSemester?.semester_id
+      }
+    })
+    const groupIds = groups.map((group) => group.id)
+    const inscriptions = await this.prisma.inscription.findMany({
+      where : {
+        group_id : { in : groupIds},
+      },
+    })
+    const inscriptionStudentIds = Array.from( new Set (inscriptions.map((inscription) => inscription.student_id)))
+    const students = await this.prisma.student.findMany({
+      where : {
+        id : {
+          in : inscriptionStudentIds,
+        },
+      },
+    })
+    return students
   }
 
   async getByCourseWithPresence(courseId : number){

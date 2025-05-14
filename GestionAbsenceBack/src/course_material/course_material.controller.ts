@@ -17,6 +17,11 @@ export class CourseMaterialController {
     return this.courseMaterialService.getByStudentWithPresence(studentId)
   }
 
+  @Get('by-student/:studentId')
+  async getCourseMaterialByStudent(@Param('studentId', ParseIntPipe) studentId : number){
+    return this.courseMaterialService.getByStudent(studentId)
+  }
+  
   @Get()
   getAll() {
       return this.courseMaterialService.getAll();
@@ -44,9 +49,22 @@ export class CourseMaterialController {
       return this.courseMaterialService.put(id, data)
   }
 
+  // Supprimer toutes les matières de cours
+  @Delete('/all')
+  async deleteAllCourseMaterials() {
+    return this.courseMaterialService.deleteAll();
+  }
+  
   @Delete(':id')
   async deleteById(@Param('id', ParseIntPipe) id : number){
       return this.courseMaterialService.delete(id)
   }
+
+  // Créer une matière de cours
+  @Post('/from-ade')
+  async createCourseMaterials(@Body() course_materials: { name: string, semester_id: number }[]) {
+    return this.courseMaterialService.postCourse_Material(course_materials);
+  }
+
 
 }

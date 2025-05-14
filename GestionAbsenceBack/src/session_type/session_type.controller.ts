@@ -49,9 +49,22 @@ export class SessionTypeController {
     return this.sessionTypeService.put(Number(id), data);
   }
 
+  // Supprimer tous les types de session
+  @Delete('/all')
+  async deleteAllSessionTypes() {
+    return this.sessionTypeService.deleteAll();
+  }
+  
   //supprimer par l'id
   @Delete(':id')
   async deleteById(@Param('id', ParseIntPipe) id: number) {
     return this.sessionTypeService.delete({ id: Number(id) });
   }
+
+  // Créer des types de session
+  @Post('/from-ade')
+  async createSessionTypes(@Body() sessionTypes: { course_type_name: string, course_material_id: number }[]) {
+    return this.sessionTypeService.postSession_Type(sessionTypes);
+  }
+
 }
