@@ -1,4 +1,4 @@
-import express from 'express';
+/*import express from 'express';
 import fetch from 'node-fetch';
 import cors from 'cors';
 import { parseStringPromise } from 'xml2js';
@@ -332,3 +332,4 @@ export function refreshADEGetAndPost() {
 app.listen(PORT, () => {
         console.log(`Serveur lancé sur http://localhost:${PORT}`);
 });
+*/

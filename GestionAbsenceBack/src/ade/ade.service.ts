@@ -27,7 +27,7 @@ export class AdeService {
     ) { }
 
     async getSessionId(): Promise<string> {
-        const response = await fetch('lienADE');
+        const response = await fetch(`lienADE`);
         const xmlText = await response.text();
         const json = await parseStringPromise(xmlText);
         return json.session.$.id;

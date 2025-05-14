@@ -17,18 +17,18 @@
 
 <script setup>
 
+import { getSlots } from '@/shared/fetchers/slots';
 import { ref, onMounted, watch } from 'vue'
-import { getAllSlots } from '../../ade.js';
 
 const courses = ref([])
 const selectedDate = ref(new Date().toISOString().split('T')[0]);
 
 onMounted(async () => {
-    courses.value = await getAllSlots(selectedDate.value);
+    courses.value = await getSlots(selectedDate.value);
 })
 
 watch(selectedDate, async (newDate) => {
-    courses.value = await getAllSlots(newDate);
+    courses.value = await getSlots(newDate);
 })
 </script>
 

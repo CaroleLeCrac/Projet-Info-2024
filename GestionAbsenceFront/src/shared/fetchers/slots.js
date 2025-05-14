@@ -1,5 +1,11 @@
 export async function getSlots(date) {
-
+    try {
+        const response = await fetch(`http://localhost:3000/ade/creneaux/${date}`)
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erreur de chargement des étudiants du groupe :', error);
+    }
 }
 
 export async function postSlot(groupId, courseName, sessionType, date) {
