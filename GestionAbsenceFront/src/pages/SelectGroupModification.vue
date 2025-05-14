@@ -11,8 +11,8 @@
           <input class="search-bar" type="search" v-model="selectedGroupL1" placeholder="Rechercher un groupe de L1">
         </div>
         <ul class="list">
-          <li v-for="group in filteredGroupsL1" :key="group.groupNumber">
-            <RouterLink :to="`/modification/groupe/${group.groupNumber}`" class="router-link">{{ group.name }}
+          <li v-for="groupL1 in filteredGroupsL1" :key="groupL1.id">
+            <RouterLink :to="`/modification/groupe/${groupL1.id}`" class="router-link">{{ groupL1.name }}
             </RouterLink>
           </li>
         </ul>
@@ -25,8 +25,8 @@
           <input class="search-bar" type="search" v-model="selectedGroupL2" placeholder="Rechercher un groupe de L2">
         </div>
         <ul class="list">
-          <li v-for="group in filteredGroupsL2" :key="group.groupNumber">
-            <RouterLink :to="`/modification/groupe/${group.groupNumber}`" class="router-link">{{ group.name }}
+          <li v-for="groupL2 in filteredGroupsL2" :key="groupL2.id">
+            <RouterLink :to="`/modification/groupe/${groupL2.id}`" class="router-link">{{ groupL2.name }}
             </RouterLink>
           </li>
         </ul>
@@ -39,8 +39,8 @@
           <input class="search-bar" type="search" v-model="selectedGroupL3" placeholder="Rechercher un groupe de L3">
         </div>
         <ul class="list">
-          <li v-for="group in filteredGroupsL3" :key="group.groupNumber">
-            <RouterLink :to="`/modification/groupe/${group.groupNumber}`" class="router-link">{{ group.name }}
+          <li v-for="groupL3 in filteredGroupsL3" :key="groupL3.id">
+            <RouterLink :to="`/modification/groupe/${groupL3.id}`" class="router-link">{{ groupL3.name }}
             </RouterLink>
           </li>
         </ul>
@@ -52,38 +52,34 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
+import { getGroupByYear } from '@/shared/fetchers/groups';
 
-const groups = ref([]);
+const groupsL1 = ref([]);
+const groupsL2 = ref([]);
+const groupsL3 = ref([]);
 
-onMounted(() => {
-  fetch('/Groups.json')
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Données JSON récupérées : ", data);
-      groups.value = data.groups;
-    })
-    .catch(error => console.error('Error loading data:', error));
+onMounted(async () => {
+  groupsL1.value = await getGroupByYear(1);
+  groupsL2.value = await getGroupByYear(2);
+  groupsL3.value = await getGroupByYear(3);
 });
 
 // Filtrage des groupes selon la search-bar et selon la promo
 const selectedGroupL1 = ref('');
 const filteredGroupsL1 = computed(() =>
-  groups.value.filter(g =>
-    (g.semester === "S1" || g.semester === "S2") &&
+  groupsL1.value.filter(g =>
     g.name.toLowerCase().includes(selectedGroupL1.value.toLowerCase())
   ));
 
 const selectedGroupL2 = ref('');
 const filteredGroupsL2 = computed(() =>
-  groups.value.filter(g =>
-    (g.semester === "S3" || g.semester === "S4") &&
+  groupsL2.value.filter(g =>
     g.name.toLowerCase().includes(selectedGroupL2.value.toLowerCase())
   ));
 
 const selectedGroupL3 = ref('');
 const filteredGroupsL3 = computed(() =>
-  groups.value.filter(g =>
-    (g.semester === "S5" || g.semester === "S6") &&
+  groupsL3.value.filter(g =>
     g.name.toLowerCase().includes(selectedGroupL3.value.toLowerCase())
   ));
 </script>
