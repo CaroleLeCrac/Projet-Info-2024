@@ -211,108 +211,122 @@ app.get('/api/creneaux', async (req, res) => {
     }
 });
 
+export async function getAllSlots(date) {
+    try {
+        const response = await fetch(`http://localhost:3001/api/creneaux?date=${date}`)
+
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des créneaux du jour');
+        }
+        const data = await response.json();
+        courses.value = data;
+    } catch (error) {
+        console.error('Erreur lors de la récupération des créneaux du jour :', error);
+    }
+
+}
 
 export function refreshADEGetAndPost() {
     fetch('http://localhost:3001/api/recupMatieres')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des données de ADE');
-        }
-        return response.json();
-    })
-    .then(async (uniqueActivities) => {
-        // 1. Extraire les semestres uniques
-        const semesters = [...new Set(
-            uniqueActivities
-                .filter(item => item.semestre)
-                .map(item => `S${item.semestre}`)
-        )].map(name => ({ semestre: name }));
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur lors de la récupération des données de ADE');
+            }
+            return response.json();
+        })
+        .then(async (uniqueActivities) => {
+            // 1. Extraire les semestres uniques
+            const semesters = [...new Set(
+                uniqueActivities
+                    .filter(item => item.semestre)
+                    .map(item => `S${item.semestre}`)
+            )].map(name => ({ semestre: name }));
 
-        console.log("Semesters envoyés au backend:", semesters);
+            console.log("Semesters envoyés au backend:", semesters);
 
-        // 2. Envoyer les semestres au backend
-        const postResponseSemester = await fetch('http://localhost:3000/semester/semesterfrom-ade', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(semesters),
-        });
-
-        if (!postResponseSemester.ok) {
-            const errorText = await postResponseSemester.text();
-            console.error('Erreur backend:', errorText);
-            throw new Error('Erreur lors de l’envoi des données semestre au back');
-        }
-
-        const createdSemesters = await postResponseSemester.json();
-
-        console.log("semesters avec id", createdSemesters);
-        const seen = new Set();
-        const courseMaterialsWithId = uniqueActivities
-            .filter(item => item.name && item.semestre)
-            .map(item => {
-                const semesterName = `S${item.semestre}`;
-                const semester = createdSemesters.find(s => s.name === semesterName);
-                return {
-                    name: item.name,
-                    semester_id: semester ? semester.id : null
-                };
-            })
-            .filter(item => {
-                const key = `${item.name}-${item.semester_id}`;
-                if (seen.has(key)) return false;
-                seen.add(key);
-                return true;
+            // 2. Envoyer les semestres au backend
+            const postResponseSemester = await fetch('http://localhost:3000/semester/semesterfrom-ade', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(semesters),
             });
 
-        console.log("Matieres envoyés au backend:", courseMaterialsWithId);
+            if (!postResponseSemester.ok) {
+                const errorText = await postResponseSemester.text();
+                console.error('Erreur backend:', errorText);
+                throw new Error('Erreur lors de l’envoi des données semestre au back');
+            }
 
-        // 4. Envoyer les matières avec l'ID du semestre au backend
-        const postResponseCourseMaterial = await fetch('http://localhost:3000/course_material/course_materialfrom-ade', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(courseMaterialsWithId)
-        });
+            const createdSemesters = await postResponseSemester.json();
 
-        if (!postResponseCourseMaterial.ok) {
-            const errorText = await postResponseCourseMaterial.text();
-            console.error('Erreur backend:', errorText);
-            throw new Error('Erreur lors de l’envoi des données coursename au back');
-        }
-const createdCourseMaterials = await postResponseCourseMaterial.json();
-        console.log("coursematerials avec id", createdCourseMaterials);
+            console.log("semesters avec id", createdSemesters);
+            const seen = new Set();
+            const courseMaterialsWithId = uniqueActivities
+                .filter(item => item.name && item.semestre)
+                .map(item => {
+                    const semesterName = `S${item.semestre}`;
+                    const semester = createdSemesters.find(s => s.name === semesterName);
+                    return {
+                        name: item.name,
+                        semester_id: semester ? semester.id : null
+                    };
+                })
+                .filter(item => {
+                    const key = `${item.name}-${item.semester_id}`;
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                });
 
-        // 5. Extraire les types de session et les associer à la bonne matière via courseMaterialId
-        const sessionTypesWithId = uniqueActivities
-            .filter(item => item.type && item.name)
-            .map((item) => {
-                const matchedCourse = createdCourseMaterials.find(c => c.name === item.name);
-                return {
-                    course_type_name: item.type,
-                    course_material_id: matchedCourse?.id  // Associer le type de session à l'ID de la matière correspondante
-                };
+            console.log("Matieres envoyés au backend:", courseMaterialsWithId);
+
+            // 4. Envoyer les matières avec l'ID du semestre au backend
+            const postResponseCourseMaterial = await fetch('http://localhost:3000/course_material/course_materialfrom-ade', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(courseMaterialsWithId)
             });
 
-        console.log("session_type envoyés au backend:", sessionTypesWithId);
+            if (!postResponseCourseMaterial.ok) {
+                const errorText = await postResponseCourseMaterial.text();
+                console.error('Erreur backend:', errorText);
+                throw new Error('Erreur lors de l’envoi des données coursename au back');
+            }
+            const createdCourseMaterials = await postResponseCourseMaterial.json();
+            console.log("coursematerials avec id", createdCourseMaterials);
 
-        // 6. Envoyer les types de session avec l'ID de la matière au backend
-        const postResponseSessionType = await fetch('http://localhost:3000/session_type/session_typefrom-ade', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(sessionTypesWithId)
-        });
+            // 5. Extraire les types de session et les associer à la bonne matière via courseMaterialId
+            const sessionTypesWithId = uniqueActivities
+                .filter(item => item.type && item.name)
+                .map((item) => {
+                    const matchedCourse = createdCourseMaterials.find(c => c.name === item.name);
+                    return {
+                        course_type_name: item.type,
+                        course_material_id: matchedCourse?.id  // Associer le type de session à l'ID de la matière correspondante
+                    };
+                });
 
-        if (!postResponseSessionType.ok) {
-            const errorText = await postResponseSessionType.text();
-            console.error('Erreur backend:', errorText);
-            throw new Error('Erreur lors de l’envoi des données sessiontype au back');
-        }
+            console.log("session_type envoyés au backend:", sessionTypesWithId);
 
-        // Utilise postResponseSessionType au lieu de postResponseCourseMaterial
-        const createdSessionTypes = await postResponseSessionType.json();
-        console.log("Session types avec id", createdSessionTypes);
+            // 6. Envoyer les types de session avec l'ID de la matière au backend
+            const postResponseSessionType = await fetch('http://localhost:3000/session_type/session_typefrom-ade', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(sessionTypesWithId)
+            });
 
-        console.log('Données envoyées avec succès');
-    })
+            if (!postResponseSessionType.ok) {
+                const errorText = await postResponseSessionType.text();
+                console.error('Erreur backend:', errorText);
+                throw new Error('Erreur lors de l’envoi des données sessiontype au back');
+            }
+
+            // Utilise postResponseSessionType au lieu de postResponseCourseMaterial
+            const createdSessionTypes = await postResponseSessionType.json();
+            console.log("Session types avec id", createdSessionTypes);
+
+            console.log('Données envoyées avec succès');
+        })
 }
 
 app.listen(PORT, () => {
