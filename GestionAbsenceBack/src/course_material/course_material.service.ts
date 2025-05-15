@@ -36,10 +36,32 @@ export class CourseMaterialService {
       student: presence.presence_student,
       date: presence.presence_slot.date,
       courseType: presence.presence_slot.slot_session_type.course_type_name,
-      courseName: presence.presence_slot.slot_session_type.session_type_course_material.name
+      courseName: presence.presence_slot.slot_session_type.session_type_course_material.name,
+      courseId : presence.presence_slot.slot_session_type.session_type_course_material.id
     }))
   }
 
+  async getByStudent(studentId : number){
+      const semesterId = await this.prisma.inscription.findFirst({
+        where : {
+          student_id : studentId,
+        },
+        include : {
+          inscription_group : {
+            select : {
+              semester_id : true,
+            },
+          },
+        },
+      })
+      const courseMaterials = await this.prisma.course_material.findMany({
+        where : {
+          semester_id : semesterId?.inscription_group.semester_id,
+        }
+      })
+      return courseMaterials
+    }
+    
   async getAll(): Promise<course_material[]> {
     return this.prisma.course_material.findMany();
   }
@@ -67,7 +89,7 @@ return  this.prisma.course_material.deleteMany();
     })
   }
   
-async createADE(courseMaterials: { name: string, semester_id: number }[]) {
+async postCourse_Material(courseMaterials: { name: string, semester_id: number }[]) {
   const createdMaterials = await Promise.all(
     courseMaterials.map(async (courseMaterial) => {
       // Vérification préalable de l'existence du semestre

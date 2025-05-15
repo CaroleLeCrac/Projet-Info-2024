@@ -1,22 +1,22 @@
 <!--Page de modification d'un groupe d'étudiant.e.s-->
 <template>
-  <main class="left">
+  <main class="left" v-if="group && semester">
     <div class="container">
       <!-- Liste des étudiant.e.s du groupe -->
       <div class="left-container">
-        <h1>Liste des étudiant.e.s du groupe {{ currentGroupNumber }}</h1>
+        <h1>Liste des étudiant.e.s {{ group.name }} {{ semester.name }}</h1>
         <div class="search-container">
           <SearchIcon class="search-icon" />
           <input class="search-bar" type="search" v-model="searchQuery1" placeholder="Rechercher un.e étudiant.e" />
         </div>
         <ul class="list">
-          <li v-for="student in filteredStudentsInGroup" :key="student.studentNumber" class="students-list">
+          <li v-for="student in filteredStudentsInGroup" :key="student.id" class="students-list">
             <div class="student-list-container">
               <div class="student-info">
-                {{ student.surname }} {{ student.name }}
+                {{ student.name }}
               </div>
               <div class="student-group-number">
-                <p>Groupe {{ student.groupNumber }}</p>
+                <p>{{ group.name }}</p>
               </div>
             </div>
             <button @click="deleteStudent(student)" class="button" id="delete-btn">
@@ -34,13 +34,13 @@
           <input class="search-bar" type="search" v-model="searchQuery2" placeholder="Rechercher un.e étudiant.e" />
         </div>
         <ul class="list">
-          <li v-for="student in filteredStudentsOutsideGroup" :key="student.studentNumber" class="students-list">
+          <li v-for="student in filteredStudentsOutsideGroup" :key="student.id" class="students-list">
             <div class="student-list-container">
               <div class="student-info">
-                {{ student.surname }} {{ student.name }}
+                {{ student.name }}
               </div>
               <div class="student-group-number">
-                <p>Groupe {{ student.groupNumber }}</p>
+                <p>{{ student.originalGroupName }}</p>
               </div>
             </div>
             <button @click="addStudent(student)" class="button" id="add-btn">
@@ -57,65 +57,74 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import SearchIcon from '@/shared/assets/icon/SearchIcon.vue';
+import { getGroupById } from '@/shared/fetchers/groups';
+import { getStudentsByGroupId, getStudentsSameOtherGroup } from '@/shared/fetchers/students';
+import { getSemesterById } from '@/shared/fetchers/semesters';
+import { deleteInscriptionById, postInscription, putInscriptionAndDeleteOldInscription } from '@/shared/fetchers/inscriptions';
 
 const searchQuery1 = ref('');
 const searchQuery2 = ref('');
 
-const students = ref([]);
 const studentsInGroup = ref([]);  // Liste des étudiant.e.s du groupe
 const studentsOutsideGroup = ref([]);  // Liste des étudiant.e.s extérieur.e.s au groupe
 const route = useRoute();
-const currentGroupNumber = Number(route.params.id);
+const currentGroupId = Number(route.params.groupId);
+const group = ref();
+const semester = ref();
 
-onMounted(() => {
-  fetch('/Groups.json')
-    .then(response => response.json())
-    .then(data => {
-      const groups = data.groups;
-
-      fetch('/Students.json')
-        .then((response) => response.json())
-        .then((data) => {
-          students.value = data.students;
-
-          studentsInGroup.value = students.value.filter(
-            (student) => student.groupNumber === currentGroupNumber
-          )
-          studentsOutsideGroup.value = students.value.filter(
-            (student) => student.groupNumber !== currentGroupNumber
-          )
-        }).catch((error) => console.error('Error loading students data : ', error))
-    })
-    .catch((error) => console.error('Error loading groups data:', error));
+onMounted(async () => {
+  group.value = await getGroupById(currentGroupId);
+  semester.value = await getSemesterById(group.value.semester_id);
+  studentsInGroup.value = await getStudentsByGroupId(currentGroupId);
+  studentsOutsideGroup.value = await getStudentsSameOtherGroup(currentGroupId);
 });
+
 
 const filteredStudentsInGroup = computed(() =>
   studentsInGroup.value.filter(s =>
-    s.name.toLowerCase().includes(searchQuery1.value.toLowerCase()) ||
-    s.surname.toLowerCase().includes(searchQuery1.value.toLowerCase())
+    s.name.toLowerCase().includes(searchQuery1.value.toLowerCase())
   )
 );
 
 const filteredStudentsOutsideGroup = computed(() =>
   studentsOutsideGroup.value.filter(s =>
-    s.name.toLowerCase().includes(searchQuery2.value.toLowerCase()) ||
-    s.surname.toLowerCase().includes(searchQuery2.value.toLowerCase())
+    s.name.toLowerCase().includes(searchQuery2.value.toLowerCase())
   )
 );
 
-function deleteStudent(student) {
-  const index = studentsInGroup.value.findIndex(s => s.studentNumber === student.studentNumber);
-  if (index !== -1) { // on s'assure que l'étudiant.e est dans la liste
-    studentsInGroup.value.splice(index, 1);
-    studentsOutsideGroup.value.push(student);
+async function deleteStudent(student) {
+  const confirmDelete = window.confirm(`Êtes-vous sûr de vouloir retirer ${student.name} du groupe ?`);
+  if (!confirmDelete) return;
+
+  try {
+    await deleteInscriptionById(student.id, currentGroupId);
+
+    //remise à jour des listes
+    studentsInGroup.value = await getStudentsByGroupId(currentGroupId);
+    studentsOutsideGroup.value = await getStudentsSameOtherGroup(currentGroupId);
+  } catch (error) {
+    console.error("Erreur lors de la suppression de l'inscription :", error);
+    alert("La suppression a échoué. Veuillez réessayer.");
   }
 }
 
-function addStudent(student) {
-  const index = studentsOutsideGroup.value.findIndex(s => s.studentNumber === student.studentNumber);
-  if (index !== -1) {
-    studentsOutsideGroup.value.splice(index, 1);
-    studentsInGroup.value.push(student);
+async function addStudent(student) {
+  const confirmAdd = window.confirm(`Êtes-vous sûr de vouloir ajouter ${student.name} au groupe ?`);
+  if (!confirmAdd) return;
+
+  try {
+    if (student.originalGroupId) {
+      await putInscriptionAndDeleteOldInscription(student.id, student.originalGroupId, currentGroupId);
+    } else {
+      await postInscription(student.id, currentGroupId);
+    }
+
+    //remise à jour des listes
+    studentsInGroup.value = await getStudentsByGroupId(currentGroupId);
+    studentsOutsideGroup.value = await getStudentsSameOtherGroup(currentGroupId);
+  } catch (error) {
+    console.error("Erreur lors de l'ajout de l'inscription :", error);
+    alert("L'ajout a échoué. Veuillez réessayer.");
   }
 }
 

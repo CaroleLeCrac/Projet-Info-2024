@@ -7,16 +7,17 @@
             </button>
         </div>
         <div class="selector">
-            <button v-for="semester in semesters" :key="semester" @click="selectSemester(semester)"
-                :class="{ active: semester === selectedSemester }">
-                {{ semester }}
+            <button v-for="semester in semesters" :key="semester.id" @click="selectSemester(semester)"
+                :class="{ active: semester.name === selectedSemester }">
+                {{ semester.name }}
             </button>
         </div>
     </main>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import { getAllSemesters } from '../fetchers/semesters'
 
 const props = defineProps({
     modelValue: String
@@ -26,21 +27,30 @@ const emit = defineEmits(['update:modelValue'])
 const promos = ['L1', 'L2', 'L3']
 const selectedPromo = ref('L1')
 
-const semesters = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6']
-const selectedSemester = ref(props.modelValue || 'S1')
+const semesters = ref([]);
+const selectedSemester = ref(props.modelValue || semesters.value[0].name)
+
+onMounted(async () => {
+    const discoredSemesters = await getAllSemesters();
+    semesters.value = discoredSemesters.sort((a, b) => {
+        const numA = parseInt(a.name.slice(1));
+        const numB = parseInt(b.name.slice(1));
+        return numA - numB;
+    })
+})
 
 function selectSemester(semester) {
-    selectedSemester.value = semester
+    selectedSemester.value = semester.name
 
-    if (['S1', 'S2'].includes(semester)) {
+    if (['S1', 'S2'].includes(semester.name)) {
         selectedPromo.value = 'L1'
-    } else if (['S3', 'S4'].includes(semester)) {
+    } else if (['S3', 'S4'].includes(semester.name)) {
         selectedPromo.value = 'L2'
-    } else if (['S5', 'S6'].includes(semester)) {
+    } else if (['S5', 'S6'].includes(semester.name)) {
         selectedPromo.value = 'L3'
     }
 
-    emit('update:modelValue', semester)
+    emit('update:modelValue', semester.name)
 }
 </script>
 

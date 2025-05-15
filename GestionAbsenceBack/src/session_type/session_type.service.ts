@@ -42,7 +42,7 @@ async deleteAll() {
     });
   }
 
-async createADE(sessionTypes: { course_type_name: string, course_material_id: number}[]) {
+async postSession_Type(sessionTypes: { course_type_name: string, course_material_id: number}[]) {
   const createdSessionTypes = await Promise.all(
     sessionTypes.map(async (sessionType) => {
       // Vérification préalable de la validité du courseMaterialId

@@ -33,7 +33,7 @@ model group {
   id Int @id @default(autoincrement())
   name String
   semester_id Int
-  group_semester semester @relation(fields: [semester_id], references: [id])
+  group_semester semester @relation(fields: [semester_id], references: [id], onDelete: Cascade)
   group_inscription inscription[]
   group_slot slot[]
 }
@@ -49,7 +49,7 @@ model course_material {
   id Int @id @default(autoincrement())
   name String
   semester_id Int
-  course_material_semester semester @relation(fields: [semester_id], references: [id])
+  course_material_semester semester @relation(fields: [semester_id], references: [id], onDelete: Cascade)
   course_material_session_type session_type[]
 }
 
@@ -57,7 +57,7 @@ model session_type {
   id Int @id @default(autoincrement())
   course_type_name String
   course_material_id Int
-  session_type_course_material course_material @relation(fields: [course_material_id], references: [id])
+  session_type_course_material course_material @relation(fields: [course_material_id], references: [id], onDelete: Cascade)
   session_type_slot slot[]
 }
 
@@ -75,8 +75,8 @@ model slot {
   group_id Int
   session_type_id Int
   slot_presence presence[]
-  slot_group group @relation(fields: [group_id], references: [id])
-  slot_session_type session_type @relation(fields: [session_type_id], references: [id])
+  slot_group group @relation(fields: [group_id], references: [id], onDelete: Cascade)
+  slot_session_type session_type @relation(fields: [session_type_id], references: [id], onDelete: Cascade)
 }
 
 

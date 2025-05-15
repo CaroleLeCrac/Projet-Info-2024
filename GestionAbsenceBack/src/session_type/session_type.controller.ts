@@ -62,9 +62,9 @@ export class SessionTypeController {
   }
 
   // Créer des types de session
-  @Post('/session_typefrom-ade')
+  @Post('/from-ade')
   async createSessionTypes(@Body() sessionTypes: { course_type_name: string, course_material_id: number }[]) {
-    return this.sessionTypeService.createADE(sessionTypes);
+    return this.sessionTypeService.postSession_Type(sessionTypes);
   }
 
 }
