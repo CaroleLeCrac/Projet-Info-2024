@@ -57,7 +57,7 @@ import { deleteSlots } from '@/shared/fetchers/slots';
 import { deletePresences } from '@/shared/fetchers/presence';
 
 function refreshADE() {
-    const confirmRefresh = window.confirm("⚠️ Cette action va vider les données stockées dans la BDD qui sont récupérées depuis ADE puis, récupérer à nouveau les données actuelles pour mettre à jour la BDD. Vous ne pourrez pas revenir en arrière ! Êtes-vous sûr.e ?");
+    const confirmRefresh = window.confirm("⚠️ Cette action va vider les données stockées dans la BDD qui sont récupérées depuis ADE puis, récupérer à nouveau les données actuelles pour mettre à jour la BDD. Les groupes d'étudiant.e.s et leurs inscriptions à ces groupes seront également supprimés. Vous ne pourrez pas revenir en arrière ! Êtes-vous sûr.e ?");
     if (confirmRefresh) {
         deleteSemester();
         deleteCourseMaterial();

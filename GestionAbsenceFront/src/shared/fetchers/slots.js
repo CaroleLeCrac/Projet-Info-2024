@@ -23,11 +23,11 @@ export async function postSlot(groupId, courseName, sessionType, date) {
             })
         })
         if (!response.ok) {
-            throw new Error("Erreur lors de l'envoi de l'inscription");
+            throw new Error("Erreur lors de l'envoi du créneau");
         }
         return await response.json();
     } catch (error) {
-        console.error("Erreur lors de l'envoi de l'inscription :", error);
+        console.error("Erreur lors de l'envoi du créneau :", error);
     }
 }
 

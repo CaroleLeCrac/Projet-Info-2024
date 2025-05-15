@@ -5,14 +5,19 @@ export async function postAbsence(slotId, idStudents) {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
+            body: JSON.stringify(
                 idStudents
-            })
+            )
         })
         if (!response.ok) {
             throw new Error("Erreur lors de l'envoi du groupe");
         }
-        return await response.json();
+        const text = await response.text();
+        if (text) {
+            return JSON.parse(text);
+        } else {
+            return null;
+        }
     } catch (error) {
         console.error("Erreur lors de l'envoi du groupe :", error);
     }

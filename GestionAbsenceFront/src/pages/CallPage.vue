@@ -123,8 +123,7 @@ function selectAll() { // ne modifie rien dans la liste des étudiants extérieu
 
 const callSaved = ref(false);
 function saveCall() {
-    console.log("Étudiants absents :", absentStudentsId.value);
-    postAbsence(slot.id, absentStudentsId.value);
+    postAbsence(slot.value.id, absentStudentsId.value);
     callSaved.value = true;
 }
 

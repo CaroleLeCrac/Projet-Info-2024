@@ -27,7 +27,7 @@ export class AdeService {
     ) { }
 
     async getSessionId(): Promise<string> {
-        const response = await fetch(`lienADE`);
+        const response = await fetch(`https://ade-uga-info-ro.grenet.fr/jsp/webapi?data=d492b20c0c7f48f27fcf0491e9607cfd0aceb141e80ec5a2743c822702d89226b802c20c0bac3aa39dac749c7a5ea85dc58e26c66dcf6a0d4cf9b27b6336cb66,1`);
         const xmlText = await response.text();
         const json = await parseStringPromise(xmlText);
         return json.session.$.id;
@@ -35,9 +35,9 @@ export class AdeService {
 
     async getMatieres() {
         const sessionId = await this.getSessionId();
-        await fetch(`lienADEsessionId=${sessionId}&function=setProject&projectId=8`);
+        await fetch(`https://ade-uga-info-ro.grenet.fr/jsp/webapi?sessionId=${sessionId}&function=setProject&projectId=8`);
 
-        const response = await fetch(`lienADEsessionId=${sessionId}&function=getActivities&tree=TRUE`);
+        const response = await fetch(`https://ade-uga-info-ro.grenet.fr/jsp/webapi?sessionId=${sessionId}&function=getActivities&tree=TRUE`);
         const xml = await response.text();
         const json = await parseStringPromise(xml);
 
@@ -105,9 +105,9 @@ export class AdeService {
 
     async getCreneaux(date: string): Promise<any[]> {
         const sessionId = await this.getSessionId();
-        await fetch(`lienADEsessionId=${sessionId}&function=setProject&projectId=8`);
+        await fetch(`https://ade-uga-info-ro.grenet.fr/jsp/webapi?sessionId=${sessionId}&function=setProject&projectId=8`);
 
-        const activitiesResponse = await fetch(`lienADEsessionId=${sessionId}&function=getActivities&tree=TRUE`);
+        const activitiesResponse = await fetch(`https://ade-uga-info-ro.grenet.fr/jsp/webapi?sessionId=${sessionId}&function=getActivities&tree=TRUE`);
         const activitiesXml = await activitiesResponse.text();
         const activitiesJson = await parseStringPromise(activitiesXml);
 
@@ -171,7 +171,7 @@ export class AdeService {
         const [year, month, day] = date.split('-').map(Number);
         const formattedDate = `${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')}/${year}`;
 
-        const eventsResponse = await fetch(`lienADEsessionId=${sessionId}&function=getEvents&date=${formattedDate}`);
+        const eventsResponse = await fetch(`https://ade-uga-info-ro.grenet.fr/jsp/webapi?sessionId=${sessionId}&function=getEvents&date=${formattedDate}`);
         const eventsXml = await eventsResponse.text();
         const eventsJson = await parseStringPromise(eventsXml);
 

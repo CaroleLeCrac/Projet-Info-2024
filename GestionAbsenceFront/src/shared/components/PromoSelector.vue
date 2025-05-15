@@ -31,7 +31,12 @@ const semesters = ref([]);
 const selectedSemester = ref(props.modelValue || semesters.value[0].name)
 
 onMounted(async () => {
-    semesters.value = await getAllSemesters();
+    const discoredSemesters = await getAllSemesters();
+    semesters.value = discoredSemesters.sort((a, b) => {
+        const numA = parseInt(a.name.slice(1));
+        const numB = parseInt(b.name.slice(1));
+        return numA - numB;
+    })
 })
 
 function selectSemester(semester) {
