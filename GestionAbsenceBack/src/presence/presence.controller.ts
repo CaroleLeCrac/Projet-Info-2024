@@ -1,47 +1,43 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Delete,
-  Param,
-  Body,
-  ParseIntPipe,
-} from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, Body, ParseIntPipe } from '@nestjs/common';
 import { PresenceService } from './presence.service';
 import { CreatePresenceDto } from './dto/create-presence.dto';
 import { Prisma } from '@prisma/client';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 
+@ApiTags('Presence')
 @Controller('presence')
 export class PresenceController {
   constructor(private readonly presenceService: PresenceService) {}
 
   @Get('by-year/:year')
-  async GetByYear(
-    @Param('year', ParseIntPipe) year : number,
-  ) {
-    return this.presenceService.getByYear(year)
+  @ApiOperation({ summary: 'Récupérer les absences par année' })
+  @ApiParam({ name: 'year', type: Number, example: 1 })
+  @ApiResponse({ status: 200, description: 'Liste des absences pour une année donnée. Ex : en donnant 1 en paramètre, renvoie les absences des semestres 1 et 2' })
+  async GetByYear(@Param('year', ParseIntPipe) year: number) {
+    return this.presenceService.getByYear(year);
   }
 
-
-  //recuperer une presence a aprtir du id de l'etudiant et du creneau
   @Get(':student_id/:slot_id')
-  async getById(
-    @Param('student_id', ParseIntPipe) student_id: number,
-    @Param('slot_id', ParseIntPipe) slot_id: number,
-  ) {
+  @ApiOperation({ summary: 'Récupérer une absence spécifique (étudiant et créneau)' })
+  @ApiParam({ name: 'student_id', type: Number })
+  @ApiParam({ name: 'slot_id', type: Number })
+  @ApiResponse({ status: 200, description: 'Absence trouvée' })
+  async getById(@Param('student_id', ParseIntPipe) student_id: number, @Param('slot_id', ParseIntPipe) slot_id: number) {
     return this.presenceService.get({
       student_id_slot_id: { student_id, slot_id },
     });
   }
 
-  //recuperer toutes les presences
   @Get()
+  @ApiOperation({ summary: 'Récupérer toutes les absence' })
+  @ApiResponse({ status: 200, description: 'Liste complète des absences' })
   getAll() {
     return this.presenceService.getAll();
   }
 
-  //creer une presence
   @Post()
+  @ApiOperation({ summary: 'Créer une absence' })
+  @ApiResponse({ status: 201, description: 'Absence créée avec succès' })
   async post(@Body() createPresenceDto: CreatePresenceDto) {
     const data: Prisma.presenceCreateInput = {
       presence_student: {
@@ -55,19 +51,19 @@ export class PresenceController {
   }
 
   @Post('many/:slot_id')
-  async postMany(
-    @Param('slot_id', ParseIntPipe) slot_id: number,
-    @Body() student_ids: number[],
-  ) {
+  @ApiOperation({ summary: 'Créer plusieurs absences pour un créneau donné' })
+  @ApiParam({ name: 'slot_id', type: Number })
+  @ApiResponse({ status: 201, description: 'Absences multiples créées avec succès' })
+  async postMany(@Param('slot_id', ParseIntPipe) slot_id: number, @Body() student_ids: number[]) {
     return this.presenceService.postMany(slot_id, student_ids);
   }
 
-  //supprimer
   @Delete(':student_id/:slot_id')
-  async deleteById(
-    @Param('student_id', ParseIntPipe) student_id: number,
-    @Param('slot_id', ParseIntPipe) slot_id: number,
-  ) {
+  @ApiOperation({ summary: 'Supprimer une absence (étudiant et créneau)' })
+  @ApiParam({ name: 'student_id', type: Number })
+  @ApiParam({ name: 'slot_id', type: Number })
+  @ApiResponse({ status: 200, description: 'Absence supprimée' })
+  async deleteById(@Param('student_id', ParseIntPipe) student_id: number, @Param('slot_id', ParseIntPipe) slot_id: number) {
     return this.presenceService.delete({
       student_id,
       slot_id,
@@ -76,6 +72,8 @@ export class PresenceController {
   }
 
   @Delete()
+  @ApiOperation({ summary: 'Supprimer toutes les absences' })
+  @ApiResponse({ status: 200, description: 'Toutes les absences ont été supprimées' })
   async deleteMany() {
     return this.presenceService.deleteMany();
   }

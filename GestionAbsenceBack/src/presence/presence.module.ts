@@ -8,4 +8,4 @@ import { PrismaModule } from 'src/prisma.module';
   controllers: [PresenceController],
   providers: [PresenceService],
 })
-export class PresenceModule { }
+export class PresenceModule {}
