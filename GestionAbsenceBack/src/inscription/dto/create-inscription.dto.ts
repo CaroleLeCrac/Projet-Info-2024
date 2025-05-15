@@ -1,4 +1,4 @@
 export type CreateInscriptionDto = {
-    student_id: number;
-    group_id: number;
-  };
+  student_id: number;
+  group_id: number;
+};

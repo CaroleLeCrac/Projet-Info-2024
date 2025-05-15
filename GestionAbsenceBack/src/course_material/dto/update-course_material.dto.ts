@@ -1,4 +1,4 @@
 export type UpdateCourseMaterialDto = {
-    semester_id?: number;
-    name?: string;
-}
+  semester_id?: number;
+  name?: string;
+};

@@ -51,11 +51,12 @@ export class PresenceService {
     const simplified = absences.map((a) => ({
       name: a.presence_student.name,
       student_number: a.presence_student.student_number,
-      date : a.presence_slot.date,
-      session_type : a.presence_slot.slot_session_type.course_type_name,
-      course_material : a.presence_slot.slot_session_type.session_type_course_material.name,
+      date: a.presence_slot.date,
+      session_type: a.presence_slot.slot_session_type.course_type_name,
+      course_material:
+        a.presence_slot.slot_session_type.session_type_course_material.name,
     }));
-    return simplified
+    return simplified;
   }
 
   async get(id: Prisma.presenceWhereUniqueInput): Promise<presence | null> {

@@ -1,4 +1,4 @@
 export type UpdateStudentDto = {
-    student_number? : string;
-    name?: string;
-}
+  student_number?: string;
+  name?: string;
+};

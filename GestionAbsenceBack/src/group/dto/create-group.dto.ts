@@ -1,4 +1,4 @@
 export type CreateGroupDto = {
-    semester_id: number;
-    name : string;
-}
+  semester_id: number;
+  name: string;
+};

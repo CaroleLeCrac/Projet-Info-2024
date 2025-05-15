@@ -1,3 +1,3 @@
 export type UpdateSemesterDto = {
-    name? : string
-}
+  name?: string;
+};

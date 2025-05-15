@@ -1,3 +1,3 @@
 export type CreateSemesterDto = {
-    name : string
-}
+  name: string;
+};
