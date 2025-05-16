@@ -26,6 +26,8 @@ const profesionalQuery = ref('')
 
 const testPro = ref([])
 
+//Les onMounted ne sont pas à jour et sont implémentés pour récupérer des données d'un fichier .json dans un dossier public du projet.
+//Ce format de onMounted a été utilisé pour effectuer les tests avant la mise en place et la liaison du backend et de la base de données.
 onMounted(() => {
     fetch('/Profesionals.json')
         .then((response) => response.json())

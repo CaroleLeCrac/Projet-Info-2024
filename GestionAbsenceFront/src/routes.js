@@ -1,3 +1,5 @@
+//Toutes les routes de chaque page du routeur
+
 import { createRouter, createWebHistory } from 'vue-router'
 
 import SelectStudentModification from './pages/SelectStudentModification.vue'
@@ -9,7 +11,6 @@ import CallPage from './pages/CallPage.vue'
 import SummaryPage from './pages/SummaryPage.vue'
 import CourseSummaryPage from './pages/CourseSummaryPage.vue'
 import StudentSummaryPage from './pages/StudentSummaryPage.vue'
-//import CoursesManagementPage from './pages/CoursesManagementPage.vue'
 import StudentsManagementPage from './pages/StudentsManagementPage.vue'
 import SelectGroupForCall from './pages/SelectGroupForCall.vue'
 
@@ -24,8 +25,6 @@ const routes = [
   { path: '/modification/etudiant/:studentId', name: 'StudentModification', component: StudentModification },
   { path: '/recapitulatifs/matiere/:courseName/:courseId', name: 'CourseSummary', component: CourseSummaryPage },
   { path: '/recapitulatifs/etudiant/:studentId', name: 'StudentSummary', component: StudentSummaryPage },
-  /*Pour le bouton 1 du menu déroulant non utilisé
-  { path: '/gestion/cours', name: 'CoursesManagement', component: CoursesManagementPage },*/
   { path: '/gestion/etudiants', name: 'StudentsManagement', component: StudentsManagementPage }
 ]
 
