@@ -1,4 +1,4 @@
-<!--Page de gestion des groupes-->
+<!--Page de gestion des étudiant.e.s pour ajouter des étudiant.e.s et des groupes avec les listes des étudiant.e.s joints au groupe-->
 <template>
     <main class="left">
 

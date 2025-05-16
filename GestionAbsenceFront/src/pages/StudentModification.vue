@@ -1,4 +1,4 @@
-<!--Page de modification d'informations ou d'ajout d'un étudiant-->
+<!--Page de modification d'informations ou d'ajout d'un.e étudiant.e-->
 <template>
     <main class="left">
 

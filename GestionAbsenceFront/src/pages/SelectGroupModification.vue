@@ -1,4 +1,4 @@
-<!--Page de sélection d'un groupe pour ajouter ou supprimer des étudiants-->
+<!--Page de sélection d'un groupe pour le modifier-->
 <template>
   <main class="left">
     <h1>Sélectionner le groupe à modifier</h1>

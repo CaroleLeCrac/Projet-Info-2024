@@ -13,6 +13,7 @@ import { computed } from 'vue';
 
 const route = useRoute();
 
+//Toutes les localisations possibles pour le fil d'Ariane :
 const breadcrumbSteps = computed(() => {
   const name = route.name
 

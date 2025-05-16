@@ -1,4 +1,4 @@
-<!--Composant de sélection de la promo (L1,L2,L3) pour les pages de Gestion-->
+<!--Composant de sélection du semestre (du S1 au S6) pour la page de Gestion des étudiant.e.s-->
 <template>
     <main class="center">
         <div class="promos">
@@ -7,7 +7,7 @@
             </button>
         </div>
         <div class="selector">
-            <button v-for="semester in semesters" :key="semester.id" @click="selectSemester(semester)"
+            <button v-for="semester in semesters" :key="semester.id" @click="selectPromo(semester)"
                 :class="{ active: semester.name === selectedSemester }">
                 {{ semester.name }}
             </button>
@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref } from 'vue'
 import { getAllSemesters } from '../fetchers/semesters'
 
 const props = defineProps({
@@ -30,8 +30,10 @@ const selectedPromo = ref('L1')
 const semesters = ref([]);
 const selectedSemester = ref(props.modelValue || semesters.value[0].name)
 
+/**Pour charger les données de manière asynchrone */
 onMounted(async () => {
     const discoredSemesters = await getAllSemesters();
+    // Tri des semestres dans l'ordre croissant (du S1 au S6)
     semesters.value = discoredSemesters.sort((a, b) => {
         const numA = parseInt(a.name.slice(1));
         const numB = parseInt(b.name.slice(1));
@@ -39,7 +41,13 @@ onMounted(async () => {
     })
 })
 
-function selectSemester(semester) {
+/**
+ * Sélectionne la promo (L1 ou L2 ou L3) correspondant au semestre sélectionné.
+ * 
+ * @function
+ * @param semester - v-model du semestre sélectionné
+ */
+function selectPromo(semester) {
     selectedSemester.value = semester.name
 
     if (['S1', 'S2'].includes(semester.name)) {

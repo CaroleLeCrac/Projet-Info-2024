@@ -1,3 +1,6 @@
+/*Les déclarations de style partagées sur plusieurs pages*/
+
+/*Palette des couleurs utilisées pour l'interface*/
 :root {
     --color-1: #FF8C00;
     --color-2: #254e70ff;
@@ -15,12 +18,14 @@ body {
     background-color: var(--color-5);
 }
 
+/*Style des pages dont le contenu est positionné à gauche*/
 main.left {
     margin-left: 3rem;
     margin-right: 3rem;
     margin-top: 1rem;
 }
 
+/*Style des pages dont le contenu est centré*/
 main.center {
     display: flex;
     flex-direction: column;
@@ -45,11 +50,13 @@ strong {
     font-weight: bold;
 }
 
+/*Style des conteneurs des barres de recherche*/
 .search-container {
     position: relative;
     width: 100%;
 }
 
+/*Style pour positionner les icons des barres de recherche*/
 .search-icon {
     position: absolute;
     left: 0.7rem;
@@ -57,6 +64,7 @@ strong {
     transform: translateY(-50%);
 }
 
+/*Style des barres de recherche*/
 .search-bar {
     padding: 0.5rem;
     padding-left: 2.25rem;
@@ -141,6 +149,7 @@ strong {
     background-color: #FFA733;
 }
 
+/*Styles des boutons 'Tout sélectionner'*/
 #select-all {
     background-color: var(--color-6);
     padding: 0.4rem;
@@ -150,6 +159,7 @@ strong {
     background-color: #FFA733;
 }
 
+/*Style des conteneurs des sections pour les pages divisées en sections*/
 .sections-container {
     display: flex;
     justify-content: space-between;

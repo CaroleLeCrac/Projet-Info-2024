@@ -1,3 +1,12 @@
+// Fonctions faisant appel aux endpoints du back-end pour gérer des données dans la table semester
+
+/**
+ * Récupère tous les semestres dans la base de données.
+ * 
+ * @async
+ * @function
+ * @returns {Promise<Object[]>} Une promesse contenant la liste des semestres.
+ */
 export async function getAllSemesters() {
     try {
         const response = await fetch(`http://localhost:3000/semester`);
@@ -8,6 +17,14 @@ export async function getAllSemesters() {
     }
 }
 
+/**
+ * Récupère un semestre spécifique via son identifiant.
+ * 
+ * @async
+ * @function
+ * @param {number} id - L'identifiant du semestre.
+ * @returns {Promise<Object>} Une promesse contenant les données du semestre correspondant.
+ */
 export async function getSemesterById(id) {
     try {
         const response = await fetch(`http://localhost:3000/semester/${id}`);
@@ -18,6 +35,13 @@ export async function getSemesterById(id) {
     }
 }
 
+/**
+ * Supprime tous les semestres de la base de données.
+ * 
+ * @async
+ * @function
+ * @returns {Promise<Object>} Une promesse contenant le nombre de lignes supprimées.
+ */
 export async function deleteSemester() {
     try {
         const response = await fetch("http://localhost:3000/semester/all", {

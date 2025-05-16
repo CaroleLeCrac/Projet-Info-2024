@@ -28,7 +28,8 @@
 
         <!-- Cette section est utile pour la gestion des absences des étudiant.e.s extérieur.e.s au groupe sélectionné-->
         <!-- Elle n'est pas utilisée suite au modification de la base de données au S6 du projet (cf. rapport et documentation)
-             Dans le script, tout ce qui est nécessaire pour cette section sera aussi en commentaire
+             Dans le script, tout ce qui est nécessaire pour cette section sera aussi en commentaire.
+             
             <div v-if="groupNumber !== null" class="section">
                 <h2>Autres étudiant.e.s</h2>
                 <input class="search-bar" type="search" v-model="searchQueryOutsideGroup"

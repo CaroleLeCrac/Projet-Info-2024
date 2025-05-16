@@ -1,13 +1,12 @@
-export async function getStudentsByGroupId(id) {
-    try {
-        const response = await fetch(`http://localhost:3000/student/by-group/${id}`);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Erreur de chargement des étudiants du groupe :', error);
-    }
-}
+// Fonctions faisant appel aux endpoints du back-end pour gérer les données dans la table student
 
+/**
+ * Récupère la liste de tou.te.s les étudiant.e.s.
+ *
+ * @async
+ * @function
+ * @returns {Promise<Object[]>} Une promesse contenant la liste de tou.te.s les étudiant.e.s.
+ */
 export async function getAllStudents() {
     try {
         const response = await fetch('http://localhost:3000/student');
@@ -18,6 +17,32 @@ export async function getAllStudents() {
     }
 }
 
+/**
+ * Récupère les étudiant.e.s d’un groupe spécifique.
+ *
+ * @async
+ * @function
+ * @param {number} id - L’identifiant du groupe.
+ * @returns {Promise<Object[]>} Une promesse contenant les étudiant.e.s du groupe.
+ */
+export async function getStudentsByGroupId(id) {
+    try {
+        const response = await fetch(`http://localhost:3000/student/by-group/${id}`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erreur de chargement des étudiants du groupe :', error);
+    }
+}
+
+/**
+ * Récupère les étudiant.e.s associé.e.s au semestre de la matière donnée.
+ *
+ * @async
+ * @function
+ * @param {number} courseId - L’identifiant de la matière.
+ * @returns {Promise<Object[]>} Une promesse contenant les étudiant.e.s concerné.e.s.
+ */
 export async function getStudentsBySemesterCourse(courseId) {
     try {
         const response = await fetch(`http://localhost:3000/student/by-course_material/${courseId}`);
@@ -28,16 +53,15 @@ export async function getStudentsBySemesterCourse(courseId) {
     }
 }
 
-export async function getStudentById(id) {
-    try {
-        const response = await fetch(`http://localhost:3000/student/${id}`);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Erreur de chargement de l\'étudiant:', error)
-    }
-}
-
+/**
+ * Récupère les étudiant.e.s présent.e.s dans un autre groupe similaire au groupe fourni (groupe 1 ou 2 ou 3 du même semestre).
+ * Dans le cas où pas de groupe similaire, récupère tou.te.s les étudiant.e.s non inscrit.e.s dans le groupe fourni.
+ *
+ * @async
+ * @function
+ * @param {number} id - L’identifiant du groupe.
+ * @returns {Promise<Object[]>} Une promesse contenant les étudiant.e.s concerné.e.s.
+ */
 export async function getStudentsSameOtherGroup(id) {
     try {
         const response = await fetch(`http://localhost:3000/student/same-other-group/${id}`);
@@ -57,6 +81,31 @@ export async function getStudentsSameOtherGroup(id) {
     }
 }
 
+/**
+ * Récupère les informations d’un.e étudiant.e à partir de son identifiant.
+ *
+ * @async
+ * @function
+ * @param {number} id - L’identifiant de l’étudiant.e.
+ * @returns {Promise<Object>} Une promesse contenant les données de l’étudiant.e.
+ */
+export async function getStudentById(id) {
+    try {
+        const response = await fetch(`http://localhost:3000/student/${id}`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erreur de chargement de l\'étudiant:', error)
+    }
+}
+
+/**
+ * Envoie un fichier CSV contenant des étudiant.e.s à insérer dans la base de données.
+ *
+ * @async
+ * @function
+ * @param {File} fichier - Le fichier CSV contenant les étudiant.e.s.
+ */
 export async function postStudentsCSV(fichier) {
     const formData = new FormData();
     formData.append("fileStudent", fichier);
@@ -76,6 +125,15 @@ export async function postStudentsCSV(fichier) {
     }
 }
 
+/**
+ * Crée un.e nouvel.le étudiant.e dans la base de données.
+ *
+ * @async
+ * @function
+ * @param {string} student_number - Son numéro étudiant.
+ * @param {string} name - Son nom et prénom.
+ * @returns {Promise<Object>} Une promesse contenant les données de l’étudiant.e créé.e.
+ */
 export async function postStudent(student_number, name) {
     try {
         const response = await fetch(`http://localhost:3000/student`, {
@@ -97,6 +155,15 @@ export async function postStudent(student_number, name) {
     }
 }
 
+/**
+ * Met à jour les données d’un.e étudiant.e existant.e.
+ *
+ * @async
+ * @function
+ * @param {number} id - L’identifiant de l’étudiant.e.
+ * @param {string} student_number - Le nouveau numéro étudiant.
+ * @param {string} name - Le nouveau nom et prénom.
+ */
 export async function putStudentById(id, student_number, name) {
     try {
         const response = await fetch(`http://localhost:3000/student/${id}`, {
@@ -117,6 +184,13 @@ export async function putStudentById(id, student_number, name) {
     }
 }
 
+/**
+ * Supprime tou.te.s les étudiant.e.s de la table student.
+ *
+ * @async
+ * @function
+ * @returns {Promise<Object>} Une promesse contenant le nombre de lignes supprimées.
+ */
 export async function deleteStudents() {
     try {
         const response = await fetch(`http://localhost:3000/student`, {

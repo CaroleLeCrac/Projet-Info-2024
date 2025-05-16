@@ -23,7 +23,6 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { RouterLink } from 'vue-router';
 
 /*

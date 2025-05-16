@@ -1,3 +1,5 @@
+<!--Page de sélection de la matière ou de l'étudiant.e pour accéder au récapitulatif des absences-->
+
 <template>
   <main class="left">
     <!-- Conteneur pour les boutons "Exporter" -->
